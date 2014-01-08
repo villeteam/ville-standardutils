@@ -1,0 +1,293 @@
+﻿@key:TYPE_SUBMISSION_VIEWER_NOT_IMPLEMENTED
+@en:Submission viewer is not implemented for this exercise type
+@fi:Palautuksen visualisoijaa ei ole toteutettu tälle tehtävätyypille
+
+@key:TYPE_SUBMISSION_EXPORT_NOT_IMPLEMENTED
+@en:Submission export is not implemented for this exercise type
+@fi:Palautuksen muuntamista tekstiksi ei ole toteutettu tälle tehtävätyypille
+
+@key:TYPE_SUBMISSION_STATISTICS_GIVER_NOT_IMPL
+@en:Submission statistics viewer is not implemented for this exercise type
+@fi:Palautusten tilasto-analysoijaa ei ole toteutettu tälle tehtävätyypille
+
+@key:SAVE
+@en:Save
+@fi:Tallenna
+
+@key:EXPAND_SHRINK_DESCRIPTION
+@en:Expand / shrink assignment description area
+@fi:Laajenna / pienennä tehtävänkuvauksen aluetta
+
+@key:SUBMIT
+@en:Submit
+@fi:Lähetä
+
+@key:RESET
+@en:Reset
+@fi:Nollaa
+
+@key:SUBMISSION
+@en:submission
+@fi:palautus
+
+@key:TEST
+@en:Test
+@fi:Testaa
+
+@key:RESULT
+@en:Result
+@fi:Tulos
+
+@key:NEXT
+@en:Next
+@fi:Seuraava
+
+@key:PREVIOUS
+@en:Previous
+@fi:Edellinen
+
+@key:STEP
+@en:Step
+@fi:Vaihe
+
+@key:DELETE
+@en:Delete
+@fi:Poista
+
+@key:ERROR_IN_UPLOAD
+@en:There was an error in upload, please try again!
+@fi:Tiedoston vastaanottamisessa tapahtui virhe, yritä uudestaan!
+
+@key:NOTIFICATION_UPLOADING_FILE
+@en:Uploading file, please wait a moment...
+@fi:Lähetetään tiedostoa, odota hetki...
+
+@key:ERROR_FILE_TOO_LARGE
+@en:File size is too big! Maximum size is @0 kb.
+@fi:Tiedosto on liian suuri. Maksimikoko on @0 kb.
+
+@key:UPLOAD
+@en:Upload
+@fi:Tiedoston lähetys
+
+@key:UPLOAD_ERROR_WRONG_FILE_TYPE
+@en:Error in upload: Wrong file type.
+@fi:Virhe tiedoston vastaanottamisessa: väärä tiedostotyyppi.
+
+@key:ANSWER
+@en:Answer
+@fi:Vastaus
+
+@key:CORRECT
+@en:Correct
+@fi:Oikein
+
+@key:PREVIEW
+@en:Preview
+@fi:Esikatselu
+
+@key:EXERCISE_LOAD_ERROR
+@en:Could not load the exercise
+@fi:Tehtävää ei pystytty lataamaan
+
+@key:TIME
+@en:Time
+@fi:Aika
+
+@key:ADD
+@en:Add
+@fi:Lisää
+
+@key:CLOSE
+@en:Close
+@fi:Sulje
+
+@key:OK
+@en:OK
+@fi:OK
+
+@key:CANCEL
+@en:Cancel
+@fi:Peruuta
+
+@key:PICTURE
+@en:Picture
+@fi:Kuva
+
+@key:EXPLANATION
+@en:Explanation
+@fi:Selitys
+
+@key:UPLOAD_VIDEO_FROM_FILE
+@en:Upload video from file
+@fi:Lataa video-tiedosto
+
+@key:LINK_VIDEO_FROM_YOUTUBE
+@en:Link a clip from youtube
+@fi:Linkitä Youtube-video
+
+@key:LINK_VIDEO
+@en:Link a clip
+@fi:Linkitä video
+
+@key:ACCEPT
+@key:VIDEO_URL
+@en:URL to the clip
+@fi:Videon URL-osoite
+
+@key:DESCRIPTION
+@en:Description
+@fi:Kuvaus
+
+@key:VIDEO_MISSING
+@en:No clip attached
+@fi:Videota ei ole liitetty
+
+@key:LEFT
+@en:Left
+@fi:Vasen
+
+@key:BOTTOM
+@en:Bottom
+@fi:Alalaita
+
+@key:RIGHT
+@en:Right
+@fi:Oikea
+
+@key:TOP
+@en:Top
+@fi:Ylälaita
+
+@key:SYMMETRIC
+@en:Symmetric
+@fi:Symmetrinen
+
+@key:PIXELS
+@en:Pixels
+@fi:Pikseliä
+
+@key:PADDING
+@en:Padding
+@fi:Reunus (padding)
+
+@key:MARGIN
+@en:Margin
+@fi:Marginaali
+
+@key:ITALIC
+@en:Italic
+@fi:Kursivoitu
+
+@key:BOLDED
+@en:Bolded
+@fi:Lihavoitu
+
+@key:FONT_SIZE
+@en:Font size
+@fi:Fontin koko
+
+@key:FONT_FAMILY
+@en:Font family
+@fi:Kirjasintyyppi
+
+@key:FONT
+@en:Font
+@fi:Fontti
+
+@key:ROUNDING
+@en:Rounding
+@fi:Pyöristys
+
+@key:WIDTH
+@en:Width
+@fi:Leveys
+
+@key:HEIGHT
+@en:Height
+@fi:Korkeus
+
+@key:COLOR
+@en:Color
+@fi:Väri
+
+@key:STYLE
+@en:Style
+@fi:Tyyli
+
+@key:BORDER
+@en:Border
+@fi:Reunus
+
+@key:TEXT
+@en:Text
+@fi:Teksti
+
+@key:TRANSPARENT
+@en:Transparent
+@fi:Läpinäkyvä
+
+@key:BACKGROUND
+@en:Background
+@fi:Tausta
+
+@key:COLORS
+@en:Colors
+@fi:Värit
+
+@key:STYLE_SETTINGS
+@en:Style settings
+@fi:Tyyliasetukset
+
+@key:INVALID_VALUE_IN_NUMBER_FIELDS
+@en:Invalid value in a field expecting a number
+@fi:Virheellinen arvo kentässä, jossa pitäisi olla numero
+
+@key:COLUMNS_LEGEND
+@fi:Sarakkeiden selitteet
+@en:Descriptions for columns
+
+@key:NAME
+@en:Name
+@fi:Nimi
+
+@key:SCORE
+@en:Score
+@fi:Pisteet
+
+@key:DATE
+@en:Date
+@fi:Päivämäärä
+
+@key:VISUALIZE
+@en:Visualize
+@fi:Visualisoi
+
+@key:TIME_USED
+@en:Time used
+@fi:Käytetty aika
+
+@key:DESC_FOR_COL_X
+@en:Description of column @0:
+@fi:Selite sarakkeelle @0:
+
+@key:STATS_COL_DESC_DONE_TIME
+@en:When the submission was made
+@fi:Milloin palautus tehtiin
+
+@key:STATS_COL_DESC_TIME_ON_TASK
+@fi:Palautukseen kulunut aika
+@en:How long it took to made the submission
+
+@key:STATS_COL_DESC_VISUALIZE
+@fi:Visualisoi riviä vastaavan palautuksen
+@en:Visualize the submission matching a given row
+
+@key:STATS_COL_DESC_SCORE
+@fi:Palautukselle annetut pisteet
+@en:The score given to the submission
+
+@key:ERROR
+@fi:Virhe
+@en:Error
+
