@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-  <groupId>edu.vserver</groupId>
+  <groupId>fi.utu.ville</groupId>
   <artifactId>ville-standardutils</artifactId>
-  <version>0.0.2</version>
   <versioning>
     <versions>
-      <version>0.0.2</version>
+      <version>0.0.3-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20140108141650</lastUpdated>
+    <lastUpdated>20140227092315</lastUpdated>
   </versioning>
 </metadata>
