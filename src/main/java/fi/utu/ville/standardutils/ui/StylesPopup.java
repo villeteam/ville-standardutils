@@ -1,15 +1,15 @@
-package edu.vserver.standardutils.ui;
+package fi.utu.ville.standardutils.ui;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
 
-import edu.vserver.standardutils.Localizer;
-import edu.vserver.standardutils.StandardIcon;
-import edu.vserver.standardutils.StandardUIConstants;
-import edu.vserver.standardutils.ui.DynamicStyles.DynamicStylesEditor;
-import edu.vserver.standardutils.ui.DynamicStyles.StyleSettings;
+import fi.utu.ville.standardutils.Localizer;
+import fi.utu.ville.standardutils.StandardIcon;
+import fi.utu.ville.standardutils.StandardUIConstants;
+import fi.utu.ville.standardutils.ui.DynamicStyles.DynamicStylesEditor;
+import fi.utu.ville.standardutils.ui.DynamicStyles.StyleSettings;
 
 public class StylesPopup extends Button {
 

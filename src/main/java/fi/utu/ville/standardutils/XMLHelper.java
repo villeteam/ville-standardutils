@@ -1,4 +1,4 @@
-package edu.vserver.standardutils;
+package fi.utu.ville.standardutils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

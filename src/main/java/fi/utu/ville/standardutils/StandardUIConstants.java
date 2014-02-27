@@ -1,4 +1,4 @@
-package edu.vserver.standardutils;
+package fi.utu.ville.standardutils;
 
 /**
  * A collection of UIConstants that are guaranteed to have translations that can

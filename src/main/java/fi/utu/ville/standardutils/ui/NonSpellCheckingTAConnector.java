@@ -1,4 +1,4 @@
-package edu.vserver.standardutils.ui;
+package fi.utu.ville.standardutils.ui;
 
 import com.vaadin.client.ui.textfield.TextFieldConnector;
 import com.vaadin.shared.ui.Connect;

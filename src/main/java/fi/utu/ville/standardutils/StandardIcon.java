@@ -1,4 +1,4 @@
-package edu.vserver.standardutils;
+package fi.utu.ville.standardutils;
 
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;

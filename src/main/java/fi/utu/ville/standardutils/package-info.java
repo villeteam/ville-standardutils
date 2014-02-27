@@ -3,4 +3,4 @@
  * to be available on real ViLLE. These classes are useful as helpers as 
  * well as in providing certain levels of uniformity through ViLLE-UI.
  */
-package edu.vserver.standardutils;
+package fi.utu.ville.standardutils;

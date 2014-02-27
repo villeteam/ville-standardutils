@@ -1,4 +1,4 @@
-package edu.vserver.standardutils.ui;
+package fi.utu.ville.standardutils.ui;
 
 import java.util.HashSet;
 
@@ -10,10 +10,10 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-import edu.vserver.standardutils.Localizer;
-import edu.vserver.standardutils.StandardIcon;
-import edu.vserver.standardutils.StandardUIConstants;
-import edu.vserver.standardutils.StandardUIFactory;
+import fi.utu.ville.standardutils.Localizer;
+import fi.utu.ville.standardutils.StandardIcon;
+import fi.utu.ville.standardutils.StandardUIConstants;
+import fi.utu.ville.standardutils.StandardUIFactory;
 
 public class SaveDialog extends Window {
 

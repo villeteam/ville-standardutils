@@ -1,4 +1,4 @@
-package edu.vserver.standardutils.ui;
+package fi.utu.ville.standardutils.ui;
 
 import com.vaadin.server.Page;
 import com.vaadin.server.Page.Styles;

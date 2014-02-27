@@ -1,4 +1,4 @@
-package edu.vserver.standardutils;
+package fi.utu.ville.standardutils;
 
 import com.vaadin.data.Property;
 import com.vaadin.data.util.IndexedContainer;
