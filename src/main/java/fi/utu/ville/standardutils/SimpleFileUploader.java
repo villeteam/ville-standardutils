@@ -117,7 +117,7 @@ public class SimpleFileUploader extends HorizontalLayout {
 	 * <p>
 	 * The uploaded file is null if there has been no upload, or the upload
 	 * failed, or the user has deleted the upload file with the remove button
-	 * after a successfull upload.
+	 * after a successful upload.
 	 * </p>
 	 * 
 	 * @return The uploaded {@link File}, or null if there is no uploaded file
@@ -125,6 +125,20 @@ public class SimpleFileUploader extends HorizontalLayout {
 	 */
 	public File getUploadedFile() {
 		return uploadedFile;
+	}
+
+	/**
+	 * @return MIME-type reported or guessed for the file
+	 */
+	public String getMIMEType() {
+		return mtype;
+	}
+
+	/**
+	 * @return original file-name of the uploaded file
+	 */
+	public String getFileName() {
+		return fileName;
 	}
 
 	/**
