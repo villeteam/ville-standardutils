@@ -6,7 +6,6 @@ import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
 
 import fi.utu.ville.standardutils.Localizer;
-import fi.utu.ville.standardutils.StandardIcon;
 import fi.utu.ville.standardutils.StandardUIConstants;
 import fi.utu.ville.standardutils.ui.DynamicStyles.DynamicStylesEditor;
 import fi.utu.ville.standardutils.ui.DynamicStyles.StyleSettings;
@@ -61,7 +60,6 @@ public class StylesPopup extends Button {
 
 	public StylesPopup(Localizer localizer, StyleSettings initStyles) {
 		super(localizer.getUIText(StandardUIConstants.STYLE_SETTINGS));
-		setIcon(StandardIcon.STYLES.getIcon());
 		this.localizer = localizer;
 		this.currStyles = initStyles;
 		this.stylesEditor = DynamicStyles.newStylesEditor();

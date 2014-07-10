@@ -371,7 +371,6 @@ public class SimpleFileUploader extends HorizontalLayout {
 
 		dlUploadedBtn = new Button(fileName);
 		dlUploadedBtn.setStyleName(BaseTheme.BUTTON_LINK);
-		dlUploadedBtn.setIcon(StandardIcon.getMIMETypeIcon(mtype, ""));
 
 		FileDownloader dl = new FileDownloader(abstFile.getAsResource());
 
@@ -381,7 +380,6 @@ public class SimpleFileUploader extends HorizontalLayout {
 
 		removeUploadedBtn = new Button(
 				localizer.getUIText(StandardUIConstants.DELETE));
-		removeUploadedBtn.setIcon(StandardIcon.DELETE_ICON.getIcon());
 		removeUploadedBtn.addClickListener(new Button.ClickListener() {
 
 			/**
@@ -409,7 +407,6 @@ public class SimpleFileUploader extends HorizontalLayout {
 
 			dlUploadedBtn = new Button(fileName);
 			dlUploadedBtn.setStyleName(BaseTheme.BUTTON_LINK);
-			dlUploadedBtn.setIcon(StandardIcon.getMIMETypeIcon(mtype, ""));
 
 			FileDownloader dl = new FileDownloader(new FileResource(
 					uploadedFile));
@@ -420,7 +417,6 @@ public class SimpleFileUploader extends HorizontalLayout {
 
 			removeUploadedBtn = new Button(
 					localizer.getUIText(StandardUIConstants.DELETE));
-			removeUploadedBtn.setIcon(StandardIcon.DELETE_ICON.getIcon());
 			removeUploadedBtn.addClickListener(new Button.ClickListener() {
 
 				/**

@@ -11,7 +11,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 import fi.utu.ville.standardutils.Localizer;
-import fi.utu.ville.standardutils.StandardIcon;
+import fi.utu.ville.standardutils.StandardIcon.Icon;
 import fi.utu.ville.standardutils.StandardUIConstants;
 import fi.utu.ville.standardutils.StandardUIFactory;
 
@@ -48,9 +48,8 @@ public class SaveDialog extends Window {
 
 		layout.addComponent(content);
 
-		saveButton = StandardUIFactory.getDefaultButton(
-				mainServer.getUIText(StandardUIConstants.SAVE),
-				StandardIcon.SAVE_ICON.getIcon());
+		saveButton = StandardUIFactory.getButton(
+				mainServer.getUIText(StandardUIConstants.SAVE), Icon.SAVE);
 		saveButton.addClickListener(new Button.ClickListener() {
 
 			private static final long serialVersionUID = 6733002983063367991L;
@@ -65,9 +64,8 @@ public class SaveDialog extends Window {
 			}
 		});
 
-		cancelButton = StandardUIFactory.getDefaultButton(
-				mainServer.getUIText(StandardUIConstants.CANCEL),
-				StandardIcon.DELETE_ICON.getIcon());
+		cancelButton = StandardUIFactory.getButton(
+				mainServer.getUIText(StandardUIConstants.CANCEL), Icon.DELETE);
 		cancelButton.addClickListener(new Button.ClickListener() {
 
 			private static final long serialVersionUID = 6837211321471486909L;
