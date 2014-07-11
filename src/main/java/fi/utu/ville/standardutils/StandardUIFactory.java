@@ -129,7 +129,7 @@ public class StandardUIFactory {
 
 		if (icon == null) {
 			final Button button = new Button(caption);
-			button.setHtmlContentAllowed(true);
+			button.setHtmlContentAllowed(false);
 			return button;
 		}
 
