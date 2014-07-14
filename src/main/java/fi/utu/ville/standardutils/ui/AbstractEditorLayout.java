@@ -33,6 +33,9 @@ public class AbstractEditorLayout extends VerticalLayout {
 	public AbstractEditorLayout() {
 		this.setSpacing(false);
 		this.setMargin(false);
+		this.setHeight("100%");
+		this.setWidth("100%");
+		this.setSizeFull();
 
 		contentLayout = new HorizontalLayout();
 		contentLayout.setSizeFull();
@@ -76,7 +79,6 @@ public class AbstractEditorLayout extends VerticalLayout {
 		generalSettingsLayout = StandardUIFactory
 				.getVerticalGrayContentLayout(PanelStyle.DEFAULT);
 		generalSettingsLayout.setSpacing(true);
-		generalSettingsLayout.setWidth("100%");
 		generalSettingsLayout.setHeight("100%");
 
 		VerticalLayout wrapper = new VerticalLayout();
@@ -84,7 +86,6 @@ public class AbstractEditorLayout extends VerticalLayout {
 		wrapper.setHeight("100%");
 		wrapper.addStyleName("background-color-gray");
 		wrapper.addStyleName(Border.RIGHT.getValue());
-
 		wrapper.addComponent(generalSettingsLayout);
 
 		contentLayout.addComponent(wrapper);
@@ -92,6 +93,7 @@ public class AbstractEditorLayout extends VerticalLayout {
 
 	public void addToLeft(Component c) {
 		generalSettingsLayout.addComponent(c);
+		c.setHeight("100%");
 	}
 
 	public void addToRight(Component c) {
