@@ -8,7 +8,6 @@ package fi.utu.ville.standardutils;
  * 
  */
 import com.porotype.iconfont.FontAwesome;
-import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
@@ -18,10 +17,10 @@ public class StandardIcon {
 	// public static final String CDN =
 	// "//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css";
 
-	public static final String CDN = "//cdnjs.cloudflare.com/ajax/libs/font-awesome/3.0.2/css/font-awesome.min.css";
+	public static final String path = "font-awesome/css/font-awesome.min.css";
 
 	public static void load() {
-		load(new ExternalResource(CDN));
+		load(new ThemeResource(path));
 	}
 
 	/**
@@ -47,40 +46,93 @@ public class StandardIcon {
 	 */
 	public enum IconVariant {
 		/**
-		 * A larger icon
-		 */
-		SIZE_LARGE("icon-large"),
-		/**
-		 * 2x sized icon
-		 */
-		SIZE_2X("icon-2x"),
-		/**
-		 * 3x sized icon
-		 */
-		SIZE_3X("icon-3x"),
-		/**
-		 * 4x sized icon
-		 */
-		SIZE_4X("icon-4x"),
-		/**
-		 * Spinning (animated) icon. Most useful with icons such as
-		 * {@link Icon#spinner}.
-		 */
-		SPIN("icon-spin"),
-		/**
-		 * Adds a border around the icon
-		 */
-		BORDER("icon-border"),
-		/**
-		 * For e.g for easy pull quotes or article graphics, with larger icons
-		 * next to text.
-		 */
+		* A larger icon
+		*/
+		SIZE_LARGE("fa-lg"),
+		        /**
+		* 2x sized icon
+		*/
+		SIZE_2X("fa-2x"),
+		        /**
+		* 3x sized icon
+		*/
+		SIZE_3X("fa-3x"),
+		        /**
+		* 4x sized icon
+		*/
+		SIZE_4X("fa-4x"),
+		        /**
+		* 5x sized icon
+		*/
+		SIZE_5X("fa-5x"),
+		        /**
+		* Use fa-fw to set icons at a fixed width.
+		* Great to use when variable icon widths throw off alignment.
+		* Especially useful in things like nav lists.
+		*/
+		FIXED_WIDTH("fa-fw"),
+		        /**
+		* Use fa-ul and fa-li to easily replace default bullets in unordered lists.
+		*/
+		LIST("fa-li"),
+		        /**
+		* Spinning (animated) icon. Most useful with icons such as
+		* {@link Icon#spinner}.
+		*/
+		SPIN("fa-spin"),
+		        /**
+		* Adds a border around the icon
+		*/
+		BORDER("fa-border"),
+		        /**
+		* For e.g for easy pull quotes or article graphics, with larger icons
+		* next to text.
+		*/
 		PULL_LEFT("pull-left"),
-		/**
-		 * For e.g for easy pull quotes or article graphics, with larger icons
-		 * next to text.
-		 */
+		        /**
+		* For e.g for easy pull quotes or article graphics, with larger icons
+		* next to text.
+		*/
 		PULL_RIGHT("pull-right"),
+		        /**
+		* To arbitrarily rotate and flip icons, use the fa-rotate-* and fa-flip-* classes.
+		*/
+		ROTATE_90("fa-rotate-90"),
+		        /**
+		*
+		*/
+		ROTATE_180("fa-rotate-180"),
+		        /**
+		*
+		*/
+		ROTATE_270("fa-rotate-270"),
+		        /**
+		*
+		*/
+		FLIP_HORIZONTAL("fa-flip-horizontal"),
+		        /**
+		*
+		*/
+		FLIP_VERTICAL("fa-flip-vertical"),
+		        /**
+		* To stack multiple icons, use the fa-stack class on the parent,
+		* the fa-stack-1x for the regularly sized icon, and fa-stack-2x for the larger icon.
+		* fa-inverse can be used as an alternative icon color.
+		* You can even throw larger icon classes on the parent to get further control of sizing.
+		*/
+		STACK("fa-stack"),
+		        /**
+		* a-stack-1x for the regularly sized icon
+		*/
+		STACK_1X("fa-stack-1x"),
+		        /**
+		* fa-stack-2x for the larger icon
+		*/
+		STACK_2X("fa-stack-2x"),
+		        /**
+		* fa-inverse can be used as an alternative icon color
+		*/
+		INVERSE("fa-inverse"),
 
 		BLUE("color-blue"),
 
@@ -127,272 +179,508 @@ public class StandardIcon {
 	 */
 	public enum RawIcon {
 		glass("&#xf000;"), //
-		music("&#xf001;"), //
-		search("&#xf002;"), //
-		envelope("&#xf003;"), //
-		heart("&#xf004;"), //
-		star("&#xf005;"), //
-		star_empty("&#xf006;"), //
-		user("&#xf007;"), //
-		film("&#xf008;"), //
-		th_large("&#xf009;"), //
-		th("&#xf00a;"), //
-		th_list("&#xf00b;"), //
-		ok("&#xf00c;"), //
-		remove("&#xf00d;"), //
-		zoom_in("&#xf00e;"), //
-
-		zoom_out("&#xf010;"), //
-		off("&#xf011;"), //
-		signal("&#xf012;"), //
-		cog("&#xf013;"), //
-		trash("&#xf014;"), //
-		home("&#xf015;"), //
-		file("&#xf016;"), //
-		time("&#xf017;"), //
-		road("&#xf018;"), //
-		download_alt("&#xf019;"), //
-		download("&#xf01a;"), //
-		upload("&#xf01b;"), //
-		inbox("&#xf01c;"), //
-		play_circle("&#xf01d;"), //
-		repeat("&#xf01e;"), //
-
-		/* &#xf020 doesn't work in Safari. all shifted one down */
-		refresh("&#xf021;"), //
-		list_alt("&#xf022;"), //
-		lock("&#xf023;"), //
-		flag("&#xf024;"), //
-		headphones("&#xf025;"), //
-		volume_off("&#xf026;"), //
-		volume_down("&#xf027;"), //
-		volume_up("&#xf028;"), //
-		qrcode("&#xf029;"), //
-		barcode("&#xf02a;"), //
-		tag("&#xf02b;"), //
-		tags("&#xf02c;"), //
-		book("&#xf02d;"), //
-		bookmark("&#xf02e;"), //
-		print("&#xf02f;"), //
-
-		camera("&#xf030;"), //
-		font("&#xf031;"), //
-		bold("&#xf032;"), //
-		italic("&#xf033;"), //
-		text_height("&#xf034;"), //
-		text_width("&#xf035;"), //
-		align_left("&#xf036;"), //
-		align_center("&#xf037;"), //
-		align_right("&#xf038;"), //
-		align_justify("&#xf039;"), //
-		list("&#xf03a;"), //
-		indent_left("&#xf03b;"), //
-		indent_right("&#xf03c;"), //
-		facetime_video("&#xf03d;"), //
-		picture("&#xf03e;"), //
-
-		pencil("&#xf040;"), //
-		map_marker("&#xf041;"), //
-		adjust("&#xf042;"), //
-		tint("&#xf043;"), //
-		edit("&#xf044;"), //
-		share("&#xf045;"), //
-		check("&#xf046;"), //
-		move("&#xf047;"), //
-		step_backward("&#xf048;"), //
-		fast_backward("&#xf049;"), //
-		backward("&#xf04a;"), //
-		play("&#xf04b;"), //
-		pause("&#xf04c;"), //
-		stop("&#xf04d;"), //
-		forward("&#xf04e;"), //
-
-		fast_forward("&#xf050;"), //
-		step_forward("&#xf051;"), //
-		eject("&#xf052;"), //
-		chevron_left("&#xf053;"), //
-		chevron_right("&#xf054;"), //
-		plus_sign("&#xf055;"), //
-		minus_sign("&#xf056;"), //
-		remove_sign("&#xf057;"), //
-		ok_sign("&#xf058;"), //
-		question_sign("&#xf059;"), //
-		info_sign("&#xf05a;"), //
-		screenshot("&#xf05b;"), //
-		remove_circle("&#xf05c;"), //
-		ok_circle("&#xf05d;"), //
-		ban_circle("&#xf05e;"), //
-
-		arrow_left("&#xf060;"), //
-		arrow_right("&#xf061;"), //
-		arrow_up("&#xf062;"), //
-		arrow_down("&#xf063;"), //
-		share_alt("&#xf064;"), //
-		resize_full("&#xf065;"), //
-		resize_small("&#xf066;"), //
-		plus("&#xf067;"), //
-		minus("&#xf068;"), //
-		asterisk("&#xf069;"), //
-		exclamation_sign("&#xf06a;"), //
-		gift("&#xf06b;"), //
-		leaf("&#xf06c;"), //
-		fire("&#xf06d;"), //
-		eye_open("&#xf06e;"), //
-
-		eye_close("&#xf070;"), //
-		warning_sign("&#xf071;"), //
-		plane("&#xf072;"), //
-		calendar("&#xf073;"), //
-		random("&#xf074;"), //
-		comment("&#xf075;"), //
-		magnet("&#xf076;"), //
-		chevron_up("&#xf077;"), //
-		chevron_down("&#xf078;"), //
-		retweet("&#xf079;"), //
-		shopping_cart("&#xf07a;"), //
-		folder_close("&#xf07b;"), //
-		folder_open("&#xf07c;"), //
-		resize_vertical("&#xf07d;"), //
-		resize_horizontal("&#xf07e;"), //
-
-		bar_chart("&#xf080;"), //
-		twitter_sign("&#xf081;"), //
-		facebook_sign("&#xf082;"), //
-		camera_retro("&#xf083;"), //
-		key("&#xf084;"), //
-		cogs("&#xf085;"), //
-		comments("&#xf086;"), //
-		thumbs_up("&#xf087;"), //
-		thumbs_down("&#xf088;"), //
-		star_half("&#xf089;"), //
-		heart_empty("&#xf08a;"), //
-		signout("&#xf08b;"), //
-		linkedin_sign("&#xf08c;"), //
-		pushpin("&#xf08d;"), //
-		external_link("&#xf08e;"), //
-
-		signin("&#xf090;"), //
-		trophy("&#xf091;"), //
-		github_sign("&#xf092;"), //
-		upload_alt("&#xf093;"), //
-		lemon("&#xf094;"), //
-		phone("&#xf095;"), //
-		check_empty("&#xf096;"), //
-		bookmark_empty("&#xf097;"), //
-		phone_sign("&#xf098;"), //
-		twitter("&#xf099;"), //
-		facebook("&#xf09a;"), //
-		github("&#xf09b;"), //
-		unlock("&#xf09c;"), //
-		credit_card("&#xf09d;"), //
-		rss("&#xf09e;"), //
-
-		hdd("&#xf0a0;"), //
-		bullhorn("&#xf0a1;"), //
-		bell("&#xf0a2;"), //
-		certificate("&#xf0a3;"), //
-		hand_right("&#xf0a4;"), //
-		hand_left("&#xf0a5;"), //
-		hand_up("&#xf0a6;"), //
-		hand_down("&#xf0a7;"), //
-		circle_arrow_left("&#xf0a8;"), //
-		circle_arrow_right("&#xf0a9;"), //
-		circle_arrow_up("&#xf0aa;"), //
-		circle_arrow_down("&#xf0ab;"), //
-		globe("&#xf0ac;"), //
-		wrench("&#xf0ad;"), //
-		tasks("&#xf0ae;"), //
-
-		filter("&#xf0b0;"), //
-		briefcase("&#xf0b1;"), //
-		fullscreen("&#xf0b2;"), //
-
-		group("&#xf0c0;"), //
-		link("&#xf0c1;"), //
-		cloud("&#xf0c2;"), //
-		beaker("&#xf0c3;"), //
-		cut("&#xf0c4;"), //
-		copy("&#xf0c5;"), //
-		paper_clip("&#xf0c6;"), //
-		save("&#xf0c7;"), //
-		sign_blank("&#xf0c8;"), //
-		reorder("&#xf0c9;"), //
-		list_ul("&#xf0ca;"), //
-		list_ol("&#xf0cb;"), //
-		strikethrough("&#xf0cc;"), //
-		underline("&#xf0cd;"), //
-		table("&#xf0ce;"), //
-
-		magic("&#xf0d0;"), //
-		truck("&#xf0d1;"), //
-		pinterest("&#xf0d2;"), //
-		pinterest_sign("&#xf0d3;"), //
-		google_plus_sign("&#xf0d4;"), //
-		google_plus("&#xf0d5;"), //
-		money("&#xf0d6;"), //
-		caret_down("&#xf0d7;"), //
-		caret_up("&#xf0d8;"), //
-		caret_left("&#xf0d9;"), //
-		caret_right("&#xf0da;"), //
-		columns("&#xf0db;"), //
-		sort("&#xf0dc;"), //
-		sort_down("&#xf0dd;"), //
-		sort_up("&#xf0de;"), //
-
-		envelope_alt("&#xf0e0;"), //
-		linkedin("&#xf0e1;"), //
-		undo("&#xf0e2;"), //
-		legal("&#xf0e3;"), //
-		dashboard("&#xf0e4;"), //
-		comment_alt("&#xf0e5;"), //
-		comments_alt("&#xf0e6;"), //
-		bolt("&#xf0e7;"), //
-		sitemap("&#xf0e8;"), //
-		umbrella("&#xf0e9;"), //
-		paste("&#xf0ea;"), //
-		lightbulb("&#xf0eb;"), //
-		exchange("&#xf0ec;"), //
-		cloud_download("&#xf0ed;"), //
-		cloud_upload("&#xf0ee;"), //
-
-		user_md("&#xf0f0;"), //
-		stethoscope("&#xf0f1;"), //
-		suitcase("&#xf0f2;"), //
-		bell_alt("&#xf0f3;"), //
-		coffee("&#xf0f4;"), //
-		food("&#xf0f5;"), //
-		file_alt("&#xf0f6;"), //
-		building("&#xf0f7;"), //
-		hospital("&#xf0f8;"), //
-		ambulance("&#xf0f9;"), //
-		medkit("&#xf0fa;"), //
-		fighter_jet("&#xf0fb;"), //
-		beer("&#xf0fc;"), //
-		h_sign("&#xf0fd;"), //
-		plus_sign_alt("&#xf0fe;"), //
-
-		double_angle_left("&#xf100;"), //
-		double_angle_right("&#xf101;"), //
-		double_angle_up("&#xf102;"), //
-		double_angle_down("&#xf103;"), //
-		angle_left("&#xf104;"), //
-		angle_right("&#xf105;"), //
-		angle_up("&#xf106;"), //
-		angle_down("&#xf107;"), //
-		desktop("&#xf108;"), //
-		laptop("&#xf109;"), //
-		tablet("&#xf10a;"), //
-		mobile_phone("&#xf10b;"), //
-		circle_blank("&#xf10c;"), //
-		quote_left("&#xf10d;"), //
-		quote_right("&#xf10e;"), //
-
-		spinner("&#xf110;"), //
-		circle("&#xf111;"), //
-		reply("&#xf112;"), //
-		github_alt("&#xf113;"), //
-		folder_close_alt("&#xf114;"), //
-		folder_open_alt("&#xf115;");
+	     music("&#xf001;"), //
+	     search("&#xf002;"), //
+	     envelope_o("&#xf003;"), //
+	     heart("&#xf004;"), //
+	     star("&#xf005;"), //
+	     star_o("&#xf006;"), //
+	     user("&#xf007;"), //
+	     film("&#xf008;"), //
+	     th_large("&#xf009;"), //
+	     th("&#xf00a;"), //
+	     th_list("&#xf00b;"), //
+	     check("&#xf00c;"), //
+	     times("&#xf00d;"), //
+	     search_plus("&#xf00e;"), //
+	     search_minus("&#xf010;"), //
+	     power_off("&#xf011;"), //
+	     signal("&#xf012;"), //
+	     gear("&#xf013;"),
+	     cog("&#xf013;"), //
+	     trash_o("&#xf014;"), //
+	     home("&#xf015;"), //
+	     file_o("&#xf016;"), //
+	     clock_o("&#xf017;"), //
+	     road("&#xf018;"), //
+	     download("&#xf019;"), //
+	     arrow_circle_o_down("&#xf01a;"), //
+	     arrow_circle_o_up("&#xf01b;"), //
+	     inbox("&#xf01c;"), //
+	     play_circle_o("&#xf01d;"), //
+	     rotate_right("&#xf01e;"),
+	     repeat("&#xf01e;"), //
+	     refresh("&#xf021;"), //
+	     list_alt("&#xf022;"), //
+	     lock("&#xf023;"), //
+	     flag("&#xf024;"), //
+	     headphones("&#xf025;"), //
+	     volume_off("&#xf026;"), //
+	     volume_down("&#xf027;"), //
+	     volume_up("&#xf028;"), //
+	     qrcode("&#xf029;"), //
+	     barcode("&#xf02a;"), //
+	     tag("&#xf02b;"), //
+	     tags("&#xf02c;"), //
+	     book("&#xf02d;"), //
+	     bookmark("&#xf02e;"), //
+	     print("&#xf02f;"), //
+	     camera("&#xf030;"), //
+	     font("&#xf031;"), //
+	     bold("&#xf032;"), //
+	     italic("&#xf033;"), //
+	     text_height("&#xf034;"), //
+	     text_width("&#xf035;"), //
+	     align_left("&#xf036;"), //
+	     align_center("&#xf037;"), //
+	     align_right("&#xf038;"), //
+	     align_justify("&#xf039;"), //
+	     list("&#xf03a;"), //
+	     dedent("&#xf03b;"),
+	     outdent("&#xf03b;"), //
+	     indent("&#xf03c;"), //
+	     video_camera("&#xf03d;"), //
+	     photo("&#xf03e;"),
+	     image("&#xf03e;"),
+	     picture_o("&#xf03e;"), //
+	     pencil("&#xf040;"), //
+	     map_marker("&#xf041;"), //
+	     adjust("&#xf042;"), //
+	     tint("&#xf043;"), //
+	     edit("&#xf044;"),
+	     pencil_square_o("&#xf044;"), //
+	     share_square_o("&#xf045;"), //
+	     check_square_o("&#xf046;"), //
+	     arrows("&#xf047;"), //
+	     step_backward("&#xf048;"), //
+	     fast_backward("&#xf049;"), //
+	     backward("&#xf04a;"), //
+	     play("&#xf04b;"), //
+	     pause("&#xf04c;"), //
+	     stop("&#xf04d;"), //
+	     forward("&#xf04e;"), //
+	     fast_forward("&#xf050;"), //
+	     step_forward("&#xf051;"), //
+	     eject("&#xf052;"), //
+	     chevron_left("&#xf053;"), //
+	     chevron_right("&#xf054;"), //
+	     plus_circle("&#xf055;"), //
+	     minus_circle("&#xf056;"), //
+	     times_circle("&#xf057;"), //
+	     check_circle("&#xf058;"), //
+	     question_circle("&#xf059;"), //
+	     info_circle("&#xf05a;"), //
+	     crosshairs("&#xf05b;"), //
+	     times_circle_o("&#xf05c;"), //
+	     check_circle_o("&#xf05d;"), //
+	     ban("&#xf05e;"), //
+	     arrow_left("&#xf060;"), //
+	     arrow_right("&#xf061;"), //
+	     arrow_up("&#xf062;"), //
+	     arrow_down("&#xf063;"), //
+	     mail_forward("&#xf064;"),
+	     share("&#xf064;"), //
+	     expand("&#xf065;"), //
+	     compress("&#xf066;"), //
+	     plus("&#xf067;"), //
+	     minus("&#xf068;"), //
+	     asterisk("&#xf069;"), //
+	     exclamation_circle("&#xf06a;"), //
+	     gift("&#xf06b;"), //
+	     leaf("&#xf06c;"), //
+	     fire("&#xf06d;"), //
+	     eye("&#xf06e;"), //
+	     eye_slash("&#xf070;"), //
+	     warning("&#xf071;"),
+	     exclamation_triangle("&#xf071;"), //
+	     plane("&#xf072;"), //
+	     calendar("&#xf073;"), //
+	     random("&#xf074;"), //
+	     comment("&#xf075;"), //
+	     magnet("&#xf076;"), //
+	     chevron_up("&#xf077;"), //
+	     chevron_down("&#xf078;"), //
+	     retweet("&#xf079;"), //
+	     shopping_cart("&#xf07a;"), //
+	     folder("&#xf07b;"), //
+	     folder_open("&#xf07c;"), //
+	     arrows_v("&#xf07d;"), //
+	     arrows_h("&#xf07e;"), //
+	     bar_chart_o("&#xf080;"), //
+	     twitter_square("&#xf081;"), //
+	     facebook_square("&#xf082;"), //
+	     camera_retro("&#xf083;"), //
+	     key("&#xf084;"), //
+	     gears("&#xf085;"),
+	     cogs("&#xf085;"), //
+	     comments("&#xf086;"), //
+	     thumbs_o_up("&#xf087;"), //
+	     thumbs_o_down("&#xf088;"), //
+	     star_half("&#xf089;"), //
+	     heart_o("&#xf08a;"), //
+	     sign_out("&#xf08b;"), //
+	     linkedin_square("&#xf08c;"), //
+	     thumb_tack("&#xf08d;"), //
+	     external_link("&#xf08e;"), //
+	     sign_in("&#xf090;"), //
+	     trophy("&#xf091;"), //
+	     github_square("&#xf092;"), //
+	     upload("&#xf093;"), //
+	     lemon_o("&#xf094;"), //
+	     phone("&#xf095;"), //
+	     square_o("&#xf096;"), //
+	     bookmark_o("&#xf097;"), //
+	     phone_square("&#xf098;"), //
+	     twitter("&#xf099;"), //
+	     facebook("&#xf09a;"), //
+	     github("&#xf09b;"), //
+	     unlock("&#xf09c;"), //
+	     credit_card("&#xf09d;"), //
+	     rss("&#xf09e;"), //
+	     hdd_o("&#xf0a0;"), //
+	     bullhorn("&#xf0a1;"), //
+	     bell("&#xf0f3;"), //
+	     certificate("&#xf0a3;"), //
+	     hand_o_right("&#xf0a4;"), //
+	     hand_o_left("&#xf0a5;"), //
+	     hand_o_up("&#xf0a6;"), //
+	     hand_o_down("&#xf0a7;"), //
+	     arrow_circle_left("&#xf0a8;"), //
+	     arrow_circle_right("&#xf0a9;"), //
+	     arrow_circle_up("&#xf0aa;"), //
+	     arrow_circle_down("&#xf0ab;"), //
+	     globe("&#xf0ac;"), //
+	     wrench("&#xf0ad;"), //
+	     tasks("&#xf0ae;"), //
+	     filter("&#xf0b0;"), //
+	     briefcase("&#xf0b1;"), //
+	     arrows_alt("&#xf0b2;"), //
+	     group("&#xf0c0;"),
+	     users("&#xf0c0;"), //
+	     chain("&#xf0c1;"),
+	     link("&#xf0c1;"), //
+	     cloud("&#xf0c2;"), //
+	     flask("&#xf0c3;"), //
+	     cut("&#xf0c4;"),
+	     scissors("&#xf0c4;"), //
+	     copy("&#xf0c5;"),
+	     files_o("&#xf0c5;"), //
+	     paperclip("&#xf0c6;"), //
+	     save("&#xf0c7;"),
+	     floppy_o("&#xf0c7;"), //
+	     square("&#xf0c8;"), //
+	     navicon("&#xf0c9;"),
+	     reorder("&#xf0c9;"),
+	     bars("&#xf0c9;"), //
+	     list_ul("&#xf0ca;"), //
+	     list_ol("&#xf0cb;"), //
+	     strikethrough("&#xf0cc;"), //
+	     underline("&#xf0cd;"), //
+	     table("&#xf0ce;"), //
+	     magic("&#xf0d0;"), //
+	     truck("&#xf0d1;"), //
+	     pinterest("&#xf0d2;"), //
+	     pinterest_square("&#xf0d3;"), //
+	     google_plus_square("&#xf0d4;"), //
+	     google_plus("&#xf0d5;"), //
+	     money("&#xf0d6;"), //
+	     caret_down("&#xf0d7;"), //
+	     caret_up("&#xf0d8;"), //
+	     caret_left("&#xf0d9;"), //
+	     caret_right("&#xf0da;"), //
+	     columns("&#xf0db;"), //
+	     unsorted("&#xf0dc;"),
+	     sort("&#xf0dc;"), //
+	     sort_down("&#xf0dd;"),
+	     sort_desc("&#xf0dd;"), //
+	     sort_up("&#xf0de;"),
+	     sort_asc("&#xf0de;"), //
+	     envelope("&#xf0e0;"), //
+	     linkedin("&#xf0e1;"), //
+	     rotate_left("&#xf0e2;"),
+	     undo("&#xf0e2;"), //
+	     legal("&#xf0e3;"),
+	     gavel("&#xf0e3;"), //
+	     dashboard("&#xf0e4;"),
+	     tachometer("&#xf0e4;"), //
+	     comment_o("&#xf0e5;"), //
+	     comments_o("&#xf0e6;"), //
+	     flash("&#xf0e7;"),
+	     bolt("&#xf0e7;"), //
+	     sitemap("&#xf0e8;"), //
+	     umbrella("&#xf0e9;"), //
+	     paste("&#xf0ea;"),
+	     clipboard("&#xf0ea;"), //
+	     lightbulb_o("&#xf0eb;"), //
+	     exchange("&#xf0ec;"), //
+	     cloud_download("&#xf0ed;"), //
+	     cloud_upload("&#xf0ee;"), //
+	     user_md("&#xf0f0;"), //
+	     stethoscope("&#xf0f1;"), //
+	     suitcase("&#xf0f2;"), //
+	     bell_o("&#xf0a2;"), //
+	     coffee("&#xf0f4;"), //
+	     cutlery("&#xf0f5;"), //
+	     file_text_o("&#xf0f6;"), //
+	     building_o("&#xf0f7;"), //
+	     hospital_o("&#xf0f8;"), //
+	     ambulance("&#xf0f9;"), //
+	     medkit("&#xf0fa;"), //
+	     fighter_jet("&#xf0fb;"), //
+	     beer("&#xf0fc;"), //
+	     h_square("&#xf0fd;"), //
+	     plus_square("&#xf0fe;"), //
+	     angle_double_left("&#xf100;"), //
+	     angle_double_right("&#xf101;"), //
+	     angle_double_up("&#xf102;"), //
+	     angle_double_down("&#xf103;"), //
+	     angle_left("&#xf104;"), //
+	     angle_right("&#xf105;"), //
+	     angle_up("&#xf106;"), //
+	     angle_down("&#xf107;"), //
+	     desktop("&#xf108;"), //
+	     laptop("&#xf109;"), //
+	     tablet("&#xf10a;"), //
+	     mobile_phone("&#xf10b;"),
+	     mobile("&#xf10b;"), //
+	     circle_o("&#xf10c;"), //
+	     quote_left("&#xf10d;"), //
+	     quote_right("&#xf10e;"), //
+	     spinner("&#xf110;"), //
+	     circle("&#xf111;"), //
+	     mail_reply("&#xf112;"),
+	     reply("&#xf112;"), //
+	     github_alt("&#xf113;"), //
+	     folder_o("&#xf114;"), //
+	     folder_open_o("&#xf115;"), //
+	     smile_o("&#xf118;"), //
+	     frown_o("&#xf119;"), //
+	     meh_o("&#xf11a;"), //
+	     gamepad("&#xf11b;"), //
+	     keyboard_o("&#xf11c;"), //
+	     flag_o("&#xf11d;"), //
+	     flag_checkered("&#xf11e;"), //
+	     terminal("&#xf120;"), //
+	     code("&#xf121;"), //
+	     mail_reply_all("&#xf122;"),
+	     reply_all("&#xf122;"), //
+	     star_half_empty("&#xf123;"),
+	     star_half_full("&#xf123;"),
+	     star_half_o("&#xf123;"), //
+	     location_arrow("&#xf124;"), //
+	     crop("&#xf125;"), //
+	     code_fork("&#xf126;"), //
+	     unlink("&#xf127;"),
+	     chain_broken("&#xf127;"), //
+	     question("&#xf128;"), //
+	     info("&#xf129;"), //
+	     exclamation("&#xf12a;"), //
+	     superscript("&#xf12b;"), //
+	     subscript("&#xf12c;"), //
+	     eraser("&#xf12d;"), //
+	     puzzle_piece("&#xf12e;"), //
+	     microphone("&#xf130;"), //
+	     microphone_slash("&#xf131;"), //
+	     shield("&#xf132;"), //
+	     calendar_o("&#xf133;"), //
+	     fire_extinguisher("&#xf134;"), //
+	     rocket("&#xf135;"), //
+	     maxcdn("&#xf136;"), //
+	     chevron_circle_left("&#xf137;"), //
+	     chevron_circle_right("&#xf138;"), //
+	     chevron_circle_up("&#xf139;"), //
+	     chevron_circle_down("&#xf13a;"), //
+	     html5("&#xf13b;"), //
+	     css3("&#xf13c;"), //
+	     anchor("&#xf13d;"), //
+	     unlock_alt("&#xf13e;"), //
+	     bullseye("&#xf140;"), //
+	     ellipsis_h("&#xf141;"), //
+	     ellipsis_v("&#xf142;"), //
+	     rss_square("&#xf143;"), //
+	     play_circle("&#xf144;"), //
+	     ticket("&#xf145;"), //
+	     minus_square("&#xf146;"), //
+	     minus_square_o("&#xf147;"), //
+	     level_up("&#xf148;"), //
+	     level_down("&#xf149;"), //
+	     check_square("&#xf14a;"), //
+	     pencil_square("&#xf14b;"), //
+	     external_link_square("&#xf14c;"), //
+	     share_square("&#xf14d;"), //
+	     compass("&#xf14e;"), //
+	     toggle_down("&#xf150;"),
+	     caret_square_o_down("&#xf150;"), //
+	     toggle_up("&#xf151;"),
+	     caret_square_o_up("&#xf151;"), //
+	     toggle_right("&#xf152;"),
+	     caret_square_o_right("&#xf152;"), //
+	     euro("&#xf153;"),
+	     eur("&#xf153;"), //
+	     gbp("&#xf154;"), //
+	     dollar("&#xf155;"),
+	     usd("&#xf155;"), //
+	     rupee("&#xf156;"),
+	     inr("&#xf156;"), //
+	     cny("&#xf157;"),
+	     rmb("&#xf157;"),
+	     yen("&#xf157;"),
+	     jpy("&#xf157;"), //
+	     ruble("&#xf158;"),
+	     rouble("&#xf158;"),
+	     rub("&#xf158;"), //
+	     won("&#xf159;"),
+	     krw("&#xf159;"), //
+	     bitcoin("&#xf15a;"),
+	     btc("&#xf15a;"), //
+	     file("&#xf15b;"), //
+	     file_text("&#xf15c;"), //
+	     sort_alpha_asc("&#xf15d;"), //
+	     sort_alpha_desc("&#xf15e;"), //
+	     sort_amount_asc("&#xf160;"), //
+	     sort_amount_desc("&#xf161;"), //
+	     sort_numeric_asc("&#xf162;"), //
+	     sort_numeric_desc("&#xf163;"), //
+	     thumbs_up("&#xf164;"), //
+	     thumbs_down("&#xf165;"), //
+	     youtube_square("&#xf166;"), //
+	     youtube("&#xf167;"), //
+	     xing("&#xf168;"), //
+	     xing_square("&#xf169;"), //
+	     youtube_play("&#xf16a;"), //
+	     dropbox("&#xf16b;"), //
+	     stack_overflow("&#xf16c;"), //
+	     instagram("&#xf16d;"), //
+	     flickr("&#xf16e;"), //
+	     adn("&#xf170;"), //
+	     bitbucket("&#xf171;"), //
+	     bitbucket_square("&#xf172;"), //
+	     tumblr("&#xf173;"), //
+	     tumblr_square("&#xf174;"), //
+	     long_arrow_down("&#xf175;"), //
+	     long_arrow_up("&#xf176;"), //
+	     long_arrow_left("&#xf177;"), //
+	     long_arrow_right("&#xf178;"), //
+	     apple("&#xf179;"), //
+	     windows("&#xf17a;"), //
+	     android("&#xf17b;"), //
+	     linux("&#xf17c;"), //
+	     dribbble("&#xf17d;"), //
+	     skype("&#xf17e;"), //
+	     foursquare("&#xf180;"), //
+	     trello("&#xf181;"), //
+	     female("&#xf182;"), //
+	     male("&#xf183;"), //
+	     gittip("&#xf184;"), //
+	     sun_o("&#xf185;"), //
+	     moon_o("&#xf186;"), //
+	     archive("&#xf187;"), //
+	     bug("&#xf188;"), //
+	     vk("&#xf189;"), //
+	     weibo("&#xf18a;"), //
+	     renren("&#xf18b;"), //
+	     pagelines("&#xf18c;"), //
+	     stack_exchange("&#xf18d;"), //
+	     arrow_circle_o_right("&#xf18e;"), //
+	     arrow_circle_o_left("&#xf190;"), //
+	     toggle_left("&#xf191;"),
+	     caret_square_o_left("&#xf191;"), //
+	     dot_circle_o("&#xf192;"), //
+	     wheelchair("&#xf193;"), //
+	     vimeo_square("&#xf194;"), //
+	     turkish_lira("&#xf195;"),
+	     try_FI("&#xf195;"), //
+	     plus_square_o("&#xf196;"), //
+	     space_shuttle("&#xf197;"), //
+	     slack("&#xf198;"), //
+	     envelope_square("&#xf199;"), //
+	     wordpress("&#xf19a;"), //
+	     openid("&#xf19b;"), //
+	     institution("&#xf19c;"),
+	     bank("&#xf19c;"),
+	     university("&#xf19c;"), //
+	     mortar_board("&#xf19d;"),
+	     graduation_cap("&#xf19d;"), //
+	     yahoo("&#xf19e;"), //
+	     google("&#xf1a0;"), //
+	     reddit("&#xf1a1;"), //
+	     reddit_square("&#xf1a2;"), //
+	     stumbleupon_circle("&#xf1a3;"), //
+	     stumbleupon("&#xf1a4;"), //
+	     delicious("&#xf1a5;"), //
+	     digg("&#xf1a6;"), //
+	     pied_piper_square("&#xf1a7;"),
+	     pied_piper("&#xf1a7;"), //
+	     pied_piper_alt("&#xf1a8;"), //
+	     drupal("&#xf1a9;"), //
+	     joomla("&#xf1aa;"), //
+	     language("&#xf1ab;"), //
+	     fax("&#xf1ac;"), //
+	     building("&#xf1ad;"), //
+	     child("&#xf1ae;"), //
+	     paw("&#xf1b0;"), //
+	     spoon("&#xf1b1;"), //
+	     cube("&#xf1b2;"), //
+	     cubes("&#xf1b3;"), //
+	     behance("&#xf1b4;"), //
+	     behance_square("&#xf1b5;"), //
+	     steam("&#xf1b6;"), //
+	     steam_square("&#xf1b7;"), //
+	     recycle("&#xf1b8;"), //
+	     automobile("&#xf1b9;"),
+	     car("&#xf1b9;"), //
+	     cab("&#xf1ba;"),
+	     taxi("&#xf1ba;"), //
+	     tree("&#xf1bb;"), //
+	     spotify("&#xf1bc;"), //
+	     deviantart("&#xf1bd;"), //
+	     soundcloud("&#xf1be;"), //
+	     database("&#xf1c0;"), //
+	     file_pdf_o("&#xf1c1;"), //
+	     file_word_o("&#xf1c2;"), //
+	     file_excel_o("&#xf1c3;"), //
+	     file_powerpoint_o("&#xf1c4;"), //
+	     file_photo_o("&#xf1c5;"),
+	     file_picture_o("&#xf1c5;"),
+	     file_image_o("&#xf1c5;"), //
+	     file_zip_o("&#xf1c6;"),
+	     file_archive_o("&#xf1c6;"), //
+	     file_sound_o("&#xf1c7;"),
+	     file_audio_o("&#xf1c7;"), //
+	     file_movie_o("&#xf1c8;"),
+	     file_video_o("&#xf1c8;"), //
+	     file_code_o("&#xf1c9;"), //
+	     vine("&#xf1ca;"), //
+	     codepen("&#xf1cb;"), //
+	     jsfiddle("&#xf1cc;"), //
+	     life_bouy("&#xf1cd;"),
+	     life_saver("&#xf1cd;"),
+	     support("&#xf1cd;"),
+	     life_ring("&#xf1cd;"), //
+	     circle_o_notch("&#xf1ce;"), //
+	     ra("&#xf1d0;"),
+	     rebel("&#xf1d0;"), //
+	     ge("&#xf1d1;"),
+	     empire("&#xf1d1;"), //
+	     git_square("&#xf1d2;"), //
+	     git("&#xf1d3;"), //
+	     hacker_news("&#xf1d4;"), //
+	     tencent_weibo("&#xf1d5;"), //
+	     qq("&#xf1d6;"), //
+	     wechat("&#xf1d7;"),
+	     weixin("&#xf1d7;"), //
+	     send("&#xf1d8;"),
+	     paper_plane("&#xf1d8;"), //
+	     send_o("&#xf1d9;"),
+	     paper_plane_o("&#xf1d9;"), //
+	     history("&#xf1da;"), //
+	     circle_thin("&#xf1db;"), //
+	     header("&#xf1dc;"), //
+	     paragraph("&#xf1dd;"), //
+	     sliders("&#xf1de;"), //
+	     share_alt("&#xf1e0;"), //
+	     share_alt_square("&#xf1e1;"), //
+	     bomb("&#xf1e2;"); //
 
 		private final String id;
 
@@ -420,7 +708,7 @@ public class StandardIcon {
 		 * @return the icon stylename
 		 */
 		public String stylename() {
-			return "icon-" + name().replaceAll("_", "-");
+			return "fa fa-" + name().replaceAll("_FI", "").replaceAll("_", "-");
 		}
 
 		/**
@@ -444,87 +732,87 @@ public class StandardIcon {
 	}
 
 	public enum Icon {
-		LOG_IN(RawIcon.signin), MENU(RawIcon.reorder), USER(RawIcon.user), HELP(
-				RawIcon.question_sign), CHANGE_ROLE(RawIcon.columns), LOG_OUT(
-				RawIcon.signout), SETTINGS(RawIcon.cog), NAVIGATOR_ARROW_LEFT(
+		LOG_IN(RawIcon.sign_in), MENU(RawIcon.reorder), USER(RawIcon.user), HELP(
+				RawIcon.question), CHANGE_ROLE(RawIcon.columns), LOG_OUT(
+				RawIcon.sign_out), SETTINGS(RawIcon.cog), NAVIGATOR_ARROW_LEFT(
 				RawIcon.chevron_left), NAVIGATOR_ARROW_RIGHT(
-				RawIcon.chevron_right), EXIT(RawIcon.remove), SUBMIT(
-				RawIcon.upload_alt), RESET(RawIcon.refresh), WINDOW_MINIMIZE(
-				RawIcon.resize_small), WINDOW_MAXIMIZE(RawIcon.resize_full), WINDOW(
+				RawIcon.chevron_right), EXIT(RawIcon.times), SUBMIT(
+				RawIcon.upload), RESET(RawIcon.refresh), WINDOW_MINIMIZE(
+				RawIcon.compress), WINDOW_MAXIMIZE(RawIcon.expand), WINDOW(
 				RawIcon.external_link), COURSE(RawIcon.book), ROUND(
-				RawIcon.th_list), OK(RawIcon.ok), STARTED(RawIcon.circle_blank), NOT_STARTED(
+				RawIcon.th_list), OK(RawIcon.check), STARTED(RawIcon.circle_o), NOT_STARTED(
 				RawIcon.circle), MINIMUM_ACHIEVED(RawIcon.circle), DEADLINE(
-				RawIcon.time), CALENDAR(RawIcon.calendar), STUDY_JOURNAL(
+				RawIcon.clock_o), CALENDAR(RawIcon.calendar), STUDY_JOURNAL(
 				RawIcon.edit), MANUAL_OTHER(RawIcon.pencil), DONE(RawIcon.check), DEMONSTRATION(
-				RawIcon.check), ATTENDANCE(RawIcon.time), EXAM(RawIcon.tasks), COURSE_ASSIGNMENT(
-				RawIcon.copy), REGISTRATION(RawIcon.ok_circle), BOOKING_CALENDAR(
-				RawIcon.calendar), AUTOMATIC_ASSIGNMENT(RawIcon.upload_alt), WARNING(
-				RawIcon.exclamation_sign), NEWS(RawIcon.info_sign), CLOSE(
-				RawIcon.remove_sign), SEPARATOR_CARET(
-				RawIcon.double_angle_right), PROFILE(RawIcon.user), MESSAGES(
-				RawIcon.envelope_alt), INBOX(RawIcon.inbox), SENT_MAIL(
+				RawIcon.check), ATTENDANCE(RawIcon.clock_o), EXAM(RawIcon.tasks), COURSE_ASSIGNMENT(
+				RawIcon.copy), REGISTRATION(RawIcon.check_circle_o), BOOKING_CALENDAR(
+				RawIcon.calendar), AUTOMATIC_ASSIGNMENT(RawIcon.upload), WARNING(
+				RawIcon.exclamation), NEWS(RawIcon.info), CLOSE(
+				RawIcon.times), SEPARATOR_CARET(
+				RawIcon.angle_double_right), PROFILE(RawIcon.user), MESSAGES(
+				RawIcon.envelope_o), INBOX(RawIcon.inbox), SENT_MAIL(
 				RawIcon.share), OWN_RESOURCES(RawIcon.star), PUBLIC_RESOURCES(
-				RawIcon.th), EXERCISE(RawIcon.edit), MATERIALS(RawIcon.picture), TUTORIAL(
-				RawIcon.file_alt), STUDENTS(RawIcon.group), STATISTICS(
-				RawIcon.bar_chart), STUDENT_PERFORMANCE(RawIcon.tasks), MANUALLY_GRADED(
-				RawIcon.check), PRACTICAL_WORK(RawIcon.beaker), FOLD(
+				RawIcon.th), EXERCISE(RawIcon.edit), MATERIALS(RawIcon.image), TUTORIAL(
+				RawIcon.file_o), STUDENTS(RawIcon.group), STATISTICS(
+				RawIcon.bar_chart_o), STUDENT_PERFORMANCE(RawIcon.tasks), MANUALLY_GRADED(
+				RawIcon.check), PRACTICAL_WORK(RawIcon.flask), FOLD(
 				RawIcon.minus), UNFOLD(RawIcon.plus), BOOKMARK(RawIcon.bookmark), CONTACTS(
 				RawIcon.tags), PASSWORD(RawIcon.lock), SAVE(RawIcon.save), DELETE(
-				RawIcon.trash), REVIEW(RawIcon.check), GROUPS(RawIcon.group), EVENTS(
-				RawIcon.time), TEACHER(RawIcon.user), NAVIGATOR_ARROW_FIRST(
+				RawIcon.trash_o), REVIEW(RawIcon.check), GROUPS(RawIcon.group), EVENTS(
+				RawIcon.clock_o), TEACHER(RawIcon.user), NAVIGATOR_ARROW_FIRST(
 				RawIcon.step_backward), NAVIGATOR_ARROW_LAST(
 				RawIcon.step_forward), PANEL_FOLD(RawIcon.sort_down), PANEL_UNFOLD(
 				RawIcon.caret_right), SEARCH(RawIcon.search), NEW_RESOURCE(
 				RawIcon.file), EDIT(RawIcon.edit), FOLDER(
-				RawIcon.folder_close_alt), TEST(RawIcon.play), COPY(
+				RawIcon.folder_o), TEST(RawIcon.play), COPY(
 				RawIcon.copy), REPLY(RawIcon.reply), NEW(RawIcon.file), CANCEL(
-				RawIcon.remove), MATH_CHECK(RawIcon.check), MATH_NEXT(
+				RawIcon.times), MATH_CHECK(RawIcon.check), MATH_NEXT(
 				RawIcon.chevron_right), MATH_PREV(RawIcon.chevron_left), INFO(
-				RawIcon.info_sign), TAGS(RawIcon.tags), GENERATE(
+				RawIcon.info), TAGS(RawIcon.tags), GENERATE(
 				RawIcon.refresh), ADD_ASSIGNMENT(RawIcon.upload), ADD(
 				RawIcon.plus), CHECK_VALIDITY(RawIcon.refresh), BROWSE_THUMBS(
 				RawIcon.th), BROWSE_TABLE(RawIcon.table), MATH_LEVEL_EASY(
 				RawIcon.star), MATH_LEVEL_NORMAL(RawIcon.star), MATH_LEVEL_HARD(
-				RawIcon.star), ROUND_VISIBLE(RawIcon.eye_open), ROUND_HIDDEN(
-				RawIcon.eye_close), UP(RawIcon.arrow_up), DOWN(
-				RawIcon.arrow_down), PREVIEW(RawIcon.eye_open), EXERCISE_NAME(
+				RawIcon.star), ROUND_VISIBLE(RawIcon.eye), ROUND_HIDDEN(
+				RawIcon.eye_slash), UP(RawIcon.arrow_up), DOWN(
+				RawIcon.arrow_down), PREVIEW(RawIcon.eye), EXERCISE_NAME(
 				RawIcon.user), EXERCISE_DESCRIPTION(RawIcon.edit), NOTES_FOR_TEACHERS(
-				RawIcon.envelope), HIDE(RawIcon.eye_close), MONITOR(
+				RawIcon.envelope), HIDE(RawIcon.eye_slash), MONITOR(
 				RawIcon.desktop), CONDITIONAL_ROUND(RawIcon.list_ol), DOWNLOAD(
-				RawIcon.download_alt), ENROLL(RawIcon.signin), UPDATE(
-				RawIcon.refresh), RFID(RawIcon.sign_blank), TEMPLATE(
-				RawIcon.signal), CALCULATE_TOTALS(RawIcon.plus_sign), SURVEY(
+				RawIcon.download), ENROLL(RawIcon.sign_in), UPDATE(
+				RawIcon.refresh), RFID(RawIcon.square), TEMPLATE(
+				RawIcon.signal), CALCULATE_TOTALS(RawIcon.plus_circle), SURVEY(
 
-		RawIcon.paste), LIBRARY(RawIcon.list), TEXT(RawIcon.file_alt), IMAGE(
-				RawIcon.picture), AUDIO(RawIcon.volume_up), MOVIE(RawIcon.film), OBJECT(
+		RawIcon.paste), LIBRARY(RawIcon.list), TEXT(RawIcon.file_o), IMAGE(
+				RawIcon.image), AUDIO(RawIcon.volume_up), MOVIE(RawIcon.film), OBJECT(
 				RawIcon.suitcase), TABLE(RawIcon.table), LAYOUT_SINGLE(
-				RawIcon.check_empty), LAYOUT_DOUBLE(RawIcon.columns), LAYOUT_2X2(
+				RawIcon.square_o), LAYOUT_DOUBLE(RawIcon.columns), LAYOUT_2X2(
 				RawIcon.th_large), LAYOUT_3X3(RawIcon.th), LAYOUT_HEADER(
-				RawIcon.h_sign), LAYOUT_PAGE_BREAK(RawIcon.share_alt), LAYOUT_TRIPLE(
+				RawIcon.h_square), LAYOUT_PAGE_BREAK(RawIcon.share_alt), LAYOUT_TRIPLE(
 				RawIcon.columns),
 
-		UPLOAD(RawIcon.upload), SIZE(RawIcon.resize_full), SORT_OPTIONS(
+		UPLOAD(RawIcon.upload), SIZE(RawIcon.expand), SORT_OPTIONS(
 				RawIcon.tasks), STYLE_SETTINGS(RawIcon.magic), SORT(
-				RawIcon.sort), FEEDBACK(RawIcon.comment_alt), SURVEY_OPTIONS_ICON(
-				RawIcon.circle_blank), SURVEY_BOOLEAN_ICON(RawIcon.check), SURVEY_TEXTFIELD_ICON(
+				RawIcon.sort), FEEDBACK(RawIcon.comment_o), SURVEY_OPTIONS_ICON(
+				RawIcon.circle_o), SURVEY_BOOLEAN_ICON(RawIcon.check), SURVEY_TEXTFIELD_ICON(
 				RawIcon.minus), SURVEY_TEXTAREA_ICON(RawIcon.list_alt), SURVEY_SCALE_ICON(
 				RawIcon.exchange), SURVEY_EXPLANATION_ICON(
-				RawIcon.question_sign), SURVEY_UPLOAD_ICON(RawIcon.upload), SURVEY_BREAK_ICON(
+				RawIcon.question), SURVEY_UPLOAD_ICON(RawIcon.upload), SURVEY_BREAK_ICON(
 				RawIcon.cut), SURVEY_OPTIONS_OPEN(RawIcon.comment), SURVEY_GRID_ICON(
-				RawIcon.th), MIME_IMAGE_MEDIUM(RawIcon.picture), MIME_MOVIE_MEDIUM(
-				RawIcon.facetime_video), IMAGE_TAG(RawIcon.tags), SURVEY_COMPONENTS(
+				RawIcon.th), MIME_IMAGE_MEDIUM(RawIcon.image), MIME_MOVIE_MEDIUM(
+				RawIcon.video_camera), IMAGE_TAG(RawIcon.tags), SURVEY_COMPONENTS(
 				RawIcon.th_large), TEXTFIELD(RawIcon.list_alt), MCQ_PRECENTAGE_SELECT_ONE(
-				RawIcon.plus_sign), MCQ_COMBINED_PERCENTAGE(
-				RawIcon.plus_sign_alt), SHORT_ANSWER(RawIcon.font), MCQ(
-				RawIcon.list), MCQ_MATH(RawIcon.pushpin), QUESTIONS(
-				RawIcon.question_sign), OPTION_GROUP(RawIcon.circle_blank), NEXT(
-				RawIcon.circle_arrow_right), PREVIOUS(RawIcon.circle_arrow_left), CODE_EDITOR(
+				RawIcon.plus_circle), MCQ_COMBINED_PERCENTAGE(
+				RawIcon.plus_square), SHORT_ANSWER(RawIcon.font), MCQ(
+				RawIcon.list), MCQ_MATH(RawIcon.thumb_tack), QUESTIONS(
+				RawIcon.question), OPTION_GROUP(RawIcon.circle_o), NEXT(
+				RawIcon.arrow_circle_right), PREVIOUS(RawIcon.arrow_circle_left), CODE_EDITOR(
 				RawIcon.edit), TRANSLATE(RawIcon.refresh), ANIMATION_CONTROLS(
-				RawIcon.play_circle), NEW_ARRAY_QUESTIONS(RawIcon.question_sign), ATTACH(
-				RawIcon.plus_sign), DETACH(RawIcon.minus_sign), ANSWER(
+				RawIcon.play_circle), NEW_ARRAY_QUESTIONS(RawIcon.question), ATTACH(
+				RawIcon.plus_circle), DETACH(RawIcon.minus_circle), ANSWER(
 				RawIcon.edit), EXPLANATION(RawIcon.comment), VARIABLES(
-				RawIcon.cogs), EXERCISE_POOL(RawIcon.hdd), PEER_REVIEW(
-				RawIcon.group), VILLE_CS(RawIcon.beaker), KEY(RawIcon.key), STACK(
+				RawIcon.cogs), EXERCISE_POOL(RawIcon.hdd_o), PEER_REVIEW(
+				RawIcon.group), VILLE_CS(RawIcon.flask), KEY(RawIcon.key), STACK(
 				RawIcon.align_justify), SHARED_MEMORY(RawIcon.share), MATH_PERFORMANCE(
 				RawIcon.dashboard), CATEGORY(RawIcon.list_ol);
 
