@@ -17,7 +17,7 @@ public class StandardIcon {
 	// public static final String CDN =
 	// "//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css";
 
-	public static final String path = "font-awesome/css/font-awesome.min.css";
+	public static final String path = "../ville-standardutils/font-awesome-4.1.0/css/font-awesome.min.css";
 
 	public static void load() {
 		load(new ThemeResource(path));
