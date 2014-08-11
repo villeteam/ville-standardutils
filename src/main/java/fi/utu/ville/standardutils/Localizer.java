@@ -153,4 +153,16 @@ public interface Localizer extends Serializable {
 	 */
 	Locale getCurrentLocale();
 
+	/**
+	 * Localizes the number based on user preferences. Localizing is done by changing the decimal separator.  
+	 * @param number The number to localize.
+	 * @return The localized number. 
+	 */
+	public String getLocalizedNumber(double number);
+
+	/**
+	 * Returns the decimal separator set in the user preferences.
+	 * @return The appropriate decimal separator for the user.
+	 */
+	public char getDecimalSeparator();
 }

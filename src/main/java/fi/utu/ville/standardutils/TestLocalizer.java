@@ -38,4 +38,14 @@ public class TestLocalizer implements Localizer {
 		return key;
 	}
 
+	@Override
+	public String getLocalizedNumber(double number) {
+		return number+"";
+	}
+
+	@Override
+	public char getDecimalSeparator() {
+		return '.';
+	}
+
 }
