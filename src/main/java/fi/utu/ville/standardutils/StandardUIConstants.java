@@ -179,5 +179,7 @@ public class StandardUIConstants {
 			+ "STATS_COL_DESC_SCORE";
 
 	public static final String ERROR = PREFIX + "ERROR";
+	
+	public static final String MAX_WIDTH = PREFIX + "MAX WIDTH";
 
 }
