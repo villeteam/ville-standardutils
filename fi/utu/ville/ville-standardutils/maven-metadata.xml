@@ -4,8 +4,10 @@
   <artifactId>ville-standardutils</artifactId>
   <versioning>
     <versions>
-      <version>0.0.15-SNAPSHOT</version>
+      <version>0.0.13-SNAPSHOT</version>
+      <version>0.0.14-SNAPSHOT</version>
+      <version>0.0.16-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20140812062811</lastUpdated>
+    <lastUpdated>20140827104329</lastUpdated>
   </versioning>
 </metadata>
