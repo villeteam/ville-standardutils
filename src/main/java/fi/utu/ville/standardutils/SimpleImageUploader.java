@@ -1,11 +1,11 @@
 package fi.utu.ville.standardutils;
 
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+
 import java.io.Serializable;
 
 import javax.imageio.ImageIO;
@@ -14,10 +14,9 @@ import com.vaadin.ui.VerticalLayout;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.server.Resource;
-import com.vaadin.server.StreamResource;
-import com.vaadin.server.StreamResource.StreamSource;
+import com.vaadin.server.FileResource;
 import com.vaadin.ui.Image;
+
 import fi.utu.ville.standardutils.SimpleFileUploader.UploaderListener;
 
 import org.vaadin.risto.stepper.IntStepper;
@@ -27,6 +26,7 @@ public class SimpleImageUploader extends VerticalLayout {
 	private static final long serialVersionUID = 3281090786118827523L;
 
 	private final String mimeTypeFilter = "^image/.*$";
+	private final TempFilesManager tempManager;
 	
 	private final SimpleFileUploader uploader;
 	private final IntStepper maxWidthStepper;
@@ -40,12 +40,13 @@ public class SimpleImageUploader extends VerticalLayout {
 	public SimpleImageUploader(Localizer localizer,
 			TempFilesManager tempManager, int maxUploadSize) {
 		this.uploader = new SimpleFileUploader(localizer,tempManager,maxUploadSize,mimeTypeFilter);
-		this.maxWidthStepper = new IntStepper(StandardUIConstants.MAX_WIDTH);
+		this.maxWidthStepper = new IntStepper(localizer.getUIText(StandardUIConstants.MAX_WIDTH));
 		this.imageContainer = new VerticalLayout();
+		this.tempManager = tempManager;
 		doLayout();
 	}
 	
-	public void registerUploaderListener(UploaderListener listener) {
+	public void registerUploaderListener(ImageUploaderListener listener) {
 		uploader.registerUploaderListener(listener);
 	}
 	
@@ -105,7 +106,8 @@ public class SimpleImageUploader extends VerticalLayout {
 		this.addComponent(uploader);
 		this.addComponent(imageContainer);
 		
-		maxWidthStepper.addValueChangeListener(new ValueChangeListener() {
+		this.maxWidthStepper.setMinValue(1);
+		this.maxWidthStepper.addValueChangeListener(new ValueChangeListener() {
 
 			private static final long serialVersionUID = -2756336993178151135L;
 
@@ -115,26 +117,40 @@ public class SimpleImageUploader extends VerticalLayout {
 			}
 			
 		});
+		this.maxWidthStepper.setValue((int)ScaledImage.DEFAULT_MAX_WIDTH);
 	}
 	
 	public abstract class ImageUploaderListener implements UploaderListener{
 
 		private static final long serialVersionUID = 891682132265510102L;
+		private transient Image uploadedImage = null;
 
 		@Override
 		public void fileUploadSucceeded(File tempFile, String fileName,
 				String mimeType) {
-			AbstractFile newFile = new AFFile(tempFile);
 			
 			ScaledImage result = new ScaledImage();
 			result.setMaxWidth(maxWidth);
-			result.setSource(newFile.getRawData(), fileName);
+			result.setSource(tempFile, fileName);
 			if(showImage) {imageContainer.removeAllComponents();imageContainer.addComponent(result);}
 			
-			fileUploadSucceeded(result,fileName);			
+			uploadedImage =  result;
+			fileUploadSucceeded(result,fileName);
 		}
 		
 		public abstract void fileUploadSucceeded(Image image, String fileName);
+		
+		@Override
+		public void uploadedFileDeleted(File tempFile) {
+			imageContainer.removeAllComponents();		
+			Image result = uploadedImage;
+			uploadedImage = null;
+			uploadedFileDeleted(result);			
+
+		}
+
+		public abstract void uploadedFileDeleted(Image image);
+		
 		
 	}
 	
@@ -142,7 +158,7 @@ public class SimpleImageUploader extends VerticalLayout {
 
 		private static final long serialVersionUID = -2183720246344657143L;
 
-		private byte[] bytes;
+		private File file;
 		private String fileName;
 		
 		public static final float DEFAULT_MAX_WIDTH = 1280;
@@ -157,32 +173,21 @@ public class SimpleImageUploader extends VerticalLayout {
 			this(null);
 		}
 
-		public Resource setSource(final byte[] bytes,String fileName) {
-			if(bytes == null) return null;
-			this.bytes = bytes;
+		public void setSource(File file, String fileName) {
+			if(file == null) return;
+			this.file = file;
 			this.fileName = fileName;
 			resize();
-			StreamSource strSrc = new StreamSource() {
 
-				private static final long serialVersionUID = 1L;
-
-				public InputStream getStream() {
-					ByteArrayInputStream bis = new ByteArrayInputStream(ScaledImage.this.bytes);
-
-					return bis;
-				}
-
-			};
-
-			StreamResource strRes = new StreamResource(strSrc, fileName);
+			FileResource filRes = new FileResource(file);
 			
-			super.setSource(strRes);
-			return strRes;
+			super.setSource(filRes);
+			
 		}
 		
 
-		public byte[] getBytes() {
-			return bytes;
+		public AbstractFile getAbstractFile() {
+			return new AFFile(file);
 		}
 
 		public String getFileName() {
@@ -194,7 +199,7 @@ public class SimpleImageUploader extends VerticalLayout {
 			BufferedImage bimg = null;
 
 			try {
-				bimg = ImageIO.read(new ByteArrayInputStream(bytes));
+				bimg = ImageIO.read(new FileInputStream(file));
 				
 				this.setWidth(bimg.getWidth() + "px");
 				this.setHeight(bimg.getHeight() + "px");
@@ -226,16 +231,15 @@ public class SimpleImageUploader extends VerticalLayout {
 			buffered.getGraphics().drawImage(image, 0, 0, null);
 			buffered.getGraphics().dispose();
 
-			ByteArrayOutputStream bout = new ByteArrayOutputStream();
-			boolean resizeRes;
 			try {
-				resizeRes = ImageIO.write(buffered, fileName.split("\\.")[fileName.split("\\.").length-1], bout);
-				System.out.println("resize-res: " + resizeRes);
+				
+				FileOutputStream bout = new FileOutputStream(tempManager.getTempFile(fileName));
+
+				ImageIO.write(buffered, fileName.split("\\.")[fileName.split("\\.").length-1], bout);
+			
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-						 
-			bytes = bout.toByteArray();
 						
 			this.setWidth(buffered.getWidth() + "px");
 			this.setHeight(buffered.getHeight() + "px");
