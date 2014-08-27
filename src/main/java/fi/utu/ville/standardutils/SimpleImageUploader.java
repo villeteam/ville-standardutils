@@ -123,7 +123,7 @@ public class SimpleImageUploader extends VerticalLayout {
 	public abstract class ImageUploaderListener implements UploaderListener{
 
 		private static final long serialVersionUID = 891682132265510102L;
-		private transient Image uploadedImage = null;
+		private transient ScaledImage uploadedImage = null;
 
 		@Override
 		public void fileUploadSucceeded(File tempFile, String fileName,
@@ -138,18 +138,18 @@ public class SimpleImageUploader extends VerticalLayout {
 			fileUploadSucceeded(result,fileName);
 		}
 		
-		public abstract void fileUploadSucceeded(Image image, String fileName);
+		public abstract void fileUploadSucceeded(ScaledImage image, String fileName);
 		
 		@Override
 		public void uploadedFileDeleted(File tempFile) {
 			imageContainer.removeAllComponents();		
-			Image result = uploadedImage;
+			ScaledImage result = uploadedImage;
 			uploadedImage = null;
 			uploadedFileDeleted(result);			
 
 		}
 
-		public abstract void uploadedFileDeleted(Image image);
+		public abstract void uploadedFileDeleted(ScaledImage image);
 		
 		
 	}
