@@ -25,7 +25,7 @@ public class SimpleImageUploader extends VerticalLayout {
 
 	private static final long serialVersionUID = 3281090786118827523L;
 
-	private final String mimeTypeFilter = "^image/.*$";
+	private final static String MIMETYPEFILTER = "^image/.*$";
 	private final TempFilesManager tempManager;
 	
 	private final SimpleFileUploader uploader;
@@ -39,7 +39,7 @@ public class SimpleImageUploader extends VerticalLayout {
 	
 	public SimpleImageUploader(Localizer localizer,
 			TempFilesManager tempManager, int maxUploadSize) {
-		this.uploader = new SimpleFileUploader(localizer,tempManager,maxUploadSize,mimeTypeFilter);
+		this.uploader = new SimpleFileUploader(localizer,tempManager,maxUploadSize,MIMETYPEFILTER);
 		this.maxWidthStepper = new IntStepper(localizer.getUIText(StandardUIConstants.MAX_WIDTH));
 		this.imageContainer = new VerticalLayout();
 		this.tempManager = tempManager;
@@ -131,7 +131,7 @@ public class SimpleImageUploader extends VerticalLayout {
 			
 			ScaledImage result = new ScaledImage();
 			result.setMaxWidth(maxWidth);
-			result.setSource(tempFile, fileName);
+			result.setSource(tempFile, fileName, tempManager);
 			if(showImage) {imageContainer.removeAllComponents();imageContainer.addComponent(result);}
 			
 			uploadedImage =  result;
@@ -154,7 +154,7 @@ public class SimpleImageUploader extends VerticalLayout {
 		
 	}
 	
-	public class ScaledImage extends Image implements Serializable {
+	public static class ScaledImage extends Image implements Serializable {
 
 		private static final long serialVersionUID = -2183720246344657143L;
 
@@ -173,11 +173,11 @@ public class SimpleImageUploader extends VerticalLayout {
 			this(null);
 		}
 
-		public void setSource(File file, String fileName) {
+		public void setSource(File file, String fileName,TempFilesManager tempManager) {
 			if(file == null) return;
 			this.file = file;
 			this.fileName = fileName;
-			resize();
+			if(tempManager != null) {resize(tempManager);}
 
 			FileResource filRes = new FileResource(file);
 			
@@ -194,12 +194,12 @@ public class SimpleImageUploader extends VerticalLayout {
 			return fileName;
 		}
 
-		public void resize() {
+		public void resize(TempFilesManager tempManager) {
 
 			BufferedImage bimg = null;
 
-			try {
-				bimg = ImageIO.read(new FileInputStream(file));
+			try(FileInputStream fin = new FileInputStream(file)){
+				bimg = ImageIO.read(fin);
 				
 				this.setWidth(bimg.getWidth() + "px");
 				this.setHeight(bimg.getHeight() + "px");
@@ -209,7 +209,7 @@ public class SimpleImageUploader extends VerticalLayout {
 				if (getMaxWidth() / this.getWidth() < 1) {
 					double scale = getMaxWidth() / this.getWidth();
 
-					writeNewImage(scale,bimg);
+					writeNewImage(scale,bimg, tempManager);
 				}
 
 			} catch (IOException e) {
@@ -217,7 +217,7 @@ public class SimpleImageUploader extends VerticalLayout {
 			}
 		}
 		
-		private void  writeNewImage(double scale, BufferedImage bimg) {
+		private void  writeNewImage(double scale, BufferedImage bimg, TempFilesManager tempManager) {
 			java.awt.Image image = bimg.getScaledInstance(
 					(int) (scale * bimg.getWidth()),
 					(int) (scale * bimg.getHeight()),
@@ -231,11 +231,11 @@ public class SimpleImageUploader extends VerticalLayout {
 			buffered.getGraphics().drawImage(image, 0, 0, null);
 			buffered.getGraphics().dispose();
 
-			try {
-				
-				FileOutputStream bout = new FileOutputStream(tempManager.getTempFile(fileName));
+			try(FileOutputStream bout = new FileOutputStream(tempManager.getTempFile(fileName))) {
 
 				ImageIO.write(buffered, fileName.split("\\.")[fileName.split("\\.").length-1], bout);
+				
+				bout.flush();
 			
 			} catch (IOException e) {
 				e.printStackTrace();
