@@ -63,10 +63,12 @@ public class SimpleImageUploader extends VerticalLayout {
 	}
 
 	public void setUploadedFile(File uplFile, boolean fireUploadEvent) {
+		maxWidthStepper.setEnabled(false);
 		uploader.setUploadedFile(uplFile, fireUploadEvent);
 	}
 
 	public void setAbstractUploadedFile(AbstractFile abstFile) {
+		maxWidthStepper.setEnabled(false);
 		uploader.setAbstractUploadedFile(abstFile);
 	}
 
@@ -133,7 +135,7 @@ public class SimpleImageUploader extends VerticalLayout {
 			result.setMaxWidth(maxWidth);
 			result.setSource(tempFile, fileName, tempManager);
 			if(showImage) {imageContainer.removeAllComponents();imageContainer.addComponent(result);}
-			
+			maxWidthStepper.setEnabled(false);
 			uploadedImage =  result;
 			fileUploadSucceeded(result,fileName);
 		}
@@ -145,6 +147,7 @@ public class SimpleImageUploader extends VerticalLayout {
 			imageContainer.removeAllComponents();		
 			ScaledImage result = uploadedImage;
 			uploadedImage = null;
+			maxWidthStepper.setEnabled(true);
 			uploadedFileDeleted(result);			
 
 		}
