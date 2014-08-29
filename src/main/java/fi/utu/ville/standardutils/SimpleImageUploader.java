@@ -196,6 +196,10 @@ public class SimpleImageUploader extends VerticalLayout {
 		public String getFileName() {
 			return fileName;
 		}
+		
+		public File getFile() {
+			return file;
+		}
 
 		public void resize(TempFilesManager tempManager) {
 
