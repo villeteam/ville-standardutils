@@ -242,7 +242,7 @@ public class SimpleFileUploader extends HorizontalLayout {
 			public void updateProgress(long readBytes, long contentLength) {
 				if (contentLength > maxSize * 1024L) {
 					abortLongFileUpload();
-				} else if (contentLength > 0) {
+				} else if (contentLength > 0 && uploadProgressBar != null) {
 					uploadProgressBar.setValue((float) readBytes
 							/ (float) contentLength);
 				}
