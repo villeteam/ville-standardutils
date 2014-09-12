@@ -145,6 +145,8 @@ public class StandardIcon {
 		WHITE("color-white"),
 
 		BLACK("color-black"),
+	
+		YELLOW("color-yellow"),
 
 		SIZE_SMALL("icon-small");
 
