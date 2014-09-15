@@ -5,7 +5,7 @@
 	<groupId>fi.utu.ville</groupId>
 	<artifactId>ville-standardutils</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.20-SNAPSHOT</version>
+	<version>0.0.21-SNAPSHOT</version>
 	<name>Ville-Standardutils</name>
 
 	<properties>
@@ -204,7 +204,7 @@
             <plugin>
                 <groupId>com.github.github</groupId>
                 <artifactId>site-maven-plugin</artifactId>
-                <version>0.9</version>
+                <version>0.10-SNAPSHOT</version>
                 <configuration>
                     <message>Maven artifacts for ${project.version}</message>
                     <noJekyll>true</noJekyll>
