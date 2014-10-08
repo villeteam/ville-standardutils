@@ -137,10 +137,10 @@ public class SimpleImageUploader extends VerticalLayout {
 			if(showImage) {imageContainer.removeAllComponents();imageContainer.addComponent(result);}
 			maxWidthStepper.setEnabled(false);
 			uploadedImage =  result;
-			fileUploadSucceeded(result,fileName,mimeType);
+			fileUploadSucceeded(result,fileName);
 		}
 		
-		public abstract void fileUploadSucceeded(ScaledImage image, String fileName, String mimetype);
+		public abstract void fileUploadSucceeded(ScaledImage image, String fileName);
 		
 		@Override
 		public void uploadedFileDeleted(File tempFile) {
