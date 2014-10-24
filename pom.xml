@@ -87,6 +87,20 @@
 			<version>${vaadin.version}</version>
 			<scope>provided</scope>
 		</dependency>
+	
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-client-compiler</artifactId>
+			<scope>provided</scope>
+			<version>${vaadin.version}</version>
+		</dependency>
+		
+		<dependency>
+	<groupId>org.apache.commons</groupId>
+	<artifactId>commons-lang3</artifactId>
+	<version>3.0</version>
+</dependency>
+
 		
 		<dependency>
 		   <groupId>org.vaadin.addons</groupId>
@@ -164,6 +178,8 @@
 					</archive>
 				</configuration>
 			</plugin>
+			
+			
 			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

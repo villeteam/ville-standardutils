@@ -1,4 +1,4 @@
-package fi.utu.ville.standardutils.ui;
+package fi.utu.ville.standardutils.client;
 
 import com.vaadin.client.ui.VTextArea;
 
