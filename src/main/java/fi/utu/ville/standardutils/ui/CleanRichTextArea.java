@@ -11,38 +11,19 @@ import com.vaadin.ui.RichTextArea;
 
 public class CleanRichTextArea extends RichTextArea {
 
-	private static final long serialVersionUID = 6169981980216103506L;
-	
-	private final Whitelist whitelist;
+	private static final long serialVersionUID = -7219905133912035137L;
+	private static final Whitelist whitelist;
 	
 	public CleanRichTextArea() {
 		super();
-		whitelist = Whitelist.relaxed();
-		whitelist.addTags("font").addAttributes("font", "size", "color", "face");
-		whitelist.addTags("hr").addAttributes("hr", "align", "noshade", "size", "width");
-		whitelist.addAttributes("div", "align");
-		whitelist.addAttributes("span", "style"); // RichTextArea specific parameter to allow background color.
-		whitelist.addEnforcedAttribute("a", "rel", "nofollow");
 	}
 	
 	public CleanRichTextArea(String caption) {
 		super(caption);
-		whitelist = Whitelist.relaxed();
-		whitelist.addTags("font").addAttributes("font", "size", "color", "face");
-		whitelist.addTags("hr").addAttributes("hr", "align", "noshade", "size", "width");
-		whitelist.addAttributes("div", "align");
-		whitelist.addAttributes("span", "style"); // RichTextArea specific parameter to allow background color.
-		whitelist.addEnforcedAttribute("a", "rel", "nofollow");
 	}
 	
 	public CleanRichTextArea(String caption, String value) {
 		super(caption, value);
-		whitelist = Whitelist.relaxed();
-		whitelist.addTags("font").addAttributes("font", "size", "color", "face");
-		whitelist.addTags("hr").addAttributes("hr", "align", "noshade", "size", "width");
-		whitelist.addAttributes("div", "align");
-		whitelist.addAttributes("span", "style"); // RichTextArea specific parameter to allow background color.
-		whitelist.addEnforcedAttribute("a", "rel", "nofollow");
 	}
 
 	private String clean(String html, Whitelist whitelist) {
@@ -71,5 +52,14 @@ public class CleanRichTextArea extends RichTextArea {
 			super.setValue(value);
 			return;
 		} else super.setValue(clean(value, whitelist));
+	}
+	
+	static {
+		whitelist = Whitelist.relaxed();
+		whitelist.addTags("font").addAttributes("font", "size", "color", "face");
+		whitelist.addTags("hr").addAttributes("hr", "align", "noshade", "size", "width");
+		whitelist.addAttributes("div", "align");
+		whitelist.addAttributes("span", "style"); // RichTextArea specific parameter to allow background color.
+		whitelist.addEnforcedAttribute("a", "rel", "nofollow");
 	}
 }

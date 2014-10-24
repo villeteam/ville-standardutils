@@ -13,33 +13,19 @@ public class CleanTextArea extends TextArea {
 
 	private static final long serialVersionUID = 6169981980216103506L;
 
-	private final Whitelist whitelist;
+	private static final Whitelist whitelist;
 	
 	public CleanTextArea() {
 		super();
-		whitelist = Whitelist.relaxed();
-		whitelist.addTags("font").addAttributes("font", "size", "color", "face");
-		whitelist.addTags("hr").addAttributes("hr", "align", "noshade", "size", "width");
-		whitelist.addAttributes("div", "align");
-		whitelist.addEnforcedAttribute("a", "rel", "nofollow");
+
 	}
 	
 	public CleanTextArea(String caption) {
 		super(caption);
-		whitelist = Whitelist.relaxed();
-		whitelist.addTags("font").addAttributes("font", "size", "color", "face");
-		whitelist.addTags("hr").addAttributes("hr", "align", "noshade", "size", "width");
-		whitelist.addAttributes("div", "align");
-		whitelist.addEnforcedAttribute("a", "rel", "nofollow");
 	}
 	
 	public CleanTextArea(String caption, String value) {
 		super(caption);
-		whitelist = Whitelist.relaxed();
-		whitelist.addTags("font").addAttributes("font", "size", "color", "face");
-		whitelist.addTags("hr").addAttributes("hr", "align", "noshade", "size", "width");
-		whitelist.addAttributes("div", "align");
-		whitelist.addEnforcedAttribute("a", "rel", "nofollow");
 		setValue(value);
 	}
 	
@@ -69,5 +55,13 @@ public class CleanTextArea extends TextArea {
 			super.setValue(value);
 			return;
 		} else super.setValue(clean(value, whitelist));
+	}
+	
+	static {
+		whitelist = Whitelist.relaxed();
+		whitelist.addTags("font").addAttributes("font", "size", "color", "face");
+		whitelist.addTags("hr").addAttributes("hr", "align", "noshade", "size", "width");
+		whitelist.addAttributes("div", "align");
+		whitelist.addEnforcedAttribute("a", "rel", "nofollow");
 	}
 }

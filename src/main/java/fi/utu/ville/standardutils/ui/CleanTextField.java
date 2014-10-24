@@ -11,8 +11,7 @@ import com.vaadin.ui.TextField;
 
 public class CleanTextField extends TextField {
 
-	private static final long serialVersionUID = 6169981980216103506L;
-	
+	private static final long serialVersionUID = 7784788437618744388L;
 	private static final Whitelist whitelist;
 	
 	public CleanTextField() {
