@@ -3,11 +3,12 @@
   <groupId>fi.utu.ville</groupId>
   <artifactId>ville-standardutils</artifactId>
   <versioning>
-    <release>0.0.25-RELEASE</release>
+    <release>0.0.26-RELEASE</release>
     <versions>
       <version>0.0.25-RELEASE</version>
       <version>0.0.26-SNAPSHOT</version>
+      <version>0.0.26-RELEASE</version>
     </versions>
-    <lastUpdated>20141024134518</lastUpdated>
+    <lastUpdated>20141024163453</lastUpdated>
   </versioning>
 </metadata>
