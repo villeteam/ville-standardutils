@@ -143,6 +143,8 @@ public class StandardIcon {
 		ORANGE("color-orange"),
 
 		WHITE("color-white"),
+		
+		DARK_GRAY("color-dark-gray"),
 
 		BLACK("color-black"),
 	
