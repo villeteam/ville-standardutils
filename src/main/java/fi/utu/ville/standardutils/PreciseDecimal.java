@@ -174,6 +174,21 @@ public class PreciseDecimal implements NumericValueProvider,
 				decSeparator = true;
 				continue;
 			}
+			if(c == 'E' || c == 'e') { // trying to parse exponential notation
+				try {
+					int exp = Integer.parseInt(str.substring(i+1));
+					if(exp <= 0) {
+						decPoint += -exp;
+					}
+					else {
+						value *= (long)Math.pow(10, exp);
+					}
+				}
+				catch(Exception ex) {
+					throw new NumberFormatException("Error while parsing exponent in input string: " + str);
+				}
+				break;
+			}
 			if ('0' > c || '9' < c) {
 				throw new NumberFormatException("Invalid character \'" + c
 						+ "\' in string \"" + str + "\"");

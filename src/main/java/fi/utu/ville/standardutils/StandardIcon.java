@@ -768,7 +768,14 @@ public class StandardIcon {
 		 * @return
 		 */
 		public String variant(IconVariant... variants) {
+			return variant(null, variants);
+		}
+		
+		public String variant(String customClass, IconVariant... variants) {
 			String stylenames = stylename();
+			if(customClass != null) {
+				stylenames += " " + customClass;
+			}
 			for (IconVariant v : variants) {
 				stylenames += " " + v;
 			}
