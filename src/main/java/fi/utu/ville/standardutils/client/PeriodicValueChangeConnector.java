@@ -14,10 +14,10 @@ import com.vaadin.client.extensions.AbstractExtensionConnector;
 import com.vaadin.client.ui.VTextField;
 import com.vaadin.shared.ui.Connect;
 
-import fi.utu.ville.standardutils.ui.AutoSaveExtension;
+import fi.utu.ville.standardutils.ui.PeriodicValueChangeExtension;
 
-@Connect(AutoSaveExtension.class)
-public class AutoSaveConnector extends AbstractExtensionConnector {
+@Connect(PeriodicValueChangeExtension.class)
+public class PeriodicValueChangeConnector extends AbstractExtensionConnector {
 
 	private static final long serialVersionUID = -2732221560697L;
             

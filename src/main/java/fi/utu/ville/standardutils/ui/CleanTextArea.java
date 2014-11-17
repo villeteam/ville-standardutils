@@ -33,7 +33,7 @@ public class CleanTextArea extends TextArea {
 	
 	private void extendAutoSave() {
 		setImmediate(true);
-		AutoSaveExtension.extend(this);
+		PeriodicValueChangeExtension.extend(this);
 	}
 	
 	private String clean(String html, Whitelist whitelist) {

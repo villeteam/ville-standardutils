@@ -6,13 +6,12 @@ import com.vaadin.ui.AbstractTextField;
 
 import fi.utu.ville.standardutils.client.RegexFieldExtensionState;
 
-
-public class AutoSaveExtension extends AbstractExtension {
+public class PeriodicValueChangeExtension extends AbstractExtension {
 
 	private static final long serialVersionUID = 8986814555711778351L;
 
-	public static AutoSaveExtension extend(AbstractTextField field) {
-        AutoSaveExtension extension = new AutoSaveExtension();
+	public static PeriodicValueChangeExtension extend(AbstractTextField field) {
+        PeriodicValueChangeExtension extension = new PeriodicValueChangeExtension();
 		extension.extend((AbstractClientConnector) field);
 		return extension;
     }
