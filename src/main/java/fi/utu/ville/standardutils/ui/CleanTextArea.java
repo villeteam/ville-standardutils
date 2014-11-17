@@ -17,16 +17,23 @@ public class CleanTextArea extends TextArea {
 	
 	public CleanTextArea() {
 		super();
-
+		extendAutoSave();
 	}
 	
 	public CleanTextArea(String caption) {
 		super(caption);
+		extendAutoSave();
 	}
 	
 	public CleanTextArea(String caption, String value) {
 		super(caption);
 		setValue(value);
+		extendAutoSave();
+	}
+	
+	private void extendAutoSave() {
+		setImmediate(true);
+		AutoSaveExtension.extend(this);
 	}
 	
 	private String clean(String html, Whitelist whitelist) {
