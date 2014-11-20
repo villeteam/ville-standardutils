@@ -15,18 +15,23 @@ public class CleanTextArea extends TextArea {
 
 	private static final Whitelist whitelist;
 	
+	private static final int MAX_LENGTH = 32000;
+	
 	public CleanTextArea() {
 		super();
+		setMaxLength(MAX_LENGTH);
 		extendAutoSave();
 	}
 	
 	public CleanTextArea(String caption) {
 		super(caption);
+		setMaxLength(MAX_LENGTH);
 		extendAutoSave();
 	}
 	
 	public CleanTextArea(String caption, String value) {
 		super(caption);
+		setMaxLength(MAX_LENGTH);
 		setValue(value);
 		extendAutoSave();
 	}
