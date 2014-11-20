@@ -5,7 +5,7 @@
 	<groupId>fi.utu.ville</groupId>
 	<artifactId>ville-standardutils</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.29-RELEASE</version>
+	<version>0.0.31-SNAPSHOT</version>
 	<name>Ville-Standardutils</name>
 
 	<properties>
