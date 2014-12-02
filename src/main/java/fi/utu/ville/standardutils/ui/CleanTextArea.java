@@ -15,7 +15,7 @@ public class CleanTextArea extends TextArea {
 
 	private static final Whitelist whitelist;
 	
-	private static final int MAX_LENGTH = 32000;
+	private static final int MAX_LENGTH = 65000;
 	
 	public CleanTextArea() {
 		super();
