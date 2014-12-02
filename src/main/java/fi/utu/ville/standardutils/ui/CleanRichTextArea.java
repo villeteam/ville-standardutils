@@ -34,7 +34,7 @@ public class CleanRichTextArea extends RichTextArea {
 	    Document clean = cleaner.clean(dirty);
 	    clean.outputSettings().escapeMode(EscapeMode.xhtml);
 	    clean.outputSettings().charset("UTF-8");
-	    String cleaned = clean.body().html().replaceAll("%newline%", "\n");
+	    String cleaned = clean.body().html().replaceAll("\n", "").replaceAll("%newline%", "\n");
 	    
 	    return StringEscapeUtils.unescapeXml(cleaned);
 	}

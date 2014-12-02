@@ -49,7 +49,9 @@ public class CleanTextArea extends TextArea {
 	    Document clean = cleaner.clean(dirty);
 	    clean.outputSettings().escapeMode(EscapeMode.xhtml);
 	    clean.outputSettings().charset("UTF-8");
-	    String cleaned = clean.body().html().replaceAll("%newline%", "\n");
+	    
+	    // Remove all created newlines and restore all the pre-existing ones. 
+	    String cleaned = clean.body().html().replaceAll("\n", "").replaceAll("%newline%", "\n");
 	    
 	    return StringEscapeUtils.unescapeXml(cleaned);
 	}
