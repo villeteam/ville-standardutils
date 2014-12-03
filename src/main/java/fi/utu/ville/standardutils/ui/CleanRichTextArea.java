@@ -1,6 +1,5 @@
 package fi.utu.ville.standardutils.ui;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Entities.EscapeMode;
@@ -27,6 +26,7 @@ public class CleanRichTextArea extends RichTextArea {
 	}
 
 	private String clean(String html, Whitelist whitelist) {
+		
 		String enterEscaped = html.replaceAll("\n", "%newline%");
 		
 	    Document dirty = Jsoup.parseBodyFragment(enterEscaped, "");
@@ -34,9 +34,12 @@ public class CleanRichTextArea extends RichTextArea {
 	    Document clean = cleaner.clean(dirty);
 	    clean.outputSettings().escapeMode(EscapeMode.xhtml);
 	    clean.outputSettings().charset("UTF-8");
+	    clean.outputSettings().indentAmount(0);
+	    clean.outputSettings().prettyPrint(false);
+	    
 	    String cleaned = clean.body().html().replaceAll("\n", "").replaceAll("%newline%", "\n");
 	    
-	    return StringEscapeUtils.unescapeXml(cleaned);
+		return cleaned;
 	}
 	
 	@Override

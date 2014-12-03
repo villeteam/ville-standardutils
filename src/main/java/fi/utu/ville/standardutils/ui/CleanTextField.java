@@ -27,15 +27,19 @@ public class CleanTextField extends TextField {
 	}
 
 	private String clean(String html, Whitelist whitelist) {
-		String enterEscaped = html.replaceAll("\n", "%newline%");
+		
+		String enterEscaped = StringEscapeUtils.unescapeXml(html.replaceAll("\n", "%newline%"));
 		
 	    Document dirty = Jsoup.parseBodyFragment(enterEscaped, "");
 	    Cleaner cleaner = new Cleaner(whitelist);
 	    Document clean = cleaner.clean(dirty);
 	    clean.outputSettings().escapeMode(EscapeMode.xhtml);
 	    clean.outputSettings().charset("UTF-8");
-	    String cleaned = clean.body().html().replaceAll("\n", "").replaceAll("%newline%", "\n");
+	    clean.outputSettings().indentAmount(0);
+	    clean.outputSettings().prettyPrint(false);
 	    
+	    String cleaned = clean.body().html().replaceAll("\n", "").replaceAll("%newline%", "\n");
+	    	    
 	    return StringEscapeUtils.unescapeXml(cleaned);
 	}
 	
