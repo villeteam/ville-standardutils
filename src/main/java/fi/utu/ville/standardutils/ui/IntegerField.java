@@ -22,8 +22,12 @@ public class IntegerField extends DecimalField implements NumericValueProvider {
 	}
 	
 	public long getLong() {
+		return getLongOrDefault(0L);
+	}
+	
+	public long getLongOrDefault(long defaultValue) {
 		if(super.getValue().equals("") || !isValid()) {
-			return 0;
+			return defaultValue;
 		}
 		else {
 			return Long.parseLong(this.getValue());
@@ -32,6 +36,10 @@ public class IntegerField extends DecimalField implements NumericValueProvider {
 	
 	public int getInteger() {
 		return (int) getLong();
+	}
+	
+	public int getIntegerOrDefault(int defaultValue) {
+		return (int)getLongOrDefault(defaultValue);
 	}
 	
 	public void setValue(long value) {

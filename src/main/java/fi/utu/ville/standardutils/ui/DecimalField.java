@@ -121,11 +121,15 @@ public class DecimalField extends RegexField implements ControlWithNumericValue 
 	
 	@Override
 	public PreciseDecimal getPreciseDecimal() {
+		return getPreciseDecimalOrDefault(PreciseDecimal.ZERO);
+	}
+	
+	public PreciseDecimal getPreciseDecimalOrDefault(final PreciseDecimal defaultValue) {
 		if(isValid()) {
 			return new PreciseDecimal(this.getValue());
 		}
 		else {
-			return PreciseDecimal.ZERO;
+			return defaultValue;
 		}
 	}
 	
@@ -135,10 +139,14 @@ public class DecimalField extends RegexField implements ControlWithNumericValue 
 	
 	@Override
 	public double getDouble() {
-		if(isValid()) {
-			return PreciseDecimal.parseDoubleFromString(this.getValue());
+		return getDoubleOrDefault(0.0);
+	}
+	
+	public double getDoubleOrDefault(double defaultValue) {
+		if(!super.getValue().equals("") && isValid()) {
+			return PreciseDecimal.parseDoubleFromString(super.getValue());
 		}
-		return 0.0;
+		return defaultValue;
 	}
 
 	@Override
