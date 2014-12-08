@@ -2,35 +2,35 @@
 <metadata modelVersion="1.1.0">
   <groupId>fi.utu.ville</groupId>
   <artifactId>ville-standardutils</artifactId>
-  <version>0.0.34-SNAPSHOT</version>
+  <version>0.0.35-SNAPSHOT</version>
   <versioning>
     <snapshot>
-      <timestamp>20141203.123254</timestamp>
+      <timestamp>20141208.104658</timestamp>
       <buildNumber>1</buildNumber>
     </snapshot>
-    <lastUpdated>20141203123254</lastUpdated>
+    <lastUpdated>20141208104658</lastUpdated>
     <snapshotVersions>
       <snapshotVersion>
         <extension>jar</extension>
-        <value>0.0.34-20141203.123254-1</value>
-        <updated>20141203123254</updated>
+        <value>0.0.35-20141208.104658-1</value>
+        <updated>20141208104658</updated>
       </snapshotVersion>
       <snapshotVersion>
         <extension>pom</extension>
-        <value>0.0.34-20141203.123254-1</value>
-        <updated>20141203123254</updated>
+        <value>0.0.35-20141208.104658-1</value>
+        <updated>20141208104658</updated>
       </snapshotVersion>
       <snapshotVersion>
         <classifier>javadoc</classifier>
         <extension>jar</extension>
-        <value>0.0.34-20141203.123254-1</value>
-        <updated>20141203123254</updated>
+        <value>0.0.35-20141208.104658-1</value>
+        <updated>20141208104658</updated>
       </snapshotVersion>
       <snapshotVersion>
         <classifier>sources</classifier>
         <extension>jar</extension>
-        <value>0.0.34-20141203.123254-1</value>
-        <updated>20141203123254</updated>
+        <value>0.0.35-20141208.104658-1</value>
+        <updated>20141208104658</updated>
       </snapshotVersion>
     </snapshotVersions>
   </versioning>
