@@ -1,5 +1,9 @@
 package fi.utu.ville.standardutils.ui;
 
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,6 +20,10 @@ public class CleanTextArea extends TextArea {
 	private static final Whitelist whitelist;
 	
 	private static final int MAX_LENGTH = 65000;
+	private static final int MAX_LINK_COUNT = 100;
+	
+	private static final String linkCheckerString = "(http|https|ftp)\\://([a-zA-Z0-9\\.\\-]+(\\:[a-zA-Z0-9\\.&amp;%\\$\\-]+)*@)?((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|([a-zA-Z0-9\\-]+\\.)*[a-zA-Z0-9\\-]+\\.[a-zA-Z]{2,4})(\\:[0-9]+)?(/[^/][a-zA-Z0-9\\.\\,\\?\\'\\\\/\\+&amp;%\\$#\\=~_\\-@]*)*";
+	private static final Pattern linkChecker = Pattern.compile(linkCheckerString);
 	
 	public CleanTextArea() {
 		super();
@@ -43,7 +51,22 @@ public class CleanTextArea extends TextArea {
 	
 	private String clean(String html, Whitelist whitelist) {
 		
-		String enterEscaped = StringEscapeUtils.unescapeXml(html.replaceAll("\n", "%newline%"));
+		// Handle all Internet addresses separately.
+		ArrayList<String> arr = new ArrayList<>();
+		String temp = html + "";
+		Matcher m = linkChecker.matcher(temp);
+		int index = 0;
+		while (m.find() && index < MAX_LINK_COUNT) {
+			String s = m.group(0);
+			arr.add(s);
+			temp = temp.replaceFirst(linkCheckerString, "%internetAddress_" + (index++) + "%");
+			m = linkChecker.matcher(temp);
+		}
+		
+		// Cap the output if necessary. This should not be reachable due to MAX_LENGTH.
+		if (index == MAX_LINK_COUNT) return "";
+		
+		String enterEscaped = StringEscapeUtils.unescapeXml(temp.replaceAll("\n", "%newline%"));
 		
 	    Document dirty = Jsoup.parseBodyFragment(enterEscaped, "");
 	    Cleaner cleaner = new Cleaner(whitelist);
@@ -56,7 +79,12 @@ public class CleanTextArea extends TextArea {
 	    // Remove all created newlines and restore all the pre-existing ones. 
 	    String cleaned = clean.body().html().replaceAll("\n", "").replaceAll("%newline%", "\n");
 	    
-	    return StringEscapeUtils.unescapeXml(cleaned);
+	    // Return all links to their original places.
+	    for (int i = 0; i < arr.size(); ++i) {
+	    	cleaned = cleaned.replaceAll("%internetAddress_" + i + "%", arr.get(i));
+		}
+		
+		return StringEscapeUtils.unescapeXml(cleaned);
 	}
 
 	@Override
