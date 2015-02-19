@@ -15,7 +15,7 @@ import com.vaadin.ui.TextField;
 
 import fi.utu.ville.standardutils.client.VVilleTextField;
 
-public class CleanTextField extends TextField {
+public class CleanTextField extends VilleTextField {
 
 	private static final long serialVersionUID = 7784788437618744388L;
 	private static final Whitelist whitelist;

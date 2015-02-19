@@ -12,6 +12,7 @@ import com.vaadin.client.ServerConnector;
 import com.vaadin.client.extensions.AbstractExtensionConnector;
 import com.vaadin.client.ui.VTextField;
 import com.vaadin.shared.ui.Connect;
+import com.vaadin.shared.ui.textfield.TextFieldConstants;
 
 import fi.utu.ville.standardutils.ui.PeriodicValueChangeExtension;
 
@@ -66,7 +67,10 @@ public class PeriodicValueChangeConnector extends AbstractExtensionConnector {
 				else {
 					int lastValueLength = lastValue == null ? 0 : lastValue.length();
 					if(count % 17 == 0 || Math.abs((lastValueLength - newValue.length())) >= 50) {
-						field.client.updateVariable(textField.paintableId, "text", newValue, true);
+						//final String previousConstant = "text"; // if VAR_CUR_TEXT causes issues, use this 
+						field.client.updateVariable(textField.paintableId, TextFieldConstants.VAR_CUR_TEXT, newValue, true);
+						int cursorPos = field.getCursorPos(); //  VERY IMPORTANT, fixes #1062
+						//field.client.updateVariable(textField.paintableId, TextFieldConstants.VAR_CURSOR, cursorPos, true);
 						lastValue = newValue;
 					}
 				}
