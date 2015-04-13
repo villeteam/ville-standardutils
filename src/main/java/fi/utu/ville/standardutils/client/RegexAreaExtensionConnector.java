@@ -2,7 +2,10 @@ package fi.utu.ville.standardutils.client;
 
 
 
-import com.google.gwt.event.dom.client.KeyCodes;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -11,30 +14,38 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.vaadin.client.ComponentConnector;
 import com.vaadin.client.ServerConnector;
+import com.vaadin.client.VConsole;
 import com.vaadin.client.extensions.AbstractExtensionConnector;
+import com.vaadin.client.ui.VTextArea;
 import com.vaadin.shared.ui.Connect;
 
+import fi.utu.ville.standardutils.ui.RegexAreaExtension;
 import fi.utu.ville.standardutils.ui.RegexFieldExtension;
 
-@Connect(RegexFieldExtension.class)
-public class RegexFieldExtensionConnector extends AbstractExtensionConnector implements PasteHandler {
+
+// TODO: This is currently pretty much copy paste from RegexField. Combine them if time available > 0.
+// TODO: Doesn't support pasting.
+@Connect(RegexAreaExtension.class)
+public class RegexAreaExtensionConnector extends AbstractExtensionConnector implements PasteHandler {
 
 	private static final long serialVersionUID = -2732210610021560697L;
             
-	private VVilleTextField textField;
+	private VTextArea textField;
 	private KeyPressHandler keyPressHandler = new KeyPressHandler() {
 	    @Override
 	    public void onKeyPress(KeyPressEvent event) {
-
 	        if (textField.isReadOnly() || !textField.isEnabled()) {
 	            return;
 	        }
 	        int keyCode = event.getCharCode();
 	        
+	        
 	        if(keyCode == 0) { // Control keys seem pretty reliably to have charCode value of 0, 
-	        	return;		   // but very unreliably to map to correct KeyCodes.
+	        	
+	        	return;		   // but very unreliably to map to correct KeyCodes. (below)
 	        }
 
+//	        }
 	        if (!isValueValid(event)) {
 	            textField.cancelKey();
 	        }
@@ -44,13 +55,10 @@ public class RegexFieldExtensionConnector extends AbstractExtensionConnector imp
 
 	@Override
 	protected void extend(ServerConnector target) {
-	    textField = (VVilleTextField) ((ComponentConnector) target).getWidget();
+	    textField = (VTextArea) ((ComponentConnector) target).getWidget();
 	    textField.addKeyPressHandler(keyPressHandler);
 //	    textField.addChangeListener(listener);
 	    textField.setImmediate(true);
-	    
-	    textField.addPasteEventHandler(this);
-	    textField.setFireValueChangeOnPaste(true);
 	    
 	    ValueChangeHandler<String> handler = new ValueChangeHandler<String>() {
 			
@@ -85,10 +93,8 @@ public class RegexFieldExtensionConnector extends AbstractExtensionConnector imp
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
 
-				if(event.getNativeKeyCode() == KeyCodes.KEY_BACKSPACE) {
+				if(event.getNativeKeyCode() == 8) {
 					String newText = getFieldValueAfterKeyPress('\b');
-//					log.log(Level.SEVERE, newText.replace("\b", "\\b"));
-//					log.log(Level.SEVERE, getState().getPattern());
 					if(!newText.matches(getState().getPattern())) {
 						textField.cancelKey();
 					}
@@ -115,12 +121,12 @@ public class RegexFieldExtensionConnector extends AbstractExtensionConnector imp
 		
 		
 		if (textField.getSelectionLength() > 0) {
-			if(charCode != '\b') // handle backspace
+			if(charCode != '\b')
 				buffer.append(charCode);
 			buffer.append(previousText.substring(index + textField.getSelectionLength(),
 					previousText.length()));
 		} else {
-			if(charCode != '\b')  // handle backspace
+			if(charCode != '\b')
 				buffer.append(charCode);
 			else
 				buffer.deleteCharAt(buffer.length()-1);
