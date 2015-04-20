@@ -9,8 +9,11 @@ import com.vaadin.data.Property.ReadOnlyException;
 
 import fi.utu.ville.standardutils.ui.NumericValueProvider;
 
+// TODO: implement Comparable<Number>, since PreciseDecimal is a number.
+
 // The value of this class is immutable.
-public class PreciseDecimal implements NumericValueProvider,
+@SuppressWarnings("unused")
+public class PreciseDecimal extends Number implements NumericValueProvider,
 		Comparable<PreciseDecimal>, Serializable {
 
 	private static final long serialVersionUID = 5481020391938646615L;
@@ -118,28 +121,7 @@ public class PreciseDecimal implements NumericValueProvider,
 		long[] longFrac = toFractionWithUnits();
 		return convertArray(longFrac);
 	}
-
-	//
-	// public int[] toIntegerDecimalArrayInt() {
-	// return convertArray(toIntegerDecimalArray());
-	// }
-	//
-	// public long[] toIntegerDecimalArray() {
-	// long[] result = new long[2];
-	// result[0] = getIntegerPart();
-	// result[1] = getDecimalPart();
-	// return result;
-	// }
-	//
-	// public static int[] fractionToDecimalArray(int[] array) {
-	// int[] result = new int[2];
-	// if(array.length == 3) {
-	// result[0] = array[0];
-	// // TODO: Support for divisors not powers of 10
-	// result[1] = array[1];
-	// }
-	// }
-
+	
 	// Returns [0] = value, [1] = decimal point from the right.
 	public static long[] parseDecimalFromString(String str) {
 		long value = 0;
@@ -313,7 +295,6 @@ public class PreciseDecimal implements NumericValueProvider,
 		DecimalFormat df = getDecimalFormatter();
 		String curValStr = df.format(toDouble());
 		String otherValStr = df.format(other);
-		// System.out.println("other: " + otherValStr + "this: " + curValStr);
 		return curValStr.equals(otherValStr);
 	}
 
@@ -359,7 +340,6 @@ public class PreciseDecimal implements NumericValueProvider,
 		}
 	}
 	
-	@SuppressWarnings("unused")
 	private PreciseDecimal copy() {
 		return new PreciseDecimal(this.value, this.decPoint);
 	}
@@ -419,5 +399,26 @@ public class PreciseDecimal implements NumericValueProvider,
 	@Override
 	public boolean canChangeValueTo(double newValue) {
 		return true;
+	}
+
+	// Methods from Number
+	@Override
+	public double doubleValue() {
+		return toDouble();
+	}
+
+	@Override
+	public float floatValue() {
+		return (float) toDouble();
+	}
+
+	@Override
+	public int intValue() {
+		return (int) getIntegerPart();
+	}
+
+	@Override
+	public long longValue() {
+		return getIntegerPart();
 	}
 }
