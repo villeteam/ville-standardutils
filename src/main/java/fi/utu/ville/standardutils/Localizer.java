@@ -165,4 +165,10 @@ public interface Localizer extends Serializable {
 	 * @return The appropriate decimal separator for the user.
 	 */
 	public char getDecimalSeparator();
+	
+	/**
+	 * Returns the date format used in the user preferences.
+	 * @return The appropriate date format for the user. 
+	 */
+	public String getDateFormat();
 }

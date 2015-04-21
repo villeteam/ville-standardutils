@@ -48,4 +48,9 @@ public class TestLocalizer implements Localizer {
 		return '.';
 	}
 
+	@Override
+	public String getDateFormat() {
+		return "MM/DD/YYYY";
+	}
+
 }

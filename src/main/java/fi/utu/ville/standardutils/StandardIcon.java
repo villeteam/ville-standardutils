@@ -869,7 +869,8 @@ public class StandardIcon {
 				RawIcon.cogs), EXERCISE_POOL(RawIcon.hdd_o), PEER_REVIEW(
 				RawIcon.group), VILLE_CS(RawIcon.flask), KEY(RawIcon.key), STACK(
 				RawIcon.align_justify), SHARED_MEMORY(RawIcon.share), MATH_PERFORMANCE(
-				RawIcon.dashboard), CATEGORY(RawIcon.list_ol);
+				RawIcon.dashboard), CATEGORY(RawIcon.list_ol), FORWARD(RawIcon.forward),BACKWARD(
+				RawIcon.backward);
 
 		private final RawIcon rawIcon;
 
