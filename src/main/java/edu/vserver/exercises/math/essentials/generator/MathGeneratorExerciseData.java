@@ -1,4 +1,4 @@
-package edu.vserver.mathgenerator;
+package edu.vserver.exercises.math.essentials.generator;
 
 import java.io.Serializable;
 import java.math.RoundingMode;
@@ -11,6 +11,23 @@ import com.google.gwt.thirdparty.guava.common.primitives.Doubles;
 
 public class MathGeneratorExerciseData implements Serializable {
 
+	public enum BoundingType {
+		BOTH("EXPRESSION_GENERATOR_BOTH"), 
+		SOLUTION("EXPRESSION_GENEARTOR_SOLUTION"),
+		TERMS("EXPRESSION_GENERATOR_TERMS"),
+		MANUAL("EXPRESSION_GENERATOR_MANUAL");
+
+		private String localizerString;
+
+		private BoundingType(String name) {
+			this.localizerString = name;
+		}
+
+		public String getLocalizerString() {
+			return localizerString;
+		}
+	}
+	
 	private static final long serialVersionUID = 8505981692063360701L;
 	private static final int UNBOUNDDECIMALS = 16;
 
@@ -398,7 +415,7 @@ public class MathGeneratorExerciseData implements Serializable {
 	/**
 	 * Gets a random term for the given index. If there is a forced multiplier for that term, it will be enforced.
 	 * @param index
-	 * @return
+	 * @return a random term respecting all bounds.
 	 */
 	public double getRandomTerm(int index) {
 		double solution = gen.nextInt((int) Math.rint(termRange.get(index).max)

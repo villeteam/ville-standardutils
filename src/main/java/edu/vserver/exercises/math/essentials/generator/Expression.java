@@ -1,9 +1,11 @@
-package edu.vserver.mathgenerator;
+package edu.vserver.exercises.math.essentials.generator;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 import java.util.Vector;
+
+import edu.vserver.exercises.math.essentials.generator.MathGeneratorExerciseData.BoundingType;
 
 class Expression {
 

@@ -1,8 +1,10 @@
-package edu.vserver.mathgenerator;
+package edu.vserver.exercises.math.essentials.generator;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
+
+import edu.vserver.exercises.math.essentials.generator.MathGeneratorExerciseData.BoundingType;
 
 public class ExpressionGenerator implements Serializable {
 	

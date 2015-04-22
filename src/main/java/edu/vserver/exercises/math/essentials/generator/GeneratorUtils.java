@@ -1,4 +1,4 @@
-package edu.vserver.mathgenerator;
+package edu.vserver.exercises.math.essentials.generator;
 
 import java.text.DecimalFormat;
 

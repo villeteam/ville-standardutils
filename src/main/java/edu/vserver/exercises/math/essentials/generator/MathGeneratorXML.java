@@ -1,4 +1,4 @@
-package edu.vserver.mathgenerator;
+package edu.vserver.exercises.math.essentials.generator;
 
 import java.util.ArrayList;
 
@@ -6,7 +6,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import edu.vserver.mathgenerator.ManualCalculationSet.ManualCalculation;
+import edu.vserver.exercises.math.essentials.generator.ManualCalculationSet.ManualCalculation;
+import edu.vserver.exercises.math.essentials.generator.MathGeneratorExerciseData.BoundingType;
 
 public abstract class MathGeneratorXML {
 	

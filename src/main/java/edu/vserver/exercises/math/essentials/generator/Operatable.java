@@ -1,4 +1,4 @@
-package edu.vserver.mathgenerator;
+package edu.vserver.exercises.math.essentials.generator;
 
 interface Operatable extends EquationElement{
 

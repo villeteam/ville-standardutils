@@ -1,4 +1,4 @@
-package edu.vserver.mathgenerator;
+package edu.vserver.exercises.math.essentials.generator;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -120,7 +120,7 @@ public final class MathHelper {
 	 * Return ArrayList with step by step solutions on arithmetic calculations
 	 * 
 	 * @param s
-	 * @return
+	 * @return a list containing all steps required to complete the calculation
 	 */
 	public static ArrayList<Double> stepBySolution(String s) {
 		ArrayList<Double> solution = new ArrayList<Double>();
@@ -645,7 +645,7 @@ public final class MathHelper {
 	 * Checks if the given string is parsable to a double
 	 * 
 	 * @param number
-	 * @return
+	 * @return true if the parameter can be parsed to double, false otherwise.
 	 */
 	public static boolean isParsableToDouble(String number) {
 		try {
@@ -744,7 +744,7 @@ public final class MathHelper {
 	 * Separates all digits in the given integer to an array so that units are
 	 * at index 0, tens at index 1 hundreds at index 2 etc.
 	 * 
-	 * @param a
+	 * @param number
 	 *            the integer to turn into an array
 	 * @return the given integer in MSB order
 	 */
@@ -863,7 +863,7 @@ public final class MathHelper {
 	 * 
 	 * @param a
 	 * @param b
-	 * @return
+	 * @return the greatest common divisor 
 	 */
 	public static long gcd(long a, long b) {
 		while (b != 0) {
@@ -891,7 +891,7 @@ public final class MathHelper {
 	 * Returns only the operands (numbers) of the given equation.
 	 * 
 	 * @param equation
-	 * @return
+	 * @return All operands in the given equation
 	 */
 	public static Vector<String> getOperands(String equation) {
 		Vector<String> operands = new Vector<>();

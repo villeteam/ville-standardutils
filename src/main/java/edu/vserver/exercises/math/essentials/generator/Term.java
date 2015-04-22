@@ -1,4 +1,4 @@
-package edu.vserver.mathgenerator;
+package edu.vserver.exercises.math.essentials.generator;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -6,9 +6,6 @@ import java.util.Random;
 
 public class Term implements EquationElement {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -4597811664125805137L;
 	static final Term ZERO = new Term(0, 0);
 	static final Term ONE = new Term(1, 0);
@@ -128,10 +125,10 @@ public class Term implements EquationElement {
 	}
 
 	/**
-	 * Returns this number without a decimal separator and trailing decimal
-	 * zeros.
+	 * Removes the decimal separator and all trailing zeroes
 	 * 
-	 * @return
+	 * @return this number without a decimal separator and trailing decimal
+	 * zeros.
 	 */
 	public int getWithoutDecimalSeparator() {
 		return getWithoutDecimalSeparator(false);
@@ -142,7 +139,7 @@ public class Term implements EquationElement {
 	 * 
 	 * @param showTrailingZeros
 	 *            If true, include all trailing zeros, else hide them.
-	 * @return
+	 * @return this number without a decimal separator.
 	 */
 	public int getWithoutDecimalSeparator(boolean showTrailingZeros) {
 		String result = toString();
@@ -172,7 +169,7 @@ public class Term implements EquationElement {
 	/**
 	 * Gets this term with as much precision as possible
 	 * 
-	 * @return
+	 * @return this term as a double
 	 */
 	public double getAsDouble() {
 		return value;
@@ -196,7 +193,7 @@ public class Term implements EquationElement {
 	 * @param decimals
 	 * @param showTrailingZeros
 	 *            Are trailing zeroes shown or hidden
-	 * @return
+	 * @return this term with the specified number of decimals
 	 */
 	public String getAsDouble(int decimals, boolean showTrailingZeros) {
 		DecimalFormat format = new DecimalFormat(
@@ -211,7 +208,7 @@ public class Term implements EquationElement {
 	/**
 	 * Returns the amount of decimals in this number.
 	 * 
-	 * @return
+	 * @return the number of decimals in this number
 	 */
 	public int getDecimals() {
 		return decimals;

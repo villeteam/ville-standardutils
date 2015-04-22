@@ -1,4 +1,4 @@
-package edu.vserver.mathgenerator;
+package edu.vserver.exercises.math.essentials.generator;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -494,7 +494,7 @@ public enum Operator implements Serializable, Operatable, EquationElement {
 	 * 
 	 * @param firstTerm
 	 * @param secondTerm
-	 * @return
+	 * @return the result of the operation
 	 */
 	public double operate(double firstTerm, double secondTerm) {
 		return 0;
@@ -507,7 +507,7 @@ public enum Operator implements Serializable, Operatable, EquationElement {
 	 * caller's responsibility multiply the ranges with the correct power of
 	 * ten. The same applies for the provided number and result.
 	 * 
-	 * @param intermediateResult
+	 * @param number
 	 *            The number to rewrite
 	 * @param firstRange
 	 *            The range for the first term.
