@@ -88,6 +88,88 @@ public class StandardUIFactory {
 	}
 
 	/**
+	 * Return a small icon
+	 * 
+	 * @param icon
+	 *            icon type, see {@link IconFactory}
+	 * @return a small icon
+	 */
+	public static Label getBlackIconSmall(Icon icon) {
+		return new Label(icon.getIcon().variant(IconVariant.BLACK),
+				ContentMode.HTML);
+	}
+
+	/**
+	 * Return a default sized icon
+	 * 
+	 * @param icon
+	 *            icon type, see {@link IconFactory}
+	 * @return a small icon
+	 */
+	public static Label getBlueIcon(Icon icon) {
+		return new Label(icon.getIcon().variant(IconVariant.BLUE,
+				IconVariant.SIZE_LARGE), ContentMode.HTML);
+	}
+
+	/**
+	 * Return a double sized icon
+	 * 
+	 * @param icon
+	 *            icon type, see {@link IconFactory}
+	 * @return a small icon
+	 */
+	public static Label getBlueIcon2X(Icon icon) {
+		return new Label(icon.getIcon().variant(IconVariant.BLUE,
+				IconVariant.SIZE_2X), ContentMode.HTML);
+	}
+
+	/**
+	 * Return a medium (3x) sized icon
+	 * 
+	 * @param icon
+	 *            icon type, see {@link IconFactory}
+	 * @return a small icon
+	 */
+	public static Label getBlueIconMedium(Icon icon) {
+		return new Label(icon.getIcon().variant(IconVariant.BLUE,
+				IconVariant.SIZE_3X), ContentMode.HTML);
+	}
+
+	/**
+	 * Return a small icon
+	 * 
+	 * @param icon
+	 *            icon type, see {@link IconFactory}
+	 * @return a small icon
+	 */
+	public static Label getBlueIconSmall(Icon icon) {
+		return new Label(icon.getIcon().variant(IconVariant.BLUE),
+				ContentMode.HTML);
+	}
+
+	public static VerticalLayout getBubbleWihtCaption(String caption,
+			Icon icon, Component component) {
+		VerticalLayout layout = new VerticalLayout();
+		layout.setSpacing(true);
+		layout.setWidth("100%");
+
+		Label label = getFormTitleLabel(caption, icon);
+		layout.addComponent(label);
+		layout.setExpandRatio(label, 0f);
+
+		CssLayout bubble = new CssLayout();
+		bubble.addComponent(component);
+		bubble.addStyleName("bubble-layout-gray");
+
+		// component.setWidth("100%");
+		layout.addStyleName("margin-bottom-15");
+		layout.addComponent(bubble);
+		layout.setExpandRatio(bubble, 1f);
+
+		return layout;
+	}
+
+	/**
 	 * Get default button with a blue icon
 	 * 
 	 * @param caption
@@ -98,19 +180,6 @@ public class StandardUIFactory {
 	 */
 	public static Button getButton(String caption, Icon icon) {
 		return getButton(caption, icon, IconVariant.BLUE);
-	}
-
-	/**
-	 * Get default button with a green icon
-	 * 
-	 * @param caption
-	 *            button caption
-	 * @param icon
-	 *            icon shown in button; @see {@link IconFactory}
-	 * @return new button
-	 */
-	public static Button getGreenButton(String caption, Icon icon) {
-		return getButton(caption, icon, IconVariant.GREEN);
 	}
 
 	/**
@@ -154,36 +223,110 @@ public class StandardUIFactory {
 				+ "&nbsp;&nbsp;&nbsp;" + caption;
 	}
 
-	public static Button getLinkButton(String caption, Icon icon) {
-		final Button button = new Button(icon.getIcon().variant(
-				IconVariant.BLUE)
-				+ "&nbsp;" + caption);
-		button.setStyleName(BaseTheme.BUTTON_LINK);
-		button.setHtmlContentAllowed(true);
-		return button;
+	/**
+	 * Returns a panel for UI buttons
+	 * 
+	 * @param buttons
+	 *            buttons to be inserted into panel
+	 * @return panel for buttons
+	 */
+	public static HorizontalLayout getButtonPanel(Alignment alignment,
+			Component... buttons) {
+		HorizontalLayout buttonLayout = new HorizontalLayout();
+		buttonLayout.setStyleName("button-container-gray");
+		buttonLayout.setWidth("100%");
+
+		HorizontalLayout layout = new HorizontalLayout();
+		layout.setSpacing(true);
+		for (Component button : buttons) {
+			layout.addComponent(button);
+		}
+		buttonLayout.addComponent(layout);
+		buttonLayout.setComponentAlignment(layout, alignment);
+		return buttonLayout;
 	}
 
 	/**
-	 * Returns default save button
+	 * Returns a panel for UI buttons
 	 * 
-	 * @param localizer
-	 *            for localizing caption
-	 * @return save button
+	 * @param buttons
+	 *            buttons to be inserted into panel
+	 * @return panel for buttons
 	 */
-	public static Button getOKButton(Localizer localizer) {
-		return getButton(localizer.getUIText(StandardUIConstants.OK), Icon.OK);
+	public static HorizontalLayout getButtonPanel(Component... buttons) {
+		HorizontalLayout buttonLayout = new HorizontalLayout();
+		buttonLayout.setStyleName("button-container-gray");
+		buttonLayout.setWidth("100%");
+
+		HorizontalLayout layout = new HorizontalLayout();
+		layout.setSpacing(true);
+		for (Component button : buttons) {
+			layout.addComponent(button);
+		}
+		buttonLayout.addComponent(layout);
+		return buttonLayout;
 	}
 
 	/**
-	 * Returns default save button
+	 * Returns a panel for selecting level in exercise editor
 	 * 
-	 * @param localizer
-	 *            for localizing caption
-	 * @return save button
+	 * @param buttons
+	 *            buttons to be inserted into panel
+	 * @return Math level selection bar
 	 */
-	public static Button getSaveButton(Localizer localizer) {
-		return getButton(localizer.getUIText(StandardUIConstants.SAVE),
-				Icon.SAVE);
+	public static HorizontalLayout getButtonPanelForLevels(Component... buttons) {
+
+		HorizontalLayout buttonLayout = new HorizontalLayout();
+		buttonLayout.addStyleName("button-container-gray");
+		buttonLayout.addStyleName("math-levels-bar");
+		buttonLayout.setWidth("100%");
+
+		HorizontalLayout layout = new HorizontalLayout();
+		layout.setSpacing(true);
+		// layout.setWidth("100%");
+		for (Component button : buttons) {
+			layout.addComponent(button);
+			layout.setComponentAlignment(button, Alignment.MIDDLE_CENTER);
+		}
+
+		buttonLayout.addComponent(layout);
+		buttonLayout.setComponentAlignment(layout, Alignment.MIDDLE_CENTER);
+		return buttonLayout;
+
+	}
+
+	/**
+	 * Returns a panel for MathLayout to show Check-button, Next-button and
+	 * progressbar
+	 * 
+	 * @param buttons
+	 *            buttons to be inserted into panel
+	 * @return Math navigation bar
+	 */
+	public static HorizontalLayout getButtonPanelForMathControls(
+			Component... buttons) {
+
+		HorizontalLayout buttonLayout = new HorizontalLayout();
+		buttonLayout.addStyleName("button-container-gray");
+		buttonLayout.addStyleName("math-nav-bar");
+		buttonLayout.setWidth("100%");
+
+		HorizontalLayout layout = new HorizontalLayout();
+		layout.setSpacing(true);
+		// layout.setWidth("100%");
+		for (Component button : buttons) {
+			layout.addComponent(button);
+			layout.setComponentAlignment(button, Alignment.MIDDLE_CENTER);
+		}
+
+		layout.getComponent(2).addStyleName("math-progress-margin");
+
+		// Component c = layout.getComponent(layout.getComponentCount() - 1);
+		// layout.setComponentAlignment(c, Alignment.MIDDLE_RIGHT);
+		buttonLayout.addComponent(layout);
+		buttonLayout.setComponentAlignment(layout, Alignment.MIDDLE_CENTER);
+		return buttonLayout;
+
 	}
 
 	/**
@@ -199,106 +342,17 @@ public class StandardUIFactory {
 	}
 
 	/**
-	 * Returns default test button
+	 * Returns a caption with icon left
 	 * 
-	 * @param localizer
-	 *            for localizing caption
-	 * @return test button
-	 */
-	public static Button getTestButton(Localizer localizer) {
-		return getButton(localizer.getUIText(StandardUIConstants.TEST),
-				Icon.TEST);
-	}
-
-	/**
-	 * Returns default close button
-	 * 
-	 * @param localizer
-	 *            for localizing caption
-	 * @return close button
-	 */
-	public static Button getCloseButton(Localizer localizer) {
-		return getButton(localizer.getUIText(StandardUIConstants.CLOSE),
-				Icon.CLOSE);
-	}
-
-	/**
-	 * Retruns default preview/test button used in exercise editors.
-	 * 
-	 * @param localizer
-	 *            for localizing caption
-	 * @return Preview/test button
-	 */
-	public static Button getPreviewButton(Localizer localizer) {
-		return getButton(localizer.getUIText(StandardUIConstants.PREVIEW),
-				Icon.PREVIEW);
-	}
-
-	/**
-	 * Return a button that contains only an icon
-	 * 
+	 * @param caption
+	 *            visible text
 	 * @param icon
-	 *            icon for button
-	 * @return button without caption
+	 *            icon displayed on the left side of the icon
+	 * @return caption with icon
 	 */
-	public static Button getIconOnlyButton(Icon icon) {
-		final Button button = new Button(icon.getIcon().variant(
-				IconVariant.BLUE, IconVariant.SIZE_LARGE));
-		button.addStyleName("only-icon");
-		button.setHtmlContentAllowed(true);
-		return button;
-	}
-
-	/**
-	 * Returns smaller button with icon only
-	 * 
-	 * @param icon
-	 *            icon for button
-	 * @return button without caption
-	 */
-	public static Button getSmallIconOnlyButton(Icon icon) {
-		final Button button = new Button(icon.getIcon().variant(
-				IconVariant.BLUE));
-		button.setStyleName("only-icon");
-		button.setHtmlContentAllowed(true);
-		return button;
-	}
-
-	/**
-	 * Returns smaller button with icon only
-	 * 
-	 * @param icon
-	 *            icon for button
-	 * @return button without caption
-	 */
-	public static Button getSmallIconOnlyButton(Icon icon,
-			IconVariant... variants) {
-		final Button button = new Button(icon.getIcon().variant(variants));
-		button.setStyleName("only-icon");
-		button.setHtmlContentAllowed(true);
-		return button;
-	}
-
-	public static Button getSmallButton(String caption) {
-		final Button button = new Button(caption);
-		button.setStyleName("only-icon");
-		button.setHtmlContentAllowed(true);
-		return button;
-	}
-
-	/**
-	 * Returns a button used for window headers and other header bars
-	 * 
-	 * @param icon
-	 *            icon displayed in button
-	 * @return button for header controls
-	 */
-	public static Button getWindowControlButton(Icon icon) {
-		final Button button = new Button(icon.getIcon().variant(
-				IconVariant.WHITE));
-		button.setStyleName("window-control");
-		button.setHtmlContentAllowed(true);
-		return button;
+	public static String getCaptionIconLeft(String caption, Icon icon) {
+		return icon.getIcon().variant(IconVariant.BLUE, IconVariant.SIZE_LARGE)
+				+ "&nbsp;&nbsp;&nbsp;" + caption;
 	}
 
 	/**
@@ -318,114 +372,86 @@ public class StandardUIFactory {
 	}
 
 	/**
-	 * Returns a caption with icon left
+	 * Returns default close button
 	 * 
-	 * @param caption
-	 *            visible text
-	 * @param icon
-	 *            icon displayed on the left side of the icon
-	 * @return caption with icon
+	 * @param localizer
+	 *            for localizing caption
+	 * @return close button
 	 */
-	public static String getCaptionIconLeft(String caption, Icon icon) {
-		return icon.getIcon().variant(IconVariant.BLUE, IconVariant.SIZE_LARGE)
-				+ "&nbsp;&nbsp;&nbsp;" + caption;
+	public static Button getCloseButton(Localizer localizer) {
+		return getButton(localizer.getUIText(StandardUIConstants.CLOSE),
+				Icon.CLOSE);
+	}
+
+	public static Label getComponentTitle(String title) {
+		return new Label("<strong>" + title + "</strong>", ContentMode.HTML);
 	}
 
 	/**
-	 * Returns a label used as a form title / header
+	 * Returns a button panel to use in a dialog. The buttons are centered in
+	 * the panel.
 	 * 
-	 * @param caption
-	 *            form title
-	 * @param icon
-	 *            icon displayed besides the title
-	 * @return form title
+	 * @param buttonsToAdd
+	 *            buttons to be added into this panel.
+	 * @return dialog button panel with given buttons.
 	 */
-	public static Label getFormTitleLabel(String caption, Icon icon) {
-		Label label = new Label(icon.getIcon().variant(IconVariant.GREEN)
-				+ "&nbsp;&nbsp;&nbsp;" + caption, ContentMode.HTML);
-		label.addStyleName("panel-title");
-		return label;
-	}
+	public static HorizontalLayout getDialogButtonPanel(
+			Component... buttonsToAdd) {
+		final HorizontalLayout panel = new HorizontalLayout();
+		panel.setWidth("100%");
 
-	/**
-	 * Returns a green "main" header bar
-	 * 
-	 * @return main header bar
-	 */
-	public static HorizontalLayout getHeaderBarGreen() {
-		HorizontalLayout bar = new HorizontalLayout();
-		bar.setSpacing(true);
-		bar.setStyleName("sub-header-green");
-		bar.setHeight("40px");
-		bar.setWidth("100%");
-		return bar;
-	}
-
-	/**
-	 * Returns a blue "sub" header bar
-	 * 
-	 * @return sub header bar
-	 */
-	public static HorizontalLayout getHeaderBarBlue() {
-		HorizontalLayout bar = new HorizontalLayout();
-		bar.setSpacing(true);
-		bar.setStyleName("sub-header-blue");
-		bar.setHeight("30px");
-		bar.setWidth("100%");
-		return bar;
-	}
-
-	/**
-	 * Return a black header bar, used as a caption for some panels
-	 * 
-	 * @return black header bar
-	 */
-	public static HorizontalLayout getHeaderBarBlack() {
-		HorizontalLayout bar = new HorizontalLayout();
-		bar.setSpacing(true);
-		bar.setStyleName("sub-header-black");
-		bar.setHeight("40px");
-		bar.setWidth("100%");
-		return bar;
-	}
-
-	/**
-	 * Returns an info panel for laying out components without borders or such;
-	 * 
-	 * @return an info panel
-	 */
-	public static VerticalLayout getInfoPanel() {
-		VerticalLayout layout = new VerticalLayout();
-		layout.setWidth("100%");
-		layout.setSpacing(true);
-		layout.setStyleName("info-container");
-		return layout;
-	}
-
-	/**
-	 * Returns a gray content layout for laying out component vertically
-	 * 
-	 * @param borders
-	 *            panel borders
-	 * @return grady content layout
-	 */
-	public static VerticalLayout getVerticalGrayContentLayout(PanelStyle style,
-			Border... borders) {
-		VerticalLayout layout = new VerticalLayout();
-
-		if (style == PanelStyle.SMALL) {
-			layout.setStyleName("container-gray-small");
-		} else if (style == PanelStyle.NONE) {
-			layout.setStyleName("container-gray-none");
-		} else {
-			layout.setStyleName("container-gray");
+		final HorizontalLayout wrapper = new HorizontalLayout();
+		wrapper.setSpacing(true);
+		for (Component b : buttonsToAdd) {
+			wrapper.addComponent(b);
 		}
 
-		layout.setWidth("100%");
-		for (Border border : borders) {
-			layout.addStyleName(border.getValue());
-		}
-		return layout;
+		panel.addComponent(wrapper);
+		panel.setComponentAlignment(wrapper,
+				new Alignment(Bits.ALIGNMENT_RIGHT));
+
+		return panel;
+	}
+
+	public static Panel getExpandablePanel() {
+		Panel p = new Panel();
+		VerticalLayout vl = new VerticalLayout();
+		p.setContent(vl);
+		vl.setSpacing(true);
+		vl.setMargin(true);
+		p.addStyleName("panel-nostyle");
+		return p;
+	}
+
+	public static Panel getExpandablePanelNoContent() {
+		Panel p = new Panel();
+		VerticalLayout vl = new VerticalLayout();
+		p.setContent(vl);
+		vl.setSpacing(true);
+		vl.setMargin(true);
+		p.addStyleName("panel-nostyle");
+		return p;
+	}
+
+	/**
+	 * Returns a panel with given width. A VerticalLayout is added as default
+	 * content.
+	 * 
+	 * @param width
+	 *            the width of the panel
+	 * @return new panel
+	 */
+	public static Panel getFixedWidthPanel(String width) {
+		Panel p = new Panel();
+		p.setWidth(width);
+
+		VerticalLayout vl = new VerticalLayout();
+		p.setContent(vl);
+
+		vl.setSpacing(true);
+		vl.setMargin(true);
+
+		return p;
 	}
 
 	/**
@@ -481,103 +507,123 @@ public class StandardUIFactory {
 		return layout;
 	}
 
-	public static VerticalLayout getStylishCaptionContainer(String caption,
-			Icon icon, Component component) {
-		VerticalLayout layout = new VerticalLayout();
-		layout.setSpacing(true);
-		layout.setWidth("100%");
-
-		Label label = getFormTitleLabel(caption, icon);
-		layout.addComponent(label);
-
-		// component.setCaption(null);
-		component.setWidth("100%");
-		component.setSizeFull();
-		component.addStyleName("margin-bottom-15");
-		layout.addComponent(component);
-		layout.setExpandRatio(component, 1.0f);
-
-		return layout;
-	}
-
-	public static VerticalLayout getBubbleWihtCaption(String caption,
-			Icon icon, Component component) {
-		VerticalLayout layout = new VerticalLayout();
-		layout.setSpacing(true);
-		layout.setWidth("100%");
-
-		Label label = getFormTitleLabel(caption, icon);
-		layout.addComponent(label);
-		layout.setExpandRatio(label, 0f);
-
-		CssLayout bubble = new CssLayout();
-		bubble.addComponent(component);
-		bubble.addStyleName("bubble-layout-gray");
-
-		// component.setWidth("100%");
-		layout.addStyleName("margin-bottom-15");
-		layout.addComponent(bubble);
-		layout.setExpandRatio(bubble, 1f);
-
-		return layout;
-	}
-
-	public static Panel getExpandablePanel() {
-		Panel p = new Panel();
-		VerticalLayout vl = new VerticalLayout();
-		p.setContent(vl);
-		vl.setSpacing(true);
-		vl.setMargin(true);
-		p.addStyleName("panel-nostyle");
-		return p;
-	}
-
-	public static Panel getExpandablePanelNoContent() {
-		Panel p = new Panel();
-		VerticalLayout vl = new VerticalLayout();
-		p.setContent(vl);
-		vl.setSpacing(true);
-		vl.setMargin(true);
-		p.addStyleName("panel-nostyle");
-		return p;
+	/**
+	 * Returns a label used as a form title / header
+	 * 
+	 * @param caption
+	 *            form title
+	 * @param icon
+	 *            icon displayed besides the title
+	 * @return form title
+	 */
+	public static Label getFormTitleLabel(String caption, Icon icon) {
+		Label label = new Label(icon.getIcon().variant(IconVariant.GREEN)
+				+ "&nbsp;&nbsp;&nbsp;" + caption, ContentMode.HTML);
+		label.addStyleName("panel-title");
+		return label;
 	}
 
 	/**
-	 * Returns a panel with given width. A VerticalLayout is added as default
-	 * content.
+	 * Get default button with a green icon
 	 * 
-	 * @param width
-	 *            the width of the panel
-	 * @return new panel
+	 * @param caption
+	 *            button caption
+	 * @param icon
+	 *            icon shown in button; @see {@link IconFactory}
+	 * @return new button
 	 */
-	public static Panel getFixedWidthPanel(String width) {
-		Panel p = new Panel();
-		p.setWidth(width);
-
-		VerticalLayout vl = new VerticalLayout();
-		p.setContent(vl);
-
-		vl.setSpacing(true);
-		vl.setMargin(true);
-
-		return p;
+	public static Button getGreenButton(String caption, Icon icon) {
+		return getButton(caption, icon, IconVariant.GREEN);
 	}
 
-	public static VerticalLayout getStylishCaptionContainerNoMargin(
-			String caption, Icon icon, Component component) {
-		VerticalLayout layout = new VerticalLayout();
-		layout.setSpacing(false);
-		layout.setWidth("100%");
+	/**
+	 * Return a default sized icon
+	 * 
+	 * @param icon
+	 *            icon type, see {@link IconFactory}
+	 * @return a small icon
+	 */
+	public static Label getGreenIcon(Icon icon) {
+		return new Label(icon.getIcon().variant(IconVariant.GREEN,
+				IconVariant.SIZE_LARGE), ContentMode.HTML);
+	}
 
-		Label label = getFormTitleLabel(caption, icon);
-		layout.addComponent(label);
+	/**
+	 * Return a double sized icon
+	 * 
+	 * @param icon
+	 *            icon type, see {@link IconFactory}
+	 * @return a small icon
+	 */
+	public static Label getGreenIcon2X(Icon icon) {
+		return new Label(icon.getIcon().variant(IconVariant.GREEN,
+				IconVariant.SIZE_2X), ContentMode.HTML);
+	}
 
-		// component.setCaption(null);
-		component.setWidth("100%");
-		layout.addComponent(component);
-		layout.setExpandRatio(component, 1.0f);
+	/**
+	 * Return a medium (3x) sized icon
+	 * 
+	 * @param icon
+	 *            icon type, see {@link IconFactory}
+	 * @return a small icon
+	 */
+	public static Label getGreenIconMedium(Icon icon) {
+		return new Label(icon.getIcon().variant(IconVariant.GREEN,
+				IconVariant.SIZE_3X), ContentMode.HTML);
+	}
 
-		return layout;
+	/**
+	 * Return a small icon
+	 * 
+	 * @param icon
+	 *            icon type, see {@link IconFactory}
+	 * @return a small icon
+	 */
+	public static Label getGreenIconSmall(Icon icon) {
+		return new Label(icon.getIcon().variant(IconVariant.GREEN),
+				ContentMode.HTML);
+	}
+
+	/**
+	 * Return a black header bar, used as a caption for some panels
+	 * 
+	 * @return black header bar
+	 */
+	public static HorizontalLayout getHeaderBarBlack() {
+		HorizontalLayout bar = new HorizontalLayout();
+		bar.setSpacing(true);
+		bar.setStyleName("sub-header-black");
+		bar.setHeight("40px");
+		bar.setWidth("100%");
+		return bar;
+	}
+
+	/**
+	 * Returns a blue "sub" header bar
+	 * 
+	 * @return sub header bar
+	 */
+	public static HorizontalLayout getHeaderBarBlue() {
+		HorizontalLayout bar = new HorizontalLayout();
+		bar.setSpacing(true);
+		bar.setStyleName("sub-header-blue");
+		bar.setHeight("30px");
+		bar.setWidth("100%");
+		return bar;
+	}
+
+	/**
+	 * Returns a green "main" header bar
+	 * 
+	 * @return main header bar
+	 */
+	public static HorizontalLayout getHeaderBarGreen() {
+		HorizontalLayout bar = new HorizontalLayout();
+		bar.setSpacing(true);
+		bar.setStyleName("sub-header-green");
+		bar.setHeight("40px");
+		bar.setWidth("100%");
+		return bar;
 	}
 
 	public static VerticalLayout getIconCaptionPanel(String caption, Icon icon,
@@ -603,440 +649,58 @@ public class StandardUIFactory {
 	}
 
 	/**
-	 * Returns a panel for UI buttons
+	 * Return a button that contains only an icon
 	 * 
-	 * @param buttons
-	 *            buttons to be inserted into panel
-	 * @return panel for buttons
+	 * @param icon
+	 *            icon for button
+	 * @return button without caption
 	 */
-	public static HorizontalLayout getButtonPanel(Component... buttons) {
-		HorizontalLayout buttonLayout = new HorizontalLayout();
-		buttonLayout.setStyleName("button-container-gray");
-		buttonLayout.setWidth("100%");
+	public static Button getIconOnlyButton(Icon icon) {
+		final Button button = new Button(icon.getIcon().variant(
+				IconVariant.BLUE, IconVariant.SIZE_LARGE));
+		button.addStyleName("only-icon");
+		button.setHtmlContentAllowed(true);
+		return button;
+	}
 
-		HorizontalLayout layout = new HorizontalLayout();
+	/**
+	 * Returns an info panel for laying out components without borders or such;
+	 * 
+	 * @return an info panel
+	 */
+	public static VerticalLayout getInfoPanel() {
+		VerticalLayout layout = new VerticalLayout();
+		layout.setWidth("100%");
 		layout.setSpacing(true);
-		for (Component button : buttons) {
-			layout.addComponent(button);
-		}
-		buttonLayout.addComponent(layout);
-		return buttonLayout;
+		layout.setStyleName("info-container");
+		return layout;
 	}
 
 	/**
-	 * Returns a panel for UI buttons
+	 * Returns a panel that can be used to display an information message to
+	 * user in dialogs or in UI.
 	 * 
-	 * @param buttons
-	 *            buttons to be inserted into panel
-	 * @return panel for buttons
+	 * @param message
+	 *            the message displayed
+	 * @return an information panel
 	 */
-	public static HorizontalLayout getButtonPanel(Alignment alignment,
-			Component... buttons) {
-		HorizontalLayout buttonLayout = new HorizontalLayout();
-		buttonLayout.setStyleName("button-container-gray");
-		buttonLayout.setWidth("100%");
-
+	public static HorizontalLayout getInformationPanel(String message) {
+		if (!message.contains("<br>")) {
+			message += "<br>&nbsp;";
+		}
 		HorizontalLayout layout = new HorizontalLayout();
-		layout.setSpacing(true);
-		for (Component button : buttons) {
-			layout.addComponent(button);
-		}
-		buttonLayout.addComponent(layout);
-		buttonLayout.setComponentAlignment(layout, alignment);
-		return buttonLayout;
-	}
+		layout.setWidth("100%");
+		layout.setStyleName("information-panel");
 
-	/**
-	 * Returns a panel for MathLayout to show Check-button, Next-button and
-	 * progressbar
-	 * 
-	 * @param buttons
-	 *            buttons to be inserted into panel
-	 * @return Math navigation bar
-	 */
-	public static HorizontalLayout getButtonPanelForMathControls(
-			Component... buttons) {
+		Label iconLabel = StandardUIFactory.getWhiteIconMedium(Icon.INFO);
+		iconLabel.setWidth("40px");
+		layout.addComponent(iconLabel);
 
-		HorizontalLayout buttonLayout = new HorizontalLayout();
-		buttonLayout.addStyleName("button-container-gray");
-		buttonLayout.addStyleName("math-nav-bar");
-		buttonLayout.setWidth("100%");
+		Label content = StandardUIFactory.getPanelTitle(message);
 
-		HorizontalLayout layout = new HorizontalLayout();
-		layout.setSpacing(true);
-		// layout.setWidth("100%");
-		for (Component button : buttons) {
-			layout.addComponent(button);
-			layout.setComponentAlignment(button, Alignment.MIDDLE_CENTER);
-		}
-
-		layout.getComponent(2).addStyleName("math-progress-margin");
-
-		// Component c = layout.getComponent(layout.getComponentCount() - 1);
-		// layout.setComponentAlignment(c, Alignment.MIDDLE_RIGHT);
-		buttonLayout.addComponent(layout);
-		buttonLayout.setComponentAlignment(layout, Alignment.MIDDLE_CENTER);
-		return buttonLayout;
-
-	}
-
-	/**
-	 * Returns a panel for selecting level in exercise editor
-	 * 
-	 * @param buttons
-	 *            buttons to be inserted into panel
-	 * @return Math level selection bar
-	 */
-	public static HorizontalLayout getButtonPanelForLevels(Component... buttons) {
-
-		HorizontalLayout buttonLayout = new HorizontalLayout();
-		buttonLayout.addStyleName("button-container-gray");
-		buttonLayout.addStyleName("math-levels-bar");
-		buttonLayout.setWidth("100%");
-
-		HorizontalLayout layout = new HorizontalLayout();
-		layout.setSpacing(true);
-		// layout.setWidth("100%");
-		for (Component button : buttons) {
-			layout.addComponent(button);
-			layout.setComponentAlignment(button, Alignment.MIDDLE_CENTER);
-		}
-
-		buttonLayout.addComponent(layout);
-		buttonLayout.setComponentAlignment(layout, Alignment.MIDDLE_CENTER);
-		return buttonLayout;
-
-	}
-
-	/**
-	 * Returns a label that contains a title and a value
-	 * 
-	 * @param title
-	 *            title
-	 * @param value
-	 *            value
-	 * @return label with title and value
-	 */
-	public static Label getTitleValueLabel(String title, String value) {
-		Label label = new Label("<strong>" + title + ": "
-				+ "<span class=\"color-blue\">" + value + "</span></strong>",
-				ContentMode.HTML);
-		return label;
-	}
-
-	/**
-	 * Returns a larger view title.
-	 * 
-	 * @param title
-	 *            title caption
-	 * @return title
-	 */
-	public static Label getTitle(String title) {
-		Label label = new Label(title, ContentMode.HTML);
-		label.setStyleName("title");
-		return label;
-	}
-
-	/**
-	 * Returns a title component to be used inside panels
-	 * 
-	 * @param title
-	 *            title caption
-	 * @return panel title
-	 */
-	public static Label getPanelTitle(String title) {
-		Label label = new Label(title, ContentMode.HTML);
-		label.setStyleName("panel-title");
-		return label;
-	}
-
-	/**
-	 * Returns a blue title component to be used inside panels
-	 * 
-	 * @param title
-	 *            title caption
-	 * @return panel title
-	 */
-	public static Label getPanelTitleBlue(String title) {
-		Label label = new Label(title, ContentMode.HTML);
-		label.setStyleName("panel-title");
-		label.addStyleName("color-blue");
-		return label;
-	}
-
-	/**
-	 * Returns a label to be used as a panel content
-	 * 
-	 * @param content
-	 *            content as HTML string
-	 * @return panel content label
-	 */
-	public static Label getPanelContent(String content) {
-		Label label = new Label(content, ContentMode.HTML);
-		label.setStyleName("panel-content");
-		return label;
-	}
-
-	/**
-	 * Returns a label to be used as a separator between components in panels
-	 * and such
-	 * 
-	 * @return content separator
-	 */
-	public static Label getSeparator() {
-		return new Label("<hr>", ContentMode.HTML);
-	}
-
-	/**
-	 * Return a small icon
-	 * 
-	 * @param icon
-	 *            icon type, see {@link IconFactory}
-	 * @return a small icon
-	 */
-	public static Label getBlackIconSmall(Icon icon) {
-		return new Label(icon.getIcon().variant(IconVariant.BLACK),
-				ContentMode.HTML);
-	}
-
-	/**
-	 * Return a small icon
-	 * 
-	 * @param icon
-	 *            icon type, see {@link IconFactory}
-	 * @return a small icon
-	 */
-	public static Label getBlueIconSmall(Icon icon) {
-		return new Label(icon.getIcon().variant(IconVariant.BLUE),
-				ContentMode.HTML);
-	}
-
-	/**
-	 * Return a small icon
-	 * 
-	 * @param icon
-	 *            icon type, see {@link IconFactory}
-	 * @return a small icon
-	 */
-	public static Label getGreenIconSmall(Icon icon) {
-		return new Label(icon.getIcon().variant(IconVariant.GREEN),
-				ContentMode.HTML);
-	}
-
-	/**
-	 * Return a small icon
-	 * 
-	 * @param icon
-	 *            icon type, see {@link IconFactory}
-	 * @return a small icon
-	 */
-	public static Label getRedIconSmall(Icon icon) {
-		return new Label(icon.getIcon().variant(IconVariant.RED),
-				ContentMode.HTML);
-	}
-
-	/**
-	 * Return a small icon
-	 * 
-	 * @param icon
-	 *            icon type, see {@link IconFactory}
-	 * @return a small icon
-	 */
-	public static Label getOrangeIconSmall(Icon icon) {
-		return new Label(icon.getIcon().variant(IconVariant.ORANGE),
-				ContentMode.HTML);
-	}
-
-	/**
-	 * Return a small icon
-	 * 
-	 * @param icon
-	 *            icon type, see {@link IconFactory}
-	 * @return a small icon
-	 */
-	public static Label getWhiteIconSmall(Icon icon) {
-		return new Label(icon.getIcon().variant(IconVariant.WHITE),
-				ContentMode.HTML);
-	}
-
-	/**
-	 * Return a default sized icon
-	 * 
-	 * @param icon
-	 *            icon type, see {@link IconFactory}
-	 * @return a small icon
-	 */
-	public static Label getBlueIcon(Icon icon) {
-		return new Label(icon.getIcon().variant(IconVariant.BLUE,
-				IconVariant.SIZE_LARGE), ContentMode.HTML);
-	}
-
-	/**
-	 * Return a default sized icon
-	 * 
-	 * @param icon
-	 *            icon type, see {@link IconFactory}
-	 * @return a small icon
-	 */
-	public static Label getGreenIcon(Icon icon) {
-		return new Label(icon.getIcon().variant(IconVariant.GREEN,
-				IconVariant.SIZE_LARGE), ContentMode.HTML);
-	}
-
-	/**
-	 * Return a default sized icon
-	 * 
-	 * @param icon
-	 *            icon type, see {@link IconFactory}
-	 * @return a small icon
-	 */
-	public static Label getRedIcon(Icon icon) {
-		return new Label(icon.getIcon().variant(IconVariant.RED,
-				IconVariant.SIZE_LARGE), ContentMode.HTML);
-	}
-
-	/**
-	 * Return a default sized icon
-	 * 
-	 * @param icon
-	 *            icon type, see {@link IconFactory}
-	 * @return a small icon
-	 */
-	public static Label getOrangeIcon(Icon icon) {
-		return new Label(icon.getIcon().variant(IconVariant.ORANGE,
-				IconVariant.SIZE_LARGE), ContentMode.HTML);
-	}
-
-	/**
-	 * Return a default sized icon
-	 * 
-	 * @param icon
-	 *            icon type, see {@link IconFactory}
-	 * @return a small icon
-	 */
-	public static Label getWhiteIcon(Icon icon) {
-		return new Label(icon.getIcon().variant(IconVariant.WHITE,
-				IconVariant.SIZE_LARGE), ContentMode.HTML);
-	}
-
-	/**
-	 * Return a double sized icon
-	 * 
-	 * @param icon
-	 *            icon type, see {@link IconFactory}
-	 * @return a small icon
-	 */
-	public static Label getBlueIcon2X(Icon icon) {
-		return new Label(icon.getIcon().variant(IconVariant.BLUE,
-				IconVariant.SIZE_2X), ContentMode.HTML);
-	}
-
-	/**
-	 * Return a double sized icon
-	 * 
-	 * @param icon
-	 *            icon type, see {@link IconFactory}
-	 * @return a small icon
-	 */
-	public static Label getGreenIcon2X(Icon icon) {
-		return new Label(icon.getIcon().variant(IconVariant.GREEN,
-				IconVariant.SIZE_2X), ContentMode.HTML);
-	}
-
-	/**
-	 * Return a double sized icon
-	 * 
-	 * @param icon
-	 *            icon type, see {@link IconFactory}
-	 * @return a small icon
-	 */
-	public static Label getRedIcon2X(Icon icon) {
-		return new Label(icon.getIcon().variant(IconVariant.RED,
-				IconVariant.SIZE_2X), ContentMode.HTML);
-	}
-
-	/**
-	 * Return a double sized icon
-	 * 
-	 * @param icon
-	 *            icon type, see {@link IconFactory}
-	 * @return a small icon
-	 */
-	public static Label getOrangeIcon2X(Icon icon) {
-		return new Label(icon.getIcon().variant(IconVariant.ORANGE,
-				IconVariant.SIZE_2X), ContentMode.HTML);
-	}
-
-	/**
-	 * Return a double sized icon
-	 * 
-	 * @param icon
-	 *            icon type, see {@link IconFactory}
-	 * @return a small icon
-	 */
-	public static Label getWhiteIcon2X(Icon icon) {
-		return new Label(icon.getIcon().variant(IconVariant.WHITE,
-				IconVariant.SIZE_2X), ContentMode.HTML);
-	}
-
-	/**
-	 * Return a medium (3x) sized icon
-	 * 
-	 * @param icon
-	 *            icon type, see {@link IconFactory}
-	 * @return a small icon
-	 */
-	public static Label getBlueIconMedium(Icon icon) {
-		return new Label(icon.getIcon().variant(IconVariant.BLUE,
-				IconVariant.SIZE_3X), ContentMode.HTML);
-	}
-
-	/**
-	 * Return a medium (3x) sized icon
-	 * 
-	 * @param icon
-	 *            icon type, see {@link IconFactory}
-	 * @return a small icon
-	 */
-	public static Label getGreenIconMedium(Icon icon) {
-		return new Label(icon.getIcon().variant(IconVariant.GREEN,
-				IconVariant.SIZE_3X), ContentMode.HTML);
-	}
-
-	/**
-	 * Return a medium (3x) sized icon
-	 * 
-	 * @param icon
-	 *            icon type, see {@link IconFactory}
-	 * @return a small icon
-	 */
-	public static Label getRedIconMedium(Icon icon) {
-		return new Label(icon.getIcon().variant(IconVariant.RED,
-				IconVariant.SIZE_3X), ContentMode.HTML);
-	}
-
-	/**
-	 * Return a medium (3x) sized icon
-	 * 
-	 * @param icon
-	 *            icon type, see {@link IconFactory}
-	 * @return a small icon
-	 */
-	public static Label getOrangeIconMedium(Icon icon) {
-		return new Label(icon.getIcon().variant(IconVariant.ORANGE,
-				IconVariant.SIZE_3X), ContentMode.HTML);
-	}
-
-	/**
-	 * Return a medium (3x) sized icon
-	 * 
-	 * @param icon
-	 *            icon type, see {@link IconFactory}
-	 * @return a small icon
-	 */
-	public static Label getWhiteIconMedium(Icon icon) {
-		return new Label(icon.getIcon().variant(IconVariant.WHITE,
-				IconVariant.SIZE_3X), ContentMode.HTML);
+		layout.addComponent(content);
+		layout.setExpandRatio(content, 1);
+		return layout;
 	}
 
 	/**
@@ -1070,6 +734,206 @@ public class StandardUIFactory {
 		return layout;
 	}
 
+	public static Button getLinkButton(String caption, Icon icon) {
+		final Button button = new Button(icon.getIcon().variant(
+				IconVariant.BLUE)
+				+ "&nbsp;" + caption);
+		button.setStyleName(BaseTheme.BUTTON_LINK);
+		button.setHtmlContentAllowed(true);
+		return button;
+	}
+
+	public static Window getModalWindow(String width, String caption) {
+		final Window window = new Window(caption);
+		window.setModal(true);
+		window.setWidth(width);
+		return window;
+	}
+
+	/**
+	 * Retruns progressbar used in coding exercises.
+	 * 
+	 * @param initValue
+	 *            progress
+	 * @return progressbar
+	 */
+	// progressbar does not poll by default anymore
+	public static ProgressBar getNonPollingProgressIndicator(float initValue) {
+		ProgressBar res = new ProgressBar(initValue);
+		return res;
+	}
+
+	/**
+	 * Returns default save button
+	 * 
+	 * @param localizer
+	 *            for localizing caption
+	 * @return save button
+	 */
+	public static Button getOKButton(Localizer localizer) {
+		return getButton(localizer.getUIText(StandardUIConstants.OK), Icon.OK);
+	}
+
+	/**
+	 * Return a default sized icon
+	 * 
+	 * @param icon
+	 *            icon type, see {@link IconFactory}
+	 * @return a small icon
+	 */
+	public static Label getOrangeIcon(Icon icon) {
+		return new Label(icon.getIcon().variant(IconVariant.ORANGE,
+				IconVariant.SIZE_LARGE), ContentMode.HTML);
+	}
+
+	/**
+	 * Return a double sized icon
+	 * 
+	 * @param icon
+	 *            icon type, see {@link IconFactory}
+	 * @return a small icon
+	 */
+	public static Label getOrangeIcon2X(Icon icon) {
+		return new Label(icon.getIcon().variant(IconVariant.ORANGE,
+				IconVariant.SIZE_2X), ContentMode.HTML);
+	}
+
+	/**
+	 * Return a medium (3x) sized icon
+	 * 
+	 * @param icon
+	 *            icon type, see {@link IconFactory}
+	 * @return a small icon
+	 */
+	public static Label getOrangeIconMedium(Icon icon) {
+		return new Label(icon.getIcon().variant(IconVariant.ORANGE,
+				IconVariant.SIZE_3X), ContentMode.HTML);
+	}
+
+	/**
+	 * Return a small icon
+	 * 
+	 * @param icon
+	 *            icon type, see {@link IconFactory}
+	 * @return a small icon
+	 */
+	public static Label getOrangeIconSmall(Icon icon) {
+		return new Label(icon.getIcon().variant(IconVariant.ORANGE),
+				ContentMode.HTML);
+	}
+
+	/**
+	 * Returns a label to be used as a panel content
+	 * 
+	 * @param content
+	 *            content as HTML string
+	 * @return panel content label
+	 */
+	public static Label getPanelContent(String content) {
+		Label label = new Label(content, ContentMode.HTML);
+		label.setStyleName("panel-content");
+		return label;
+	}
+
+	/**
+	 * Returns a title component to be used inside panels
+	 * 
+	 * @param title
+	 *            title caption
+	 * @return panel title
+	 */
+	public static Label getPanelTitle(String title) {
+		Label label = new Label(title, ContentMode.HTML);
+		label.setStyleName("panel-title");
+		return label;
+	}
+
+	/**
+	 * Returns a blue title component to be used inside panels
+	 * 
+	 * @param title
+	 *            title caption
+	 * @return panel title
+	 */
+	public static Label getPanelTitleBlue(String title) {
+		Label label = new Label(title, ContentMode.HTML);
+		label.setStyleName("panel-title");
+		label.addStyleName("color-blue");
+		return label;
+	}
+
+	/**
+	 * Retruns default preview/test button used in exercise editors.
+	 * 
+	 * @param localizer
+	 *            for localizing caption
+	 * @return Preview/test button
+	 */
+	public static Button getPreviewButton(Localizer localizer) {
+		return getButton(localizer.getUIText(StandardUIConstants.PREVIEW),
+				Icon.PREVIEW);
+	}
+
+	/**
+	 * Return a default sized icon
+	 * 
+	 * @param icon
+	 *            icon type, see {@link IconFactory}
+	 * @return a small icon
+	 */
+	public static Label getRedIcon(Icon icon) {
+		return new Label(icon.getIcon().variant(IconVariant.RED,
+				IconVariant.SIZE_LARGE), ContentMode.HTML);
+	}
+
+	/**
+	 * Return a double sized icon
+	 * 
+	 * @param icon
+	 *            icon type, see {@link IconFactory}
+	 * @return a small icon
+	 */
+	public static Label getRedIcon2X(Icon icon) {
+		return new Label(icon.getIcon().variant(IconVariant.RED,
+				IconVariant.SIZE_2X), ContentMode.HTML);
+	}
+
+	/**
+	 * Return a medium (3x) sized icon
+	 * 
+	 * @param icon
+	 *            icon type, see {@link IconFactory}
+	 * @return a small icon
+	 */
+	public static Label getRedIconMedium(Icon icon) {
+		return new Label(icon.getIcon().variant(IconVariant.RED,
+				IconVariant.SIZE_3X), ContentMode.HTML);
+	}
+
+	/**
+	 * Return a small icon
+	 * 
+	 * @param icon
+	 *            icon type, see {@link IconFactory}
+	 * @return a small icon
+	 */
+	public static Label getRedIconSmall(Icon icon) {
+		return new Label(icon.getIcon().variant(IconVariant.RED),
+				ContentMode.HTML);
+	}
+
+	/**
+	 * Returns default save button
+	 * 
+	 * @param localizer
+	 *            for localizing caption
+	 * @return save button
+	 */
+	public static Button getSaveButton(Localizer localizer) {
+		return getButton(localizer.getUIText(StandardUIConstants.SAVE),
+				Icon.SAVE);
+	}
+
 	/**
 	 * Returns a new select element
 	 * 
@@ -1094,37 +958,177 @@ public class StandardUIFactory {
 		return box;
 	}
 
-	public static Window getModalWindow(String width, String caption) {
-		final Window window = new Window(caption);
-		window.setModal(true);
-		window.setWidth(width);
-		return window;
+	/**
+	 * Returns a label to be used as a separator between components in panels
+	 * and such
+	 * 
+	 * @return content separator
+	 */
+	public static Label getSeparator() {
+		return new Label("<hr>", ContentMode.HTML);
+	}
+
+	public static Button getSmallButton(String caption) {
+		final Button button = new Button(caption);
+		button.setStyleName("only-icon");
+		button.setHtmlContentAllowed(true);
+		return button;
 	}
 
 	/**
-	 * Returns a button panel to use in a dialog. The buttons are centered in
-	 * the panel.
+	 * Returns smaller button with icon only
 	 * 
-	 * @param buttonsToAdd
-	 *            buttons to be added into this panel.
-	 * @return dialog button panel with given buttons.
+	 * @param icon
+	 *            icon for button
+	 * @return button without caption
 	 */
-	public static HorizontalLayout getDialogButtonPanel(
-			Component... buttonsToAdd) {
-		final HorizontalLayout panel = new HorizontalLayout();
-		panel.setWidth("100%");
+	public static Button getSmallIconOnlyButton(Icon icon) {
+		final Button button = new Button(icon.getIcon().variant(
+				IconVariant.BLUE));
+		button.setStyleName("only-icon");
+		button.setHtmlContentAllowed(true);
+		return button;
+	}
 
-		final HorizontalLayout wrapper = new HorizontalLayout();
-		wrapper.setSpacing(true);
-		for (Component b : buttonsToAdd) {
-			wrapper.addComponent(b);
+	/**
+	 * Returns smaller button with icon only
+	 * 
+	 * @param icon
+	 *            icon for button
+	 * @return button without caption
+	 */
+	public static Button getSmallIconOnlyButton(Icon icon,
+			IconVariant... variants) {
+		final Button button = new Button(icon.getIcon().variant(variants));
+		button.setStyleName("only-icon");
+		button.setHtmlContentAllowed(true);
+		return button;
+	}
+
+	public static VerticalLayout getStylishCaptionContainer(String caption,
+			Icon icon, Component component) {
+		VerticalLayout layout = new VerticalLayout();
+		layout.setSpacing(true);
+		layout.setWidth("100%");
+
+		Label label = getFormTitleLabel(caption, icon);
+		layout.addComponent(label);
+
+		// component.setCaption(null);
+		component.setWidth("100%");
+		component.setSizeFull();
+		component.addStyleName("margin-bottom-15");
+		layout.addComponent(component);
+		layout.setExpandRatio(component, 1.0f);
+
+		return layout;
+	}
+
+	public static VerticalLayout getStylishCaptionContainerNoMargin(
+			String caption, Icon icon, Component component) {
+		VerticalLayout layout = new VerticalLayout();
+		layout.setSpacing(false);
+		layout.setWidth("100%");
+
+		Label label = getFormTitleLabel(caption, icon);
+		layout.addComponent(label);
+
+		// component.setCaption(null);
+		component.setWidth("100%");
+		layout.addComponent(component);
+		layout.setExpandRatio(component, 1.0f);
+
+		return layout;
+	}
+
+	/**
+	 * Returns a table with given caption
+	 * 
+	 * @param caption
+	 *            the caption of the table
+	 * @return new table
+	 */
+	public static Table getTable(String caption) {
+		Table table = new Table(caption);
+		table.addStyleName("striped");
+		table.addStyleName("normal-table");
+		return table;
+	}
+
+	/**
+	 * Returns default test button
+	 * 
+	 * @param localizer
+	 *            for localizing caption
+	 * @return test button
+	 */
+	public static Button getTestButton(Localizer localizer) {
+		return getButton(localizer.getUIText(StandardUIConstants.TEST),
+				Icon.TEST);
+	}
+
+	/**
+	 * Returns a larger view title.
+	 * 
+	 * @param title
+	 *            title caption
+	 * @return title
+	 */
+	public static Label getTitle(String title) {
+		Label label = new Label(title, ContentMode.HTML);
+		label.setStyleName("title");
+		return label;
+	}
+
+	/**
+	 * Returns a label that contains a title and a value
+	 * 
+	 * @param title
+	 *            title
+	 * @param value
+	 *            value
+	 * @return label with title and value
+	 */
+	public static Label getTitleValueLabel(String title, String value) {
+		Label label = new Label("<strong>" + title + ": "
+				+ "<span class=\"color-blue\">" + value + "</span></strong>",
+				ContentMode.HTML);
+		return label;
+	}
+
+	/**
+	 * Returns a two column view used in editors. Left hand side is narrower.
+	 * 
+	 * @return AbstractEditorLayout
+	 */
+	public static AbstractEditorLayout getTwoColumnView() {
+		return new AbstractEditorLayout();
+	}
+
+	/**
+	 * Returns a gray content layout for laying out component vertically
+	 * 
+	 * @param borders
+	 *            panel borders
+	 * @return grady content layout
+	 */
+	public static VerticalLayout getVerticalGrayContentLayout(PanelStyle style,
+			Border... borders) {
+		VerticalLayout layout = new VerticalLayout();
+
+		if (style == PanelStyle.SMALL) {
+			layout.setStyleName("container-gray-small");
+		} else if (style == PanelStyle.NONE) {
+			layout.setStyleName("container-gray-none");
+		} else {
+			layout.setStyleName("container-gray");
 		}
 
-		panel.addComponent(wrapper);
-		panel.setComponentAlignment(wrapper,
-				new Alignment(Bits.ALIGNMENT_RIGHT));
-
-		return panel;
+		layout.setWidth("100%");
+		for (Border border : borders) {
+			layout.addStyleName(border.getValue());
+		}
+		return layout;
 	}
 
 	/**
@@ -1155,69 +1159,65 @@ public class StandardUIFactory {
 	}
 
 	/**
-	 * Returns a panel that can be used to display an information message to
-	 * user in dialogs or in UI.
+	 * Return a default sized icon
 	 * 
-	 * @param message
-	 *            the message displayed
-	 * @return an information panel
+	 * @param icon
+	 *            icon type, see {@link IconFactory}
+	 * @return a small icon
 	 */
-	public static HorizontalLayout getInformationPanel(String message) {
-		if (!message.contains("<br>")) {
-			message += "<br>&nbsp;";
-		}
-		HorizontalLayout layout = new HorizontalLayout();
-		layout.setWidth("100%");
-		layout.setStyleName("information-panel");
-
-		Label iconLabel = StandardUIFactory.getWhiteIconMedium(Icon.INFO);
-		iconLabel.setWidth("40px");
-		layout.addComponent(iconLabel);
-
-		Label content = StandardUIFactory.getPanelTitle(message);
-
-		layout.addComponent(content);
-		layout.setExpandRatio(content, 1);
-		return layout;
-	}
-
-	public static Label getComponentTitle(String title) {
-		return new Label("<strong>" + title + "</strong>", ContentMode.HTML);
+	public static Label getWhiteIcon(Icon icon) {
+		return new Label(icon.getIcon().variant(IconVariant.WHITE,
+				IconVariant.SIZE_LARGE), ContentMode.HTML);
 	}
 
 	/**
-	 * Returns a table with given caption
+	 * Return a double sized icon
 	 * 
-	 * @param caption
-	 *            the caption of the table
-	 * @return new table
+	 * @param icon
+	 *            icon type, see {@link IconFactory}
+	 * @return a small icon
 	 */
-	public static Table getTable(String caption) {
-		Table table = new Table(caption);
-		table.addStyleName("striped");
-		table.addStyleName("normal-table");
-		return table;
+	public static Label getWhiteIcon2X(Icon icon) {
+		return new Label(icon.getIcon().variant(IconVariant.WHITE,
+				IconVariant.SIZE_2X), ContentMode.HTML);
 	}
 
 	/**
-	 * Returns a two column view used in editors. Left hand side is narrower.
+	 * Return a medium (3x) sized icon
 	 * 
-	 * @return AbstractEditorLayout
+	 * @param icon
+	 *            icon type, see {@link IconFactory}
+	 * @return a small icon
 	 */
-	public static AbstractEditorLayout getTwoColumnView() {
-		return new AbstractEditorLayout();
+	public static Label getWhiteIconMedium(Icon icon) {
+		return new Label(icon.getIcon().variant(IconVariant.WHITE,
+				IconVariant.SIZE_3X), ContentMode.HTML);
 	}
 
 	/**
-	 * Retruns progressbar used in coding exercises.
+	 * Return a small icon
 	 * 
-	 * @param initValue
-	 *            progress
-	 * @return progressbar
+	 * @param icon
+	 *            icon type, see {@link IconFactory}
+	 * @return a small icon
 	 */
-	// progressbar does not poll by default anymore
-	public static ProgressBar getNonPollingProgressIndicator(float initValue) {
-		ProgressBar res = new ProgressBar(initValue);
-		return res;
+	public static Label getWhiteIconSmall(Icon icon) {
+		return new Label(icon.getIcon().variant(IconVariant.WHITE),
+				ContentMode.HTML);
+	}
+
+	/**
+	 * Returns a button used for window headers and other header bars
+	 * 
+	 * @param icon
+	 *            icon displayed in button
+	 * @return button for header controls
+	 */
+	public static Button getWindowControlButton(Icon icon) {
+		final Button button = new Button(icon.getIcon().variant(
+				IconVariant.WHITE));
+		button.setStyleName("window-control");
+		button.setHtmlContentAllowed(true);
+		return button;
 	}
 }
