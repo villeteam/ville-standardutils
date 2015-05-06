@@ -4,11 +4,11 @@ import com.vaadin.shared.ui.AlignmentInfo.Bits;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.ProgressBar;
 import com.vaadin.ui.Table;
@@ -943,10 +943,9 @@ public class StandardUIFactory {
 	 *            items; same string is used for item id and caption
 	 * @return new select element
 	 */
-	public static ComboBox getSelect(String caption, String[] items) {
-		ComboBox box = new ComboBox(caption);
+	public static NativeSelect getSelect(String caption, String[] items) {
+		NativeSelect box = new NativeSelect(caption);
 		box.setNullSelectionAllowed(false);
-		box.setTextInputAllowed(false);
 		for (String item : items) {
 			box.addItem(item);
 		}
