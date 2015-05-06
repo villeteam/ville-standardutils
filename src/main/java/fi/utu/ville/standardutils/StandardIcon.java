@@ -787,12 +787,12 @@ public class StandardIcon {
 	}
 
 	public enum Icon {
-		LOG_IN(RawIcon.sign_in), MENU(RawIcon.reorder), USER(RawIcon.user), HELP(
-				RawIcon.question), CHANGE_ROLE(RawIcon.columns), LOG_OUT(
-				RawIcon.sign_out), SETTINGS(RawIcon.cog), NAVIGATOR_ARROW_LEFT(
-				RawIcon.chevron_left), NAVIGATOR_ARROW_RIGHT(
-				RawIcon.chevron_right), EXIT(RawIcon.times), SUBMIT(
-				RawIcon.upload), RESET(RawIcon.refresh), WINDOW_MINIMIZE(
+		LOG_IN(RawIcon.sign_in), PHONE(RawIcon.phone), MENU(RawIcon.reorder), USER(
+				RawIcon.user), HELP(RawIcon.question), CHANGE_ROLE(
+				RawIcon.columns), LOG_OUT(RawIcon.sign_out), SETTINGS(
+				RawIcon.cog), NAVIGATOR_ARROW_LEFT(RawIcon.chevron_left), NAVIGATOR_ARROW_RIGHT(
+				RawIcon.chevron_right), ERROR(RawIcon.times_circle_o), EXIT(
+				RawIcon.times), SUBMIT(RawIcon.upload), RESET(RawIcon.refresh), WINDOW_MINIMIZE(
 				RawIcon.compress), WINDOW_MAXIMIZE(RawIcon.expand), WINDOW(
 				RawIcon.external_link), COURSE(RawIcon.book), ROUND(
 				RawIcon.th_list), OK(RawIcon.check), STARTED(RawIcon.circle_o), NOT_STARTED(
@@ -802,8 +802,7 @@ public class StandardIcon {
 				RawIcon.check), ATTENDANCE(RawIcon.clock_o), EXAM(RawIcon.tasks), COURSE_ASSIGNMENT(
 				RawIcon.copy), REGISTRATION(RawIcon.check_circle_o), BOOKING_CALENDAR(
 				RawIcon.calendar), AUTOMATIC_ASSIGNMENT(RawIcon.upload), WARNING(
-				RawIcon.exclamation), NEWS(RawIcon.info), CLOSE(
-				RawIcon.times), SEPARATOR_CARET(
+				RawIcon.exclamation), NEWS(RawIcon.info), CLOSE(RawIcon.times), SEPARATOR_CARET(
 				RawIcon.angle_double_right), PROFILE(RawIcon.user), MESSAGES(
 				RawIcon.envelope_o), INBOX(RawIcon.inbox), SENT_MAIL(
 				RawIcon.share), OWN_RESOURCES(RawIcon.star), PUBLIC_RESOURCES(
@@ -818,15 +817,14 @@ public class StandardIcon {
 				RawIcon.step_backward), NAVIGATOR_ARROW_LAST(
 				RawIcon.step_forward), PANEL_FOLD(RawIcon.sort_down), PANEL_UNFOLD(
 				RawIcon.caret_right), SEARCH(RawIcon.search), NEW_RESOURCE(
-				RawIcon.file), EDIT(RawIcon.edit), FOLDER(
-				RawIcon.folder_o), TEST(RawIcon.play), COPY(
-				RawIcon.copy), REPLY(RawIcon.reply), NEW(RawIcon.file), CANCEL(
-				RawIcon.times), MATH_CHECK(RawIcon.check), MATH_NEXT(
+				RawIcon.file), EDIT(RawIcon.edit), FOLDER(RawIcon.folder_o), TEST(
+				RawIcon.play), COPY(RawIcon.copy), REPLY(RawIcon.reply), NEW(
+				RawIcon.file), CANCEL(RawIcon.times), MATH_CHECK(RawIcon.check), MATH_NEXT(
 				RawIcon.chevron_right), MATH_PREV(RawIcon.chevron_left), INFO(
-				RawIcon.info), TAGS(RawIcon.tags), GENERATE(
-				RawIcon.refresh), ADD_ASSIGNMENT(RawIcon.upload), ADD(
-				RawIcon.plus), CHECK_VALIDITY(RawIcon.refresh), BROWSE_THUMBS(
-				RawIcon.th), BROWSE_TABLE(RawIcon.table), MATH_LEVEL_EASY(
+				RawIcon.info), TAGS(RawIcon.tags), GENERATE(RawIcon.refresh), ADD_ASSIGNMENT(
+				RawIcon.upload), ADD(RawIcon.plus), CHECK_VALIDITY(
+				RawIcon.refresh), BROWSE_THUMBS(RawIcon.th), BROWSE_TABLE(
+				RawIcon.table), MATH_LEVEL_EASY(RawIcon.star), STAR(
 				RawIcon.star), MATH_LEVEL_NORMAL(RawIcon.star), MATH_LEVEL_HARD(
 				RawIcon.star), ROUND_VISIBLE(RawIcon.eye), ROUND_HIDDEN(
 				RawIcon.eye_slash), UP(RawIcon.arrow_up), DOWN(
@@ -835,8 +833,8 @@ public class StandardIcon {
 				RawIcon.envelope), HIDE(RawIcon.eye_slash), MONITOR(
 				RawIcon.desktop), CONDITIONAL_ROUND(RawIcon.list_ol), DOWNLOAD(
 				RawIcon.download), ENROLL(RawIcon.sign_in), UPDATE(
-				RawIcon.refresh), RFID(RawIcon.square), TEMPLATE(
-				RawIcon.signal), CALCULATE_TOTALS(RawIcon.plus_circle), SURVEY(
+				RawIcon.refresh), RFID(RawIcon.square), TEMPLATE(RawIcon.signal), CALCULATE_TOTALS(
+				RawIcon.plus_circle), SURVEY(
 
 		RawIcon.paste), LIBRARY(RawIcon.list), TEXT(RawIcon.file_o), IMAGE(
 				RawIcon.image), AUDIO(RawIcon.volume_up), MOVIE(RawIcon.film), OBJECT(
@@ -851,12 +849,12 @@ public class StandardIcon {
 				RawIcon.sort), FEEDBACK(RawIcon.comment_o), SURVEY_OPTIONS_ICON(
 				RawIcon.circle_o), SURVEY_BOOLEAN_ICON(RawIcon.check), SURVEY_TEXTFIELD_ICON(
 				RawIcon.minus), SURVEY_TEXTAREA_ICON(RawIcon.list_alt), SURVEY_SCALE_ICON(
-				RawIcon.exchange), SURVEY_EXPLANATION_ICON(
-				RawIcon.question), SURVEY_UPLOAD_ICON(RawIcon.upload), SURVEY_BREAK_ICON(
-				RawIcon.cut), SURVEY_OPTIONS_OPEN(RawIcon.comment), SURVEY_GRID_ICON(
-				RawIcon.th), MIME_IMAGE_MEDIUM(RawIcon.image), MIME_MOVIE_MEDIUM(
-				RawIcon.video_camera), IMAGE_TAG(RawIcon.tags), SURVEY_COMPONENTS(
-				RawIcon.th_large), TEXTFIELD(RawIcon.list_alt), MCQ_PRECENTAGE_SELECT_ONE(
+				RawIcon.exchange), SURVEY_EXPLANATION_ICON(RawIcon.question), SURVEY_UPLOAD_ICON(
+				RawIcon.upload), SURVEY_BREAK_ICON(RawIcon.cut), SURVEY_OPTIONS_OPEN(
+				RawIcon.comment), SURVEY_GRID_ICON(RawIcon.th), MIME_IMAGE_MEDIUM(
+				RawIcon.image), MIME_MOVIE_MEDIUM(RawIcon.video_camera), IMAGE_TAG(
+				RawIcon.tags), SURVEY_COMPONENTS(RawIcon.th_large), TEXTFIELD(
+				RawIcon.list_alt), MCQ_PRECENTAGE_SELECT_ONE(
 				RawIcon.plus_circle), MCQ_COMBINED_PERCENTAGE(
 				RawIcon.plus_square), SHORT_ANSWER(RawIcon.font), MCQ(
 				RawIcon.list), MCQ_MATH(RawIcon.thumb_tack), QUESTIONS(
@@ -869,8 +867,33 @@ public class StandardIcon {
 				RawIcon.cogs), EXERCISE_POOL(RawIcon.hdd_o), PEER_REVIEW(
 				RawIcon.group), VILLE_CS(RawIcon.flask), KEY(RawIcon.key), STACK(
 				RawIcon.align_justify), SHARED_MEMORY(RawIcon.share), MATH_PERFORMANCE(
-				RawIcon.dashboard), CATEGORY(RawIcon.list_ol), FORWARD(RawIcon.forward),BACKWARD(
-				RawIcon.backward);
+				RawIcon.dashboard), CATEGORY(RawIcon.list_ol), FIGHTER_JET(
+				RawIcon.fighter_jet), NUMBER_LINE_TAG(RawIcon.times), VISUALIZE(
+				RawIcon.camera), NEW_EXERCISE(RawIcon.plus_square_o), NEW_MESSAGE(
+				RawIcon.send_o), RESULT(RawIcon.check), TERM_RANGE(
+				RawIcon.arrows_h), OPERATORS(RawIcon.square), AMOUNT(
+				RawIcon.database), DECREASE(RawIcon.minus), INCREASE(
+				RawIcon.plus), ACHIEVEMENTS(RawIcon.trophy), MORE(RawIcon.plus), HOME_PAGE(
+				RawIcon.home), MATH(RawIcon.subscript), UNDERLINE(
+				RawIcon.underline), AUTOMATIC_GRADED(RawIcon.magic), CONSTRUCT(
+				RawIcon.cogs), POOL(RawIcon.database), MANUAL_GRADED(
+				RawIcon.edit), FOLDER_OPEN(RawIcon.folder_open), FOLDER_FILL(
+				RawIcon.folder), DEMONSTRATION_EXER(RawIcon.suitcase), STUDY_JOURNAL_EXERCISE(
+				RawIcon.book), MANUAL_COURSE_ASSIGNMENT(RawIcon.copy), MANUAL_EXAM(
+				RawIcon.book), VIDEO(RawIcon.film), YOUTUBE(RawIcon.youtube), GEOGEBRA(
+				RawIcon.superscript), OTHER_MATERIAL(RawIcon.paperclip), LECTURE(
+				RawIcon.university), POLL(RawIcon.bar_chart_o), SDEDITOR(
+				RawIcon.indent), WALL(RawIcon.comment), UNDO(RawIcon.undo), REDO(
+				RawIcon.repeat), OPEN_POLL(RawIcon.plus), CLOSE_POLL(
+				RawIcon.minus), FORUM(RawIcon.comment_o), START(RawIcon.play), STETHOSCOPE(
+				RawIcon.stethoscope), NORTH(RawIcon.arrow_up), SOUTH(
+				RawIcon.arrow_down), EAST(RawIcon.arrow_right), WEST(
+				RawIcon.arrow_left), TURN_NORTH(RawIcon.arrow_circle_up), TURN_SOUTH(
+				RawIcon.arrow_circle_down), TURN_EAST(
+				RawIcon.arrow_circle_right), TURN_WEST(
+				RawIcon.arrow_circle_left), IS_ROAD(RawIcon.road), LOOP(
+				RawIcon.refresh), IF(RawIcon.question_circle), IFELSE(
+				RawIcon.random),INFO_CIRCLE(RawIcon.info_circle);
 
 		private final RawIcon rawIcon;
 
