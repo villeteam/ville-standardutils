@@ -14,7 +14,7 @@ public class MathUIFactory implements Serializable {
 
 	private static final long serialVersionUID = 1606699009367781760L;
 
-	private MathUIFactory() {
+	protected MathUIFactory() {
 		// As so far, only static methods,
 		// so no instance needed.
 	}
