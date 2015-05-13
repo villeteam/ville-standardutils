@@ -26,7 +26,7 @@ public class AbstractEditorLayout extends VerticalLayout {
 
 	public Localizer localizer;
 
-	private HorizontalLayout contentLayout;
+	protected HorizontalLayout contentLayout;
 	private VerticalLayout settingsLayout; // for each exercise their own
 	private VerticalLayout generalSettingsLayout; // name, descr etc.
 
@@ -75,13 +75,15 @@ public class AbstractEditorLayout extends VerticalLayout {
 		drawSettingsPanel();
 	}
 
-	private void drawGeneralSettingsPanel() {
+	protected void drawGeneralSettingsPanel() {
 		generalSettingsLayout = StandardUIFactory
 				.getVerticalGrayContentLayout(PanelStyle.DEFAULT);
 		generalSettingsLayout.setSpacing(true);
 		generalSettingsLayout.setHeight("100%");
-
+		generalSettingsLayout.setMargin(false);
+		
 		VerticalLayout wrapper = new VerticalLayout();
+		wrapper.setMargin(false);
 		wrapper.setWidth(GENERAL_PANEL_WIDTH);
 		wrapper.setHeight("100%");
 		wrapper.addStyleName("background-color-gray");
@@ -93,7 +95,7 @@ public class AbstractEditorLayout extends VerticalLayout {
 
 	public void addToLeft(Component c) {
 		generalSettingsLayout.addComponent(c);
-		c.setHeight("100%");
+//		c.setHeight("100%");
 	}
 
 	public void addToRight(Component c) {
@@ -108,7 +110,7 @@ public class AbstractEditorLayout extends VerticalLayout {
 		titleLabel.setValue(s);
 	}
 
-	private void drawSettingsPanel() {
+	protected void drawSettingsPanel() {
 		settingsLayout = new VerticalLayout();
 		settingsLayout.setWidth("100%");
 		settingsLayout.setSpacing(true);
