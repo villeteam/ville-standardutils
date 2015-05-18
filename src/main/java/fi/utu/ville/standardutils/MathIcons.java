@@ -71,11 +71,11 @@ public final class MathIcons {
 		case STAR_NOT_SELECTED:
 			return getIcon("oxygen-star-24.png");
 		case STAR_EASY:
-			return getIcon("star-bronze-64.png");
+			return getIcon("star-gold-one.png");
 		case STAR_NORMAL:
-			return getIcon("star-silver-64.png");
+			return getIcon("star-gold-two.png");
 		case STAR_HARD:
-			return getIcon("star-gold-64.png");
+			return getIcon("star-gold-three.png");
 			// case MATH_POLYNOMIAL_SMALL:
 			// return getIcon("polynomial_icon_16.png");
 			// case MATH_POLYNOMIAL_MEDIUM:
