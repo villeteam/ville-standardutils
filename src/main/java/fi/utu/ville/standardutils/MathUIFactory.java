@@ -32,36 +32,36 @@ public class MathUIFactory implements Serializable {
 	}
 
 	public static Button getMathPrevButton(Localizer localizer) {
-		Button btn = new Button(localizer.getUIText(MathUIConstants.MATH_PREV));
+		Button btn = new Button(localizer.getUIText(UIConstants.MATH_PREV));
 		btn.setHeight("90px");
 		btn.addStyleName("borderless icon-on-top");
 		btn.addStyleName("math-prev-button");
-		btn.setCaption(localizer.getUIText(MathUIConstants.MATH_PREV));
+		btn.setCaption(localizer.getUIText(UIConstants.MATH_PREV));
 		btn.setIcon(MathIcons.getIcon(MathIcons.MATH_PREV));
-		btn.setDescription(localizer.getUIText(MathUIConstants.MATH_PREV));
+		btn.setDescription(localizer.getUIText(UIConstants.MATH_PREV));
 		return btn;
 	}
 
 	public static Button getMathNextButton(Localizer localizer) {
-		Button btn = new Button(localizer.getUIText(MathUIConstants.MATH_NEXT));
+		Button btn = new Button(localizer.getUIText(UIConstants.MATH_NEXT));
 		btn.setHeight("90px");
 		btn.addStyleName("borderless icon-on-top");
 		btn.addStyleName("math-next-button");
-		btn.setCaption(localizer.getUIText(MathUIConstants.MATH_NEXT));
+		btn.setCaption(localizer.getUIText(UIConstants.MATH_NEXT));
 		btn.setIcon(MathIcons.getIcon(MathIcons.MATH_NEXT));
-		btn.setDescription(localizer.getUIText(MathUIConstants.MATH_NEXT));
+		btn.setDescription(localizer.getUIText(UIConstants.MATH_NEXT));
 		return btn;
 	}
 
 	public static Button getMathCheckButton(Localizer localizer) {
-		Button btn = new Button(localizer.getUIText(MathUIConstants.MATH_CHECK));
+		Button btn = new Button(localizer.getUIText(UIConstants.MATH_CHECK));
 		btn.setHeight("90px");
 		btn.addStyleName("borderless icon-on-top");
 		btn.addStyleName("math-check-button");
 
-		btn.setCaption(localizer.getUIText(MathUIConstants.MATH_CHECK));
+		btn.setCaption(localizer.getUIText(UIConstants.MATH_CHECK));
 		btn.setIcon(MathIcons.getIcon(MathIcons.MATH_CHECK));
-		btn.setDescription(localizer.getUIText(MathUIConstants.MATH_CHECK));
+		btn.setDescription(localizer.getUIText(UIConstants.MATH_CHECK));
 		return btn;
 	}
 

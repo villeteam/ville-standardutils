@@ -15,7 +15,7 @@ import java.io.Serializable;
  * @author ertaka
  * 
  */
-public class MathUIConstants implements Serializable {
+public class UIConstants implements Serializable {
 
 	private static final long serialVersionUID = -4111712512819095369L;
 
@@ -387,10 +387,16 @@ public class MathUIConstants implements Serializable {
 	public static final String MATH_THRESHOLD = PREFIX
 			+ "Threshold of the numbers asked";
 
+	public static final String EASY = "Easy";
+	public static final String MODERATE = "Moderate";
+	public static final String HARD = "Hard";
+	
 	public static final String LEVEL_EASY = PREFIX + "Warm up";
 	public static final String LEVEL_NORMAL = PREFIX + "Ok, I'm ready";
 	public static final String LEVEL_HARD = PREFIX + "Is that all you got?";
 
+	public static final String EXERCISE_NOT_READY_FOR_SAVING_OR_TESTING = "Current exercise is not ready for testing or saving. Please fill in all exercise settings.";
+	
 	/* Quadratic equation exercise */
 	public static final String EQUATION_GROUP_CAPTION = PREFIX + "Equation";
 	public static final String EQUATION_HAS_TWO_REAL_ROOTS = PREFIX
