@@ -7,8 +7,6 @@ import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.google.gwt.thirdparty.guava.common.primitives.Doubles;
-
 public class MathGeneratorExerciseData implements Serializable {
 
 	public enum BoundingType {
@@ -427,8 +425,13 @@ public class MathGeneratorExerciseData implements Serializable {
 					getMaxValueForTerm(index).doubleValue());
 		}
 
-		double result = Doubles.tryParse(getFormattedNumber(solution,
+		double result;
+		try{
+			result = Double.parseDouble(getFormattedNumber(solution,
 				termRange.get(index).allowedDecimals));
+		}catch(NumberFormatException e){
+			result = 0;
+		}
 		
 
 		if (hasForcedMultiplier(index)) {
