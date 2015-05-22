@@ -231,7 +231,7 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 	public static PreciseDecimal divide(PreciseDecimal a, PreciseDecimal b) {
 		long value = a.value / b.value;
 		long remainder = a.value % b.value;
-		int decPoint = a.decPoint;
+		int decPoint = a.decPoint - b.decPoint;
 		while (remainder != 0 && Math.log10(value) < 18) {
 			decPoint += 1;
 			remainder *= 10;
@@ -273,7 +273,12 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 			DecimalFormatSymbols formatSymbols) {
 		String format = "0";
 		if (numDecimals > 0) {
-			format += "." + DECIMAL_FORMATS[numDecimals];
+			if(numDecimals >= MAX_DECIMALS) {
+				format += ".##E00";
+			}
+			else {
+				format += "." + DECIMAL_FORMATS[numDecimals];
+			}
 		}
 		DecimalFormat df;
 		if (formatSymbols != null) {
