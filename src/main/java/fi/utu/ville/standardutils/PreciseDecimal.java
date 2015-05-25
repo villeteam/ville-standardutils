@@ -29,8 +29,8 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 			Long.MAX_VALUE);
 	private DecimalFormatSymbols formatSymbols;
 
-	long value;
-	int decPoint = 0; // offset from the right
+	final long value;
+	final int decPoint; // offset from the right
 
 	public PreciseDecimal(PreciseDecimal toClone) {
 		this.value = toClone.value;
@@ -39,32 +39,31 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 
 	public PreciseDecimal(long value) {
 		this.value = value;
+		this.decPoint = 0;
 	}
 
 	// Very imprecise way of initializing PreciseDecimal
 	public PreciseDecimal(double value) {
 		this(value + "");
-		optimizePresentation();
 	}
 
 	// Slightly more precise way of initializing PreciseDecimal than passing
 	// only double value
 	public PreciseDecimal(double value, int numDecimals) {
 		this(getDecimalFormatter(numDecimals).format(value));
-		optimizePresentation();
 	}
 
 	public PreciseDecimal(long value, int decimalPoint) {
-		this.value = value;
-		this.decPoint = decimalPoint;
-		optimizePresentation();
+		long[] optimized = optimizePresentation(value, decimalPoint);
+		this.value = optimized[0];
+		this.decPoint = (int)optimized[1];
 	}
 
 	public PreciseDecimal(String str) {
 		long[] parts = parseDecimalFromString(str);
-		value = parts[0];
-		decPoint = (int) parts[1];
-		optimizePresentation();
+		parts = optimizePresentation(parts[0], (int)parts[1]);
+		this.value = parts[0];
+		this.decPoint = (int) parts[1];
 	}
 
 	public static PreciseDecimal createFromFractionArray(int[] array,
@@ -334,7 +333,7 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 		formatSymbols.setDecimalSeparator(value);
 	}
 
-	private void optimizePresentation() {
+	private static long[] optimizePresentation(long value, int decPoint) {
 		while (decPoint > 0) {
 			if (value % 10 == 0) {
 				decPoint--;
@@ -343,6 +342,7 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 				break;
 			}
 		}
+		return new long[] {value, decPoint};
 	}
 	
 	private PreciseDecimal copy() {
