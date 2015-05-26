@@ -5,17 +5,13 @@
 	<groupId>fi.utu.ville</groupId>
 	<artifactId>ville-standardutils</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.47-SNAPSHOT</version>
+	<version>0.1.0-RELEASE</version>
 	<name>Ville-Standardutils</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<vaadin.version>7.2.7</vaadin.version>
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
-        <!-- github server corresponds to entry in ~/.m2/settings.xml
-            containing data that should be kept private        
-         -->
-        <github.global.server>github</github.global.server>
 	</properties>
 
     <licenses>
@@ -25,25 +21,6 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
-
-    <!--     
-	<organization>
-		<name>My Name</name>
-		<url>https://github.com/mygithubaccount/Test/</url>
-	</organization>
-    
-	<scm>
-		<url>git://github.com/mygithubaccount/Test.git</url>
-		<connection>scm:git:git://github.com/mygithubaccount/Test.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com:/mygithubaccount/${ComponentClassName}.git</developerConnection>
-		<tag>Test add-on for Vaadin</tag>
-	</scm>
-
-	<issueManagement>
-		<system>GitHub</system>
-		<url>https://github.com/mygithubaccount/Test/issues</url>
-	</issueManagement>
-    -->
 
 	<repositories>
 		<repository>
@@ -137,16 +114,28 @@
 	</dependencies>
 
     <distributionManagement>
-        <repository>
-            <id>internal.repo</id>
-            <name>Temporary Staging Repository</name>
-            <url>file://${project.build.directory}/mvn-repo</url>
+		<snapshotRepository>
+            <id>ville-local-snapshots</id>
+            <name>ville-snapshot-repository</name>
+            <url>${ville-local-snap.url}</url>
+        </snapshotRepository>
+		<repository>
+            <id>ville-release</id>
+            <name>vexer-release-repository</name>
+            <url>${ville-public-release.url}</url>
         </repository>
     </distributionManagement>
 
 	<build>
+		<extensions>
+			<!-- Enabling the use of FTP -->
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ftp</artifactId>
+				<version>2.8</version>
+			</extension>
+		</extensions>
 		<plugins>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -215,32 +204,6 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.14.1</version>
 			</plugin>
-
-            <!-- deploy artifact to github -->
-            <plugin>
-                <groupId>com.github.github</groupId>
-                <artifactId>site-maven-plugin</artifactId>
-                <version>0.10</version>
-                <configuration>
-                    <message>Maven artifacts for ${project.version}</message>
-                    <noJekyll>true</noJekyll>
-                    <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
-                    <branch>refs/heads/mvn-repo</branch>
-                    <includes><include>**/*</include></includes>
-                    <repositoryName>ville-standardutils</repositoryName>
-                    <repositoryOwner>villeteam</repositoryOwner>
-                </configuration>
-                <executions>
-                <!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->
-                    <execution>
-                        <goals>
-                            <goal>site</goal>
-                        </goals>
-                        <phase>deploy</phase>
-                    </execution>
-                </executions>
-            </plugin>
-
 		</plugins>
 
 		<!-- This is needed for the sources required by the client-side compiler to be 
