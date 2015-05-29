@@ -120,7 +120,7 @@
             <url>${ville-local-snap.url}</url>
         </snapshotRepository>
 		<repository>
-            <id>ville-release</id>
+            <id>ville-public-releases</id>
             <name>vexer-release-repository</name>
             <url>${ville-public-release.url}</url>
         </repository>
