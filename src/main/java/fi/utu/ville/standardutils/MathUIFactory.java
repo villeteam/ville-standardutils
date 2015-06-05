@@ -25,7 +25,7 @@ public class MathUIFactory implements Serializable {
 		btn.setWidth("90px");
 		btn.addStyleName("borderless icon-on-top");
 		btn.addStyleName("star-button");
-		btn.setCaption(caption);
+		btn.setDescription(caption);
 		btn.setIcon(MathIcons.getIcon(MathIcons.STAR_NOT_SELECTED));
 		btn.setDescription(caption);
 		return btn;

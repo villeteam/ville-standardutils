@@ -114,7 +114,7 @@ public final class MathIcons {
 	}
 
 	private static ThemeResource getIcon(String icon) {
-		return new ThemeResource("../ville-standardutils/icons/math/" + icon);
+		return new ThemeResource("../ville-standardutils/icons/mathlayout/" + icon);
 	}
 
 }
