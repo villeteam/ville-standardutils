@@ -11,6 +11,7 @@ import com.porotype.iconfont.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
+import com.vaadin.shared.ui.colorpicker.Color;
 
 public class StandardIcon {
 
@@ -774,14 +775,22 @@ public class StandardIcon {
 		}
 		
 		public String variant(String customClass, IconVariant... variants) {
+			return variant(null, null, variants);
+		}
+		
+		public String variant(String customClass, Color color, IconVariant... variants) {
 			String stylenames = stylename();
+			String colorString = "";
 			if(customClass != null) {
 				stylenames += " " + customClass;
 			}
 			for (IconVariant v : variants) {
 				stylenames += " " + v;
 			}
-			return "<i class=\"" + stylenames + "\"></i>";
+			if(color != null) {
+				colorString = "style=\"color: " + color.getCSS() + ";\"";
+			}
+			return "<i " + colorString + " class=\"" + stylenames + "\"></i>";
 		}
 
 	}
