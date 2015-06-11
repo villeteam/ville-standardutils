@@ -615,18 +615,15 @@ class Expression {
 				return;
 			}
 
-			boolean addParenthesis = parent != null
-					&& (parent.element.getPriority() < this.element
-							.getPriority()
-							|| (rightSide
-									&& parent.element.equals(Operator.SUBTRACT) && this.element
-									.getPriority() > 0) || (rightSide
-							&& parent.element.equals(Operator.DIVISION) && this.element
-							.getPriority() > 0));
-			
+			boolean addParenthesis = 
+					parent != null
+					&& (parent.element.getPriority() < this.element.getPriority()
+						|| (rightSide && parent.element.equals(Operator.SUBTRACT) && this.element.getPriority() > 0) 
+						|| (rightSide && parent.element.equals(Operator.DIVISION) && this.element.getPriority() > 0));
+
 			if(addParenthesis && !rightSide)
-				addParenthesis = false;
-			
+				addParenthesis = true;
+
 			if (addParenthesis) {
 				list.add("(");
 			}
