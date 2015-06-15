@@ -13,7 +13,7 @@ import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-public final class MathHelper {
+final class MathHelper {
 
 	/** Operators for splitting strings */
 	private final static String[] splitOperators = { "+", "-", "*", "/", "%",
