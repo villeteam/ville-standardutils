@@ -1,4 +1,4 @@
-package edu.vserver.exercises.math.essentials.generator;
+package fi.utu.ville.standardutils;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -13,7 +13,7 @@ import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-final class MathHelper {
+public final class MathHelper {
 
 	/** Operators for splitting strings */
 	private final static String[] splitOperators = { "+", "-", "*", "/", "%",

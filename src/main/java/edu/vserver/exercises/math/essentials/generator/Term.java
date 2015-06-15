@@ -4,6 +4,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Random;
 
+import fi.utu.ville.standardutils.MathHelper;
 import fi.utu.ville.standardutils.PreciseDecimal;
 
 class Term extends PreciseDecimal implements EquationElement {

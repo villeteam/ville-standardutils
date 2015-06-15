@@ -2,11 +2,13 @@ package edu.vserver.exercises.math.essentials.generator;
 
 import org.junit.Test;
 
+import fi.utu.ville.standardutils.MathHelper;
+
 public class GeneratorTest {
 
 	private final int NUM_ITERS = 100; // < 100 fails infrequently
 
-	private final int NUM_TERMS = 4; // > 4 fails
+	private final int NUM_TERMS = 2; // > 4 fails
 
 	private final int EQUALS_TEST = 10;
 

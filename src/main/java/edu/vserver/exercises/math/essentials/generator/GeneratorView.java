@@ -28,6 +28,7 @@ import com.vaadin.ui.Window;
 import edu.vserver.exercises.math.essentials.generator.ManualCalculationSet.ManualCalculation;
 import edu.vserver.exercises.math.essentials.generator.MathGeneratorExerciseData.BoundingType;
 import fi.utu.ville.standardutils.Localizer;
+import fi.utu.ville.standardutils.MathHelper;
 import fi.utu.ville.standardutils.StandardIcon.Icon;
 import fi.utu.ville.standardutils.StandardUIFactory;
 import fi.utu.ville.standardutils.StandardUIFactory.PanelStyle;

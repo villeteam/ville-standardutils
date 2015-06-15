@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.vserver.exercises.math.essentials.generator.MathGeneratorExerciseData.BoundingType;
+import fi.utu.ville.standardutils.MathHelper;
 
 public class ExpressionGenerator implements Serializable {
 	
