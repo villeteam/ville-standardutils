@@ -183,6 +183,7 @@ public class StandardIcon {
 	 * 
 	 */
 	public enum RawIcon {
+		no_icon(0x000),
 		adjust(0xf042), //
 		adn(0xf170), //
 		align_center(0xf037), //
