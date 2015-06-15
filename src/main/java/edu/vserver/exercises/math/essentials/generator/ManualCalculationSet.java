@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Vector;
 
+import fi.utu.ville.standardutils.MathHelper;
+
 public class ManualCalculationSet implements Serializable{
 	
 	public static final int CALCULATION_LIMIT = 200;

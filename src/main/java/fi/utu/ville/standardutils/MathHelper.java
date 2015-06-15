@@ -1,4 +1,4 @@
-package edu.vserver.exercises.math.essentials.generator;
+package fi.utu.ville.standardutils;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

@@ -42,13 +42,21 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 		this.decPoint = 0;
 	}
 
-	// Very imprecise way of initializing PreciseDecimal
+	/**
+	 *  Very imprecise way of initializing PreciseDecimal
+	 * @param value initial value
+	 */
 	public PreciseDecimal(double value) {
 		this(value + "");
 	}
 
-	// Slightly more precise way of initializing PreciseDecimal than passing
-	// only double value
+	/**
+	 * lightly more precise way of initializing PreciseDecimal than passing
+	 * only double value
+	 * 
+	 * @param value initial value
+	 * @param numDecimals the number of decimals used
+	 */
 	public PreciseDecimal(double value, int numDecimals) {
 		this(getDecimalFormatter(numDecimals).format(value));
 	}
@@ -81,7 +89,11 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 		return (long) (value / Math.pow(10, decPoint));
 	}
 
-	// Warning: type long can't handle leading zeros
+	/**
+	 * Get the value of the decimal part
+	 * Warning: type long can't handle leading zeros
+	 * @return the numeric value of the decimal part
+	 */
 	public long getDecimalPartValue() {
 		return Math.abs(value
 				- (long) (getIntegerPart() * Math.pow(10, decPoint)));
@@ -107,7 +119,11 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 		return (int) getIntegerPart();
 	}
 
-	/* These functions are provided to use with old Ville code which uses arrays extensively */
+	/**
+	 * Returns this decimal as a long-array
+	 * @deprecated This function is provided to use with old Ville code which uses arrays extensively
+	 */
+	@Deprecated
 	public long[] toFractionWithUnits() {
 		long[] fraction = new long[3];
 		fraction[0] = getIntegerPart();
@@ -116,12 +132,21 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 		return fraction;
 	}
 
+	/**
+	 * @return this decimal as an int-array
+	 * @deprecated This function is provided to use with old Ville code which uses arrays extensively
+	 */
+	@Deprecated
 	public int[] toFractionWithUnitsInt() {
 		long[] longFrac = toFractionWithUnits();
 		return convertArray(longFrac);
 	}
 	
-	// Returns [0] = value, [1] = decimal point from the right.
+	/**
+	 * Parse a decimal from a string
+	 * @param str the numeric value
+	 * @return A decimal number as an int-array where [0] = value, [1] = decimal point from the right.
+	 */
 	public static long[] parseDecimalFromString(String str) {
 		long value = 0;
 		long decPoint = 0;

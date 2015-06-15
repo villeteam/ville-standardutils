@@ -4,7 +4,10 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Random;
 
-public class Term implements EquationElement {
+import fi.utu.ville.standardutils.MathHelper;
+import fi.utu.ville.standardutils.PreciseDecimal;
+
+class Term extends PreciseDecimal implements EquationElement {
 
 	private static final long serialVersionUID = -4597811664125805137L;
 	static final Term ZERO = new Term(0, 0);
@@ -46,12 +49,14 @@ public class Term implements EquationElement {
 	private int decimals = 0;
 
 	public Term() {
+		super(0);
 		decimals = 0;
 		value = 0.0;
 		format = new DecimalFormat();
 	}
 
 	public Term(String number) {
+		super(number);
 		number = number.replace(",", ".");
 		value = Double.parseDouble(number);
 		decimals = number.indexOf(".") < 0 ? 0 : number.length()
@@ -75,12 +80,14 @@ public class Term implements EquationElement {
 	 *            the term to clone
 	 */
 	public Term(Term original) {
+		super(original.value);
 		value = original.value;
 		format = original.format;
 		decimals = original.decimals;
 	}
 
 	public Term(Number number, int decimals) {
+		super(number.toString());
 		this.decimals = decimals;
 
 		format = new DecimalFormat(GeneratorUtils.getDecimalFormatPattern(
