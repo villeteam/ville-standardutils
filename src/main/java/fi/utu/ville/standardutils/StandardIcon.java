@@ -227,9 +227,11 @@ public class StandardIcon {
 		backward(0xf04a), //
 		ban(0xf05e), //
 		bank(0xf19c), //
+		bar_chart(0xf080), //
 		bar_chart_o(0xf080), //
 		barcode(0xf02a), //
 		bars(0xf0c9), //
+		bed(0xf236), //
 		beer(0xf0fc), //
 		behance(0xf1b4), //
 		behance_square(0xf1b5), //
@@ -257,6 +259,7 @@ public class StandardIcon {
 		bullhorn(0xf0a1), //
 		bullseye(0xf140), //
 		bus(0xf207), //
+		buysellads(0xf20d), //
 		cab(0xf1ba), //
 		calculator(0xf1ec), //
 		calendar(0xf073), //
@@ -272,6 +275,8 @@ public class StandardIcon {
 		caret_square_o_right(0xf152), //
 		caret_square_o_up(0xf151), //
 		caret_up(0xf0d8), //
+		cart_arrow_down(0xf218), //
+		cart_plus(0xf217), //
 		cc(0xf20a), //
 		cc_amex(0xf1f3), //
 		cc_discover(0xf1f2), //
@@ -302,6 +307,7 @@ public class StandardIcon {
 		circle_thin(0xf1db), //
 		clipboard(0xf0ea), //
 		clock_o(0xf017), //
+		close(0xf00d), //
 		cloud(0xf0c2), //
 		cloud_download(0xf0ed), //
 		cloud_upload(0xf0ee), //
@@ -319,6 +325,7 @@ public class StandardIcon {
 		comments_o(0xf0e6), //
 		compass(0xf14e), //
 		compress(0xf066), //
+		connectdevelop(0xf20e), //
 		copy(0xf0c5), //
 		copyright(0xf1f9), //
 		credit_card(0xf09d), //
@@ -330,11 +337,13 @@ public class StandardIcon {
 		cut(0xf0c4), //
 		cutlery(0xf0f5), //
 		dashboard(0xf0e4), //
+		dashcube(0xf210), //
 		database(0xf1c0), //
 		dedent(0xf03b), //
 		delicious(0xf1a5), //
 		desktop(0xf108), //
 		deviantart(0xf1bd), //
+		diamond(0xf219), //
 		digg(0xf1a6), //
 		dollar(0xf155), //
 		dot_circle_o(0xf192), //
@@ -364,6 +373,8 @@ public class StandardIcon {
 		eye_slash(0xf070), //
 		eyedropper(0xf1fb), //
 		facebook(0xf09a), //
+		facebook_f(0xf09a), //
+		facebook_official(0xf230), //
 		facebook_square(0xf082), //
 		fast_backward(0xf049), //
 		fast_forward(0xf050), //
@@ -405,6 +416,7 @@ public class StandardIcon {
 		folder_open(0xf07c), //
 		folder_open_o(0xf115), //
 		font(0xf031), //
+		forumbee(0xf211), //
 		forward(0xf04e), //
 		foursquare(0xf180), //
 		frown_o(0xf119), //
@@ -415,6 +427,7 @@ public class StandardIcon {
 		ge(0xf1d1), //
 		gear(0xf013), //
 		gears(0xf085), //
+		genderless(0xf1db), //
 		gift(0xf06b), //
 		git(0xf1d3), //
 		git_square(0xf1d2), //
@@ -429,6 +442,7 @@ public class StandardIcon {
 		google_plus_square(0xf0d4), //
 		google_wallet(0xf1ee), //
 		graduation_cap(0xf19d), //
+		gratipay(0xf184), //
 		group(0xf0c0), //
 		h_square(0xf0fd), //
 		hacker_news(0xf1d4), //
@@ -441,9 +455,11 @@ public class StandardIcon {
 		headphones(0xf025), //
 		heart(0xf004), //
 		heart_o(0xf08a), //
+		heartbeat(0xf21e), //
 		history(0xf1da), //
 		home(0xf015), //
 		hospital_o(0xf0f8), //
+		hotel(0xf236), //
 		html5(0xf13b), //
 		ils(0xf20b), //
 		image(0xf03e), //
@@ -465,13 +481,15 @@ public class StandardIcon {
 		language(0xf1ab), //
 		laptop(0xf109), //
 		lastfm(0xf202), //
-		lastfm_sqaure(0xf203), //
+		lastfm_square(0xf203), //
 		leaf(0xf06c), //
+		leanpub(0xf212), //
 		legal(0xf0e3), //
 		lemon_o(0xf094), //
 		level_down(0xf149), //
 		level_up(0xf148), //
 		life_bouy(0xf1cd), //
+		life_buoy(0xf1cd), //
 		life_ring(0xf1cd), //
 		life_saver(0xf1cd), //
 		lightbulb_o(0xf0eb), //
@@ -497,10 +515,17 @@ public class StandardIcon {
 		mail_reply_all(0xf122), //
 		male(0xf183), //
 		map_marker(0xf041), //
+		mars(0xf222), //
+		mars_double(0xf227), //
+		mars_stroke(0xf229), //
+		mars_stroke_h(0xf22b), //
+		mars_stroke_v(0xf22a), //
 		maxcdn(0xf136), //
 		meanpath(0xf20c), //
+		medium(0xf23a), //
 		medkit(0xf0fa), //
 		meh_o(0xf11a), //
+		mercury(0xf223), //
 		microphone(0xf130), //
 		microphone_slash(0xf131), //
 		minus(0xf068), //
@@ -512,8 +537,10 @@ public class StandardIcon {
 		money(0xf0d6), //
 		moon_o(0xf186), //
 		mortar_board(0xf19d), //
+		motorcycle(0xf21c), //
 		music(0xf001), //
 		navicon(0xf0c9), //
+		neuter(0xf22c), //
 		newspaper_o(0xf1ea), //
 		openid(0xf19b), //
 		outdent(0xf03b), //
@@ -537,8 +564,8 @@ public class StandardIcon {
 		pie_chart(0xf200), //
 		pied_piper(0xf1a7), //
 		pied_piper_alt(0xf1a8), //
-		pied_piper_square(0xf1a7), //
 		pinterest(0xf0d2), //
+		pinterest_p(0xf231), //
 		pinterest_square(0xf0d3), //
 		plane(0xf072), //
 		play(0xf04b), //
@@ -565,6 +592,7 @@ public class StandardIcon {
 		reddit(0xf1a1), //
 		reddit_square(0xf1a2), //
 		refresh(0xf021), //
+		remove(0xf00d), //
 		renren(0xf18b), //
 		reorder(0xf0c9), //
 		repeat(0xf01e), //
@@ -587,8 +615,10 @@ public class StandardIcon {
 		search(0xf002), //
 		search_minus(0xf010), //
 		search_plus(0xf00e), //
+		sellsy(0xf213), //
 		send(0xf1d8), //
 		send_o(0xf1d9), //
+		server(0xf233), //
 		share(0xf064), //
 		share_alt(0xf1e0), //
 		share_alt_square(0xf1e1), //
@@ -597,11 +627,15 @@ public class StandardIcon {
 		shekel(0xf20b), //
 		sheqel(0xf20b), //
 		shield(0xf132), //
+		ship(0xf21a), //
+		shirtsinbulk(0xf214), //
 		shopping_cart(0xf07a), //
 		sign_in(0xf090), //
 		sign_out(0xf08b), //
 		signal(0xf012), //
+		simplybuilt(0xf215), //
 		sitemap(0xf0e8), //
+		skyatlas(0xf216), //
 		skype(0xf17e), //
 		slack(0xf198), //
 		sliders(0xf1de), //
@@ -640,10 +674,12 @@ public class StandardIcon {
 		step_forward(0xf051), //
 		stethoscope(0xf0f1), //
 		stop(0xf04d), //
+		street_view(0xf21d), //
 		strikethrough(0xf0cc), //
 		stumbleupon(0xf1a4), //
 		stumbleupon_circle(0xf1a3), //
 		subscript(0xf12c), //
+		subway(0xf239), //
 		suitcase(0xf0f2), //
 		sun_o(0xf185), //
 		superscript(0xf12b), //
@@ -678,6 +714,9 @@ public class StandardIcon {
 		toggle_on(0xf205), //
 		toggle_right(0xf152), //
 		toggle_up(0xf151), //
+		train(0xf238), //
+		transgender(0xf224), //
+		transgender_alt(0xf225), //
 		trash(0xf1f8), //
 		trash_o(0xf014), //
 		tree(0xf1bb), //
@@ -704,7 +743,14 @@ public class StandardIcon {
 		usd(0xf155), //
 		user(0xf007), //
 		user_md(0xf0f0), //
+		user_plus(0xf234), //
+		user_secret(0xf21b), //
+		user_times(0xf235), //
 		users(0xf0c0), //
+		venus(0xf221), //
+		venus_double(0xf226), //
+		venus_mars(0xf228), //
+		viacoin(0xf237), //
 		video_camera(0xf03d), //
 		vimeo_square(0xf194), //
 		vine(0xf1ca), //
@@ -716,6 +762,7 @@ public class StandardIcon {
 		wechat(0xf1d7), //
 		weibo(0xf18a), //
 		weixin(0xf1d7), //
+		whatsapp(0xf232), //
 		wheelchair(0xf193), //
 		wifi(0xf1eb), //
 		windows(0xf17a), //
