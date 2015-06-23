@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-enum Operator implements Serializable, Operatable, EquationElement {
+public enum Operator implements Serializable, Operatable, EquationElement {
 	SUM() {
 
 		@Override
