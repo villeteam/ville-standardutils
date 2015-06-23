@@ -1037,7 +1037,8 @@ public class GeneratorView implements Serializable {
 			return false;
 		}
 		
-		if(options.getManualCalculations().size() == 0 && options.getBoundingType()==BoundingType.MANUAL){
+		ManualCalculationSet calculations = options.getManualCalculations();
+		if(options.getBoundingType()==BoundingType.MANUAL && (calculations == null || calculations.size() == 0)){
 			Notification.show(localizer.getUIText(GeneratorUIConstants.GENERATOR_NO_MANUAL_CALCULATIONS));
 			return false;
 		}
