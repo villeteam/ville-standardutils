@@ -29,8 +29,8 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 			Long.MAX_VALUE);
 	private DecimalFormatSymbols formatSymbols;
 
-	final long value;
-	final int decPoint; // offset from the right
+	private final long value;
+	private final int decPoint; // offset from the right
 
 	public PreciseDecimal(PreciseDecimal toClone) {
 		this.value = toClone.value;
@@ -51,7 +51,7 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 	}
 
 	/**
-	 * lightly more precise way of initializing PreciseDecimal than passing
+	 * Slightly more precise way of initializing PreciseDecimal than passing
 	 * only double value
 	 * 
 	 * @param value initial value
