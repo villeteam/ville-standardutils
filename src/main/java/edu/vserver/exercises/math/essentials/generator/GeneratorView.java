@@ -67,8 +67,12 @@ public class GeneratorView implements Serializable {
 			System.out.println("oldData was null!");
 			oldData = new MathGeneratorExerciseData(2);
 		}
+		if(oldData.getManualCalculations() == null)
+			oldData.setManualCalculations("");
+		
 		this.localizer = localizer;
 		options = oldData;
+		
 		operatorsShown = new boolean[]{true,true,true,true};
 		individualTermRangesCheckBox = new CheckBox(
 				localizer.getUIText(UIConstants.Separate_Term_Ranges),
@@ -248,6 +252,9 @@ public class GeneratorView implements Serializable {
 		content.setContent(panelLayout);
 		
 		result.addComponent(content);
+		
+		if(options.getManualCalculations() == null)
+			options.setManualCalculations("");
 		
 		final VerticalLayout manualCalculationFields = new VerticalLayout();
 		final ManualCalculationSet calculations = options.getManualCalculations();
