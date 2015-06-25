@@ -4,19 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class JavaScriptMathValidator {
-	
-	private static final Pattern whitelist = Pattern.compile(
-	
-		// numbers
-		"[0-9]+(\\.[0-9]*)?" 	+ "|" +
 
-		// 1 character length variables
-		"[a-z](?![a-zA-Z0-9])"	+ "|" +
-
-		// whitespace
-		"\\s"					+ "|" +
-
-		"Math" 	+ "|" +
+	private static final String reserved =
 
 		"PI"	+ "|" +
 		"E"		+ "|" +
@@ -40,7 +29,22 @@ public class JavaScriptMathValidator {
 		"ceil"	+ "|" +
 		"floor"	+ "|" +
 		"max"	+ "|" +
-		"min"	+ "|" +
+		"min";
+	
+	private static final Pattern whitelist = Pattern.compile(
+
+		reserved				+ "|" +
+	
+		// numbers
+		"[0-9]+(\\.[0-9]*)?" 	+ "|" +
+
+		// 1 character length variables
+		"[a-z](?![a-zA-Z0-9])"	+ "|" +
+
+		// whitespace
+		"\\s"					+ "|" +
+
+		"Math"	+ "|" +
 
 		","		+ "|" +
 		"\\." 	+ "|" +
@@ -54,6 +58,9 @@ public class JavaScriptMathValidator {
 	);
 
 	public static String validate(String str) {
+
+		str = str.replaceAll(reserved, "Math\\.$0");
+		System.out.println(str);
 
 		Matcher matcher = whitelist.matcher(str);
 		String consumed = matcher.replaceAll("");
