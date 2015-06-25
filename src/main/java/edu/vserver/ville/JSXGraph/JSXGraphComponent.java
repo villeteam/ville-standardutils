@@ -108,7 +108,7 @@ public class JSXGraphComponent extends AbstractVilleJSComponent {
 	public JSXPoint addPoint(String id, double x, double y,
 			HashMap<String, String> styling) {
 
-		ArrayList<String> params = new ArrayList<>();
+		ArrayList<String> params = new ArrayList<String>();
 		params.add(Double.toString(x));
 		params.add(Double.toString(y));
 		add("point", id, params, styling);
@@ -119,7 +119,7 @@ public class JSXGraphComponent extends AbstractVilleJSComponent {
 	public JSXCircle addCircle(String id, String pointID, double radius,
 			HashMap<String, String> styling) {
 
-		ArrayList<String> params = new ArrayList<>();
+		ArrayList<String> params = new ArrayList<String>();
 		params.add(pointID);
 		params.add(Double.toString(radius));
 		add("circle", id, params, styling);
@@ -130,7 +130,7 @@ public class JSXGraphComponent extends AbstractVilleJSComponent {
 	public JSXCircle addCircle(String id, String p1, String p2,
 			HashMap<String, String> styling) {
 
-		ArrayList<String> params = new ArrayList<>();
+		ArrayList<String> params = new ArrayList<String>();
 		params.add(p1);
 		params.add(p2);
 		add("circle", id, params, styling);
@@ -140,7 +140,7 @@ public class JSXGraphComponent extends AbstractVilleJSComponent {
 	public JSXCircle addCircle(String id, String p1, String p2, String p3,
 			HashMap<String, String> styling) {
 
-		ArrayList<String> params = new ArrayList<>();
+		ArrayList<String> params = new ArrayList<String>();
 		params.add(p1);
 		params.add(p2);
 		params.add(p3);
@@ -151,17 +151,32 @@ public class JSXGraphComponent extends AbstractVilleJSComponent {
 	public JSXLine addLine(String id, String p1, String p2,
 			HashMap<String, String> styling) {
 
-		ArrayList<String> params = new ArrayList<>();
+		ArrayList<String> params = new ArrayList<String>();
 		params.add(p1);
 		params.add(p2);
 		add("line", id, params, styling);
 		return new JSXLine(this, id, null, p1, p2);
 	}
 
+	public JSXParametricCurve addParametricCurve(
+			String id,
+			String x_t, String y_t,
+			Double tMin, Double tMax,
+			HashMap<String, String> styling) {
+
+		ArrayList<String> params = new ArrayList<String>();
+		params.add(x_t);
+		params.add(y_t);
+		params.add(tMin.toString());
+		params.add(tMax.toString());
+		add("parametricCurve", id, params, styling);
+		return new JSXParametricCurve(this, id, x_t, y_t, tMin, tMax);
+	}
+
 	public JSXGlider addGlider(String id, String parentID,
 			HashMap<String, String> styling) {
 
-		ArrayList<String> params = new ArrayList<>();
+		ArrayList<String> params = new ArrayList<String>();
 		params.add(parentID);
 		add("glider", id, params, styling);
 
@@ -171,7 +186,7 @@ public class JSXGraphComponent extends AbstractVilleJSComponent {
 	public JSXGlider addGlider(String id, double x, double y, String parentID,
 			HashMap<String, String> styling) {
 
-		ArrayList<String> params = new ArrayList<>();
+		ArrayList<String> params = new ArrayList<String>();
 		params.add(Double.toString(x));
 		params.add(Double.toString(y));
 		params.add(parentID);
@@ -183,7 +198,7 @@ public class JSXGraphComponent extends AbstractVilleJSComponent {
 	public JSXFunction addFunction(String id, String jsFunc,
 			HashMap<String, String> styling) {
 
-		ArrayList<String> params = new ArrayList<>();
+		ArrayList<String> params = new ArrayList<String>();
 		params.add(jsFunc);
 		add("functiongraph", id, params, styling);
 
@@ -192,7 +207,7 @@ public class JSXGraphComponent extends AbstractVilleJSComponent {
 
 	public JSXFunction addDerivative(String id, String jsFunc,
 			HashMap<String, String> styling) {
-		ArrayList<String> params = new ArrayList<>();
+		ArrayList<String> params = new ArrayList<String>();
 		params.add(jsFunc);
 		add("derivative", id, params, styling);
 		return new JSXFunction(this, id, jsFunc, true);

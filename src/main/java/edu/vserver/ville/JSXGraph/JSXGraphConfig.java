@@ -9,7 +9,7 @@ public class JSXGraphConfig {
 	private ArrayList<String> itemIDs;
 
 	public JSXGraphConfig() {
-		ArrayList<String> itemArr = new ArrayList<>();
+		ArrayList<String> itemArr = new ArrayList<String>();
 		setItemIDs(itemArr);
 	}
 
