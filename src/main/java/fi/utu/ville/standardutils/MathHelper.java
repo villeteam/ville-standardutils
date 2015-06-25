@@ -13,7 +13,7 @@ import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-public final class MathHelper {
+public class MathHelper {
 
 	/** Operators for splitting strings */
 	private final static String[] splitOperators = { "+", "-", "*", "/", "%",
@@ -35,7 +35,7 @@ public final class MathHelper {
 	private final static String[] division = { "6/2", "3/3", "49/7", "55/5",
 			"63/7", "42/6", "35/7", "32/4", "24/3", "24/4", "72/9", "54/9" };
 
-	private MathHelper() {
+	protected MathHelper() {
 
 	}
 
@@ -47,7 +47,7 @@ public final class MathHelper {
 	 * @return The double value or null if the expression is nonsense.
 	 */
 	public static Double evaluate(String s) {
-		double ans = 0;
+		Double ans = null;
 		try {
 			ans = Double.parseDouble(s);
 			return ans;
@@ -98,18 +98,9 @@ public final class MathHelper {
 					}
 				}
 			}
-		} catch (IndexOutOfBoundsException | NumberFormatException e) { // something
-																		// went
-																		// wrong;
-																		// most
-																		// likely
-																		// a
-																		// nonsense
-																		// calculation.
-																		// e.g.
-																		// 2.6.4+-4-.6
-																		// or
-																		// 5+g3
+		} catch (IndexOutOfBoundsException | NumberFormatException e) { 
+			// something went wrong; most likely a nonsense calculation. e.g.
+			// 2.6.4+-4-.6 or 5+g3
 			return null;
 		}
 
@@ -191,9 +182,52 @@ public final class MathHelper {
 	}
 
 	/**
+	 * Translates the given infix expression to postfix.
+	 * @param infixExpression
+	 * @return A vector containing the expression in postfix notation
+	 */
+	public static Vector<String> infixToPostfix(Vector<String> infixExpression){
+		Vector<String> supportedOperators = new Vector<String>();
+		supportedOperators.add("/");
+		supportedOperators.add("*");
+		supportedOperators.add("-");
+		supportedOperators.add("+");
+		
+		Vector<String> result = new Vector<>();
+		Stack<String> operators = new Stack<String>();
+		for(int i=0; i< infixExpression.size(); i++){
+			if(infixExpression.get(i).equals("(")){
+				continue;
+			}
+			
+			if(supportedOperators.contains(infixExpression.get(i))){
+				operators.add(infixExpression.get(i));
+				continue;
+			}
+			
+			if(infixExpression.get(i).equals(")")){
+				if(!operators.isEmpty())
+					result.add(operators.pop());
+				if(!operators.isEmpty())
+					result.add(operators.pop());				
+				continue;
+			}
+			
+			result.add(infixExpression.get(i));
+		}
+		
+		for(int i=operators.size()-1; i>=0; i--){
+			result.add(operators.get(i));
+		}
+		
+		return result;
+	}
+	
+	/**
 	 * Translates the infix expression to a postfix expression, eliminating the
 	 * parenthesis. This way the expression can be easily evaluated in the
-	 * ProgramTranslator class.
+	 * ProgramTranslator class. Does not handle cases where negative terms are without parenthesis
+	 * such as 4 + -2. However, 4 + (-2) will work.
 	 * 
 	 * @param s
 	 *            a string containing the infix expression

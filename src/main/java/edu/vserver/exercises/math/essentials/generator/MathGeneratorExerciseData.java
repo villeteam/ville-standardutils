@@ -415,7 +415,7 @@ public class MathGeneratorExerciseData implements Serializable {
 	 * @param index
 	 * @return a random term respecting all bounds.
 	 */
-	public double getRandomTerm(int index) {
+	public PreciseDecimal getRandomTerm(int index) {
 		double solution = gen.nextInt((int) Math.rint(termRange.get(index).max)
 				- (int) Math.rint(termRange.get(index).min) + 1)
 				+ Math.rint(termRange.get(index).min);
@@ -436,14 +436,12 @@ public class MathGeneratorExerciseData implements Serializable {
 
 		if (hasForcedMultiplier(index)) {
 			result = Math.floor(result / termRange.get(index).forcedMultiplier);
-			result *= termRange.get(index).forcedMultiplier;
-			result = Double.valueOf(getFormattedNumber(result,
-					termRange.get(index).allowedDecimals));
+			result *= termRange.get(index).forcedMultiplier;			
 		}
 
-		return result;
+		return new PreciseDecimal(result, termRange.get(index).allowedDecimals);
 	}
-
+	
 	public Term getRandomSolution() {
 		Term result = Term.getRandomTerm(answerRange.min, answerRange.max,
 				getNumberOfDecimalsInSolution());
@@ -661,5 +659,12 @@ public class MathGeneratorExerciseData implements Serializable {
 			while(numberOfTerms < terms)
 				addTerm();
 		}
+	}
+
+	public PreciseDecimal[] getRangeAsPreciseDecimal(int i) {
+		Range range = termRange.get(i);
+		return new PreciseDecimal[]{
+				new PreciseDecimal(range.min,range.allowedDecimals),
+				new PreciseDecimal(range.max,range.allowedDecimals)};
 	}
 }

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import fi.utu.ville.standardutils.PreciseDecimal;
+
 public enum Operator implements Serializable, Operatable, EquationElement {
 	SUM() {
 
@@ -57,7 +59,25 @@ public enum Operator implements Serializable, Operatable, EquationElement {
 					(solutionRange[1] <= firstTermRange[1]+secondTermRange[1]);*/
 		}
 
+		public PreciseDecimal[] obscure(PreciseDecimal number, PreciseDecimal[] firstRange, PreciseDecimal[] secondRange){
+			PreciseDecimal possibilities = PreciseDecimal.subtract(number, firstRange[0]);
+			possibilities = PreciseDecimal.add(possibilities, PreciseDecimal.ONE);
+			if(possibilities.doubleValue() < 1)
+				return null;
+						
+			for(int i=0; i< MAX_ATTEMPTS; i++){
+				PreciseDecimal first = PreciseDecimal.getRandomDecimal(firstRange[0], firstRange[1], 0);
+				PreciseDecimal second = PreciseDecimal.subtract(number, first);
+				if(withinRange(second, secondRange)){
+					System.out.println("Obscured "+number+" into "+first+"+"+second);
+					return new PreciseDecimal[]{first,second};
+				}
+			}
+			return null;
+		}
+
 		@Override
+		@Deprecated
 		public int[] obscure(int number, int[] firstRange, int[] secondRange) {
 			if (!canObscure(number, firstRange, secondRange))
 				return null;
@@ -141,6 +161,34 @@ public enum Operator implements Serializable, Operatable, EquationElement {
 		}
 
 		@Override
+		public PreciseDecimal[] obscure(PreciseDecimal number, PreciseDecimal[] firstRange, PreciseDecimal[] secondRange){
+
+			PreciseDecimal firstTerm;
+			PreciseDecimal secondTerm;
+
+			long possibilities = PreciseDecimal.add(PreciseDecimal.subtract(firstRange[1], number), PreciseDecimal.ONE).longValue();
+			if (possibilities <= 0)
+				return null;
+			
+			int attempts = 0;
+			do {
+				firstTerm = PreciseDecimal.getRandomDecimal(firstRange[0], firstRange[1], 0);
+				secondTerm = PreciseDecimal.subtract(firstTerm, number);
+				attempts++;
+								
+				if(attempts >= MAX_ATTEMPTS){
+					System.out.println("MAX ATTEMPTS IN SUB");
+					return null;			
+				}
+			} while (!withinRange(secondTerm, secondRange));
+			
+			System.out.println("Obscured "+number+" into "+firstTerm+" - "+secondTerm);
+			
+			return new PreciseDecimal[] { firstTerm, secondTerm };
+		}
+		
+		@Override
+		@Deprecated
 		public int[] obscure(int number, int[] firstRange, int[] secondRange) {
 			if (!canObscure(number, firstRange, secondRange)) {
 				return null;
@@ -241,6 +289,7 @@ public enum Operator implements Serializable, Operatable, EquationElement {
 		}
 
 		@Override
+		@Deprecated
 		public int[] obscure(int number, int[] firstRange, int[] secondRange) {
 			ArrayList<Integer> factors = Factorize(number);
 
@@ -280,6 +329,61 @@ public enum Operator implements Serializable, Operatable, EquationElement {
 
 			return new int[] { factorList.get(randomIndex),
 					factorList.get(randomIndex + 1) };
+		}
+		
+		@Override
+		public PreciseDecimal[] obscure(PreciseDecimal number, PreciseDecimal[] firstRange, PreciseDecimal[] secondRange) {
+			ArrayList<Integer> factors = Factorize(Math.abs(number.intValue()));
+
+			if (number.equals(PreciseDecimal.ZERO)) {
+				if (withinRange(number, firstRange)) {
+					return new PreciseDecimal[] { number,
+							new PreciseDecimal(gen.nextInt(secondRange[1].intValue() - secondRange[0].intValue() + 1)) };
+				}
+				if (withinRange(number, secondRange)) {
+					return new PreciseDecimal[] {
+							new PreciseDecimal(gen.nextInt(firstRange[1].intValue() - firstRange[0].intValue() + 1)), number };
+				}
+				return null;
+			}
+
+			ArrayList<Integer> factorList = new ArrayList<>();
+
+			for (Integer i : factors) {
+				int secondTempFactor = number.intValue() / i;
+				if (withinRange(new PreciseDecimal(i), firstRange)
+						&& withinRange(new PreciseDecimal(secondTempFactor), secondRange)) {
+					factorList.add(i);
+					factorList.add(secondTempFactor);
+				}
+				if (withinRange(new PreciseDecimal(i), secondRange)
+						&& withinRange(new PreciseDecimal(secondTempFactor), firstRange)) {
+					factorList.add(i);
+					factorList.add(secondTempFactor);
+				}
+				
+				//some copy-paste for the negative multiplicand
+				secondTempFactor = number.intValue() / -i;
+				if (withinRange(new PreciseDecimal(-i), firstRange)
+						&& withinRange(new PreciseDecimal(secondTempFactor), secondRange)) {
+					factorList.add(-i);
+					factorList.add(secondTempFactor);
+				}
+				if (withinRange(new PreciseDecimal(-i), secondRange)
+						&& withinRange(new PreciseDecimal(secondTempFactor), firstRange)) {
+					factorList.add(-i);
+					factorList.add(secondTempFactor);
+				}
+			}
+
+			if (factorList.isEmpty()) {
+				return null;
+			}
+			
+			int randomIndex = gen.nextInt(factorList.size() / 2) * 2;
+
+			return new PreciseDecimal[] { new PreciseDecimal(factorList.get(randomIndex)),
+					new PreciseDecimal(factorList.get(randomIndex + 1)) };
 		}
 	},
 
@@ -342,12 +446,13 @@ public enum Operator implements Serializable, Operatable, EquationElement {
 		}
 
 		@Override
+		@Deprecated
 		public int[] obscure(int number, int[] firstRange, int[] secondRange) {
 			if (number == 0) {
 				return null;
 			}
 
-			if (!canObscure(number, firstRange, secondRange)) {
+			if (!canObscure(new PreciseDecimal(number), new PreciseDecimal[]{new PreciseDecimal(firstRange[0]), new PreciseDecimal(firstRange[1])}, new PreciseDecimal[]{new PreciseDecimal(secondRange[0]),new PreciseDecimal(secondRange[1])})) {
 				return null;
 			}
 
@@ -370,21 +475,71 @@ public enum Operator implements Serializable, Operatable, EquationElement {
 			return new int[] { number * denominator, denominator };
 		}
 
-		private boolean canObscure(int number, int[] firstRange,
-				int[] secondRange) {
-			if (number != 0 && firstRange[0] == 0 && firstRange[1] == 0
-					|| secondRange[0] == 0 && secondRange[1] == 0)
-				return false;
+		@Override
+		public PreciseDecimal[] obscure(PreciseDecimal number, PreciseDecimal[] firstRange, PreciseDecimal[] secondRange) {
+			if (number.toString().equals(PreciseDecimal.ZERO.toString())) {
+				return new PreciseDecimal[]{PreciseDecimal.ZERO, PreciseDecimal.getRandomDecimal(secondRange[0], secondRange[1], 0)};
+			}
+			
+			PreciseDecimal denominator = PreciseDecimal.ZERO;
+			PreciseDecimal possibilities = PreciseDecimal.divide(firstRange[1], number);
+			
+			if (!canObscure(possibilities, firstRange, secondRange)) {
+				return null;
+			}
 
-			long smaller = number * (secondRange[0] == 0 ? 1 : secondRange[0]);
-			long larger = number * (secondRange[1] == 0 ? 1 : secondRange[1]);
-			if ((withinRange(smaller, firstRange))
-					|| withinRange(larger, firstRange))
-				return true;
-			return false;
+			int attempts = 0;
+			do{
+				PreciseDecimal randomNum = new PreciseDecimal(
+						gen.nextInt(possibilities.longValue() >= Integer.MAX_VALUE-2 ? 
+								Integer.MAX_VALUE - secondRange[0].intValue()
+								: Math.abs(possibilities.intValue())));
+				
+				denominator = PreciseDecimal.add(randomNum ,PreciseDecimal.ONE);
+				
+				attempts++;
+				if(attempts > MAX_ATTEMPTS){
+					System.out.println("MAX ATTEMPSTS DIV");
+					break;
+				}
+			}while(denominator.equals(PreciseDecimal.ZERO)
+					|| denominator.equals(PreciseDecimal.ONE)
+					|| !withinRange(PreciseDecimal.multiply(number, denominator), firstRange));
+			
+			if(attempts >= MAX_ATTEMPTS)
+				denominator = PreciseDecimal.ONE;
+			
+			return new PreciseDecimal[] { PreciseDecimal.multiply(number, denominator), denominator };
+
+		}
+		
+		private boolean canObscure(PreciseDecimal number, PreciseDecimal[] firstRange,
+				PreciseDecimal[] secondRange) {
+			if(number.intValue() == 0 || number.compareTo(firstRange[0]) < 0)
+				return false;
+			return true;
+		}
+	}, 
+	
+	NOOP(){
+		@Override
+		public String getSymbol() {
+			return "";
+		}
+
+		@Override
+		public Term operate(Term term1, Term term2) {
+			return term1;
 		}
 	};
 
+	
+	protected boolean withinRange(PreciseDecimal second,
+			PreciseDecimal[] range) {
+		double value = second.doubleValue();
+		return value >= range[0].doubleValue() && value <= range[1].doubleValue();
+	}
+	
 	protected boolean withinRange(long i, int[] range) {
 		return range[0] <= i && range[1] >= i;
 	}
@@ -496,8 +651,20 @@ public enum Operator implements Serializable, Operatable, EquationElement {
 	 * @param secondTerm
 	 * @return the result of the operation
 	 */
+	@Deprecated
 	public double operate(double firstTerm, double secondTerm) {
 		return 0;
+	}
+	
+	/**
+	 * Performs the correct arithmetic operation on the given parameters.
+	 * 
+	 * @param firstTerm
+	 * @param secondTerm
+	 * @return the result of the operation
+	 */
+	public PreciseDecimal operate(PreciseDecimal firstTerm, PreciseDecimal secondTerm) {
+		return PreciseDecimal.ZERO;
 	}
 
 	/**
@@ -517,7 +684,12 @@ public enum Operator implements Serializable, Operatable, EquationElement {
 	 *         same operator, will give back the starting number. Null if
 	 *         obscuring was not possible.
 	 */
+	@Deprecated
 	public int[] obscure(int number, int[] firstRange, int[] secondRange) {
+		return null;
+	}
+	
+	public PreciseDecimal[] obscure(PreciseDecimal number, PreciseDecimal[] firstRange, PreciseDecimal[] secondRange){
 		return null;
 	}
 }
