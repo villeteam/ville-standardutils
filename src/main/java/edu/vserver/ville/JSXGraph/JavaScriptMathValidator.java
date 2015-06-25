@@ -60,7 +60,6 @@ public class JavaScriptMathValidator {
 	public static String validate(String str) {
 
 		str = str.replaceAll(reserved, "Math\\.$0");
-		System.out.println(str);
 
 		Matcher matcher = whitelist.matcher(str);
 		String consumed = matcher.replaceAll("");
