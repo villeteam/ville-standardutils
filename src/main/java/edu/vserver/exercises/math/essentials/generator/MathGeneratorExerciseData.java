@@ -7,13 +7,17 @@ import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MathGeneratorExerciseData implements Serializable {
+import fi.utu.ville.standardutils.LocalizableEnum;
+import fi.utu.ville.standardutils.PreciseDecimal;
 
-	public enum BoundingType {
+public class MathGeneratorExerciseData implements Serializable, GeneratorData {
+	
+	public enum BoundingType implements LocalizableEnum{
 		BOTH("EXPRESSION_GENERATOR_BOTH"), 
 		SOLUTION("EXPRESSION_GENEARTOR_SOLUTION"),
 		TERMS("EXPRESSION_GENERATOR_TERMS"),
-		MANUAL("EXPRESSION_GENERATOR_MANUAL");
+		MANUAL("EXPRESSION_GENERATOR_MANUAL"),
+		CUSTOM(LocalizableEnum.HIDDEN);
 
 		private String localizerString;
 

@@ -958,6 +958,39 @@ public class StandardUIFactory {
 	}
 
 	/**
+	 * Return a select element from a localizable enum with all items localized.
+	 * 
+	 * @param caption
+	 *            caption for element. Will be run through the localizer.
+	 * @param localizer
+	 * @param enumeration
+	 *            The values() of a localizable enum
+	 * @return a select element. Item id is the enum itself and its caption is the localized string it gives.
+	 */
+	public static NativeSelect getSelect(String caption,
+			Localizer localizer, LocalizableEnum... enumeration) {
+		NativeSelect select = new NativeSelect(localizer.getUIText(caption));
+		
+		if(enumeration == null || enumeration.length == 0)
+			return select;
+		
+		select.setNullSelectionAllowed(false);
+		for (LocalizableEnum kv : enumeration) {
+			if(kv.getLocalizerString().equals(LocalizableEnum.HIDDEN))
+				continue;
+						
+			select.addItem(kv);
+			
+			if(kv.getLocalizerString().equals(LocalizableEnum.UNLOCALIZED))
+				continue;
+			
+			select.setItemCaption(kv, localizer.getUIText(kv.getLocalizerString()));
+		}
+
+		return select;
+	}
+	
+	/**
 	 * Returns a label to be used as a separator between components in panels
 	 * and such
 	 * 
