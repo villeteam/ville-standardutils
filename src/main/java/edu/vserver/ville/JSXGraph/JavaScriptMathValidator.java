@@ -6,12 +6,12 @@ import java.util.regex.Pattern;
 public class JavaScriptMathValidator {
 	
 	private static final Pattern whitelist = Pattern.compile(
-		
+	
 		// numbers
 		"[0-9]+(\\.[0-9]*)?" 	+ "|" +
 
 		// 1 character length variables
-		"[a-z](?![a-zA-Z0-9])" 	+ "|" +
+		"[a-z](?![a-zA-Z0-9])"	+ "|" +
 
 		// whitespace
 		"\\s"					+ "|" +
@@ -20,12 +20,15 @@ public class JavaScriptMathValidator {
 
 		"PI"	+ "|" +
 		"E"		+ "|" +
-		"LN10"	+ "|" +
+		"LN2|LN10"		+ "|" +
+		"SQRT2|SQRT1_2" + "|" +
+		"LOG2E|LOG10E"	+ "|" +
 		
 		"sin" 	+ "|" +
 		"cos" 	+ "|" +
 		"tan" 	+ "|" +
 		"atan" 	+ "|" +
+		"atan2" + "|" +
 		"acos" 	+ "|" +
 		"asin" 	+ "|" +
 
@@ -36,7 +39,10 @@ public class JavaScriptMathValidator {
 		"log"	+ "|" +
 		"ceil"	+ "|" +
 		"floor"	+ "|" +
+		"max"	+ "|" +
+		"min"	+ "|" +
 
+		","		+ "|" +
 		"\\." 	+ "|" +
 		"\\+" 	+ "|" +
 		"\\-" 	+ "|" +
@@ -44,7 +50,7 @@ public class JavaScriptMathValidator {
 		"\\/" 	+ "|" +
 		"\\(" 	+ "|" +
 		"\\)"
-		
+
 	);
 
 	public static String validate(String str) {
