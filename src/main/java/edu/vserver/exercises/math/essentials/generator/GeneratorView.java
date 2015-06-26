@@ -2,7 +2,6 @@ package edu.vserver.exercises.math.essentials.generator;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
@@ -67,8 +66,12 @@ public class GeneratorView implements Serializable {
 			System.out.println("oldData was null!");
 			oldData = new MathGeneratorExerciseData(2);
 		}
+		if(oldData.getManualCalculations() == null)
+			oldData.setManualCalculations("");
+		
 		this.localizer = localizer;
 		options = oldData;
+		
 		operatorsShown = new boolean[]{true,true,true,true};
 		individualTermRangesCheckBox = new CheckBox(
 				localizer.getUIText(UIConstants.Separate_Term_Ranges),
@@ -94,7 +97,7 @@ public class GeneratorView implements Serializable {
 	 * {@link MathGeneratorExerciseData#setBoundingType(BoundingType type)}
 	 * method.
 	 * 
-	 * @return
+	 * @return A layout with all the required components to set the solution range
 	 */
 	public VerticalLayout getSolutionRangeLayout() {
 
@@ -175,16 +178,10 @@ public class GeneratorView implements Serializable {
 		// localize the native select options
 		boundSelectionLayout.setCaption(localizer
 				.getUIText(GeneratorUIConstants.EXPRESSIONBOUNDS));
-		final String[] values = new String[allowedTypes.length];
-		for (int i = 0; i < allowedTypes.length; i++) {
-			values[i] = localizer.getUIText(allowedTypes[i]
-					.getLocalizerString());
-		}
-
+		
 		// add the localized native selections to the NativeSelect
-		final NativeSelect boundSelector = new NativeSelect(
-				localizer.getUIText(GeneratorUIConstants.BOUNDEDBY),
-				Arrays.asList(values));
+		final NativeSelect boundSelector = StandardUIFactory.getSelect(GeneratorUIConstants.BOUNDEDBY, localizer,
+				allowedTypes);
 		boundSelector.setNullSelectionAllowed(false);
 
 		boundSelector.addValueChangeListener(new ValueChangeListener() {
@@ -197,10 +194,7 @@ public class GeneratorView implements Serializable {
 				if (allowedTypes.length > 1)
 					boundSelectionLayout.addComponent(boundSelector);
 
-				for (int i = 0; i < values.length; i++) {
-					if (values[i].equals(boundSelector.getValue()))
-						options.setBoundingType(allowedTypes[i]);
-				}
+				options.setBoundingType((BoundingType) boundSelector.getValue());
 
 				showComponents(true);
 				
@@ -225,8 +219,7 @@ public class GeneratorView implements Serializable {
 			}
 		});
 
-		boundSelector.select(localizer.getUIText(options.getBoundingType()
-				.getLocalizerString()));
+		boundSelector.select(options.getBoundingType());
 
 		return boundSelectionLayout;
 	}
@@ -248,6 +241,9 @@ public class GeneratorView implements Serializable {
 		content.setContent(panelLayout);
 		
 		result.addComponent(content);
+		
+		if(options.getManualCalculations() == null)
+			options.setManualCalculations("");
 		
 		final VerticalLayout manualCalculationFields = new VerticalLayout();
 		final ManualCalculationSet calculations = options.getManualCalculations();
@@ -540,7 +536,7 @@ public class GeneratorView implements Serializable {
 	 * {@link MathGeneratorExerciseData#setBoundingType(BoundingType type)}
 	 * method.
 	 * 
-	 * @return
+	 * @return A Layout with all the required components to set the term range
 	 */
 	public Layout getTermRangeLayout() {
 		individualTermRangesCheckBox
@@ -583,9 +579,15 @@ public class GeneratorView implements Serializable {
 	 * Returns a VerticalLayout that contains checkboxes for all the specified
 	 * oprators.
 	 * 
-	 * @param operators
-	 *            The operators that should be added to the container.
-	 * @return
+	 * @param sum
+	 *            Show the sum operator
+	 * @param subtract
+	 *            Show the subtract operator
+	 * @param multiplication
+	 *            Show the multiplication operator
+	 * @param division
+	 *            Show the division operator
+	 * @return A layout with the specified operators shown.
 	 */
 	public Layout getOperatorTypeSelector(boolean sum,
 			boolean subtract, boolean multiplication, boolean division) {
@@ -881,8 +883,8 @@ public class GeneratorView implements Serializable {
 	 * Links textfields such that the value of the smaller textfield is always
 	 * lesser than or equal to that of the larger textfield and vice versa.
 	 * 
-	 * @param smaller
-	 * @param larger
+	 * @param smaller the smaller number
+	 * @param larger the greater number
 	 */
 	private void linkTextFields(final DecimalField smaller,
 			final DecimalField larger, final int index) {
@@ -1037,7 +1039,8 @@ public class GeneratorView implements Serializable {
 			return false;
 		}
 		
-		if(options.getManualCalculations().size() == 0 && options.getBoundingType()==BoundingType.MANUAL){
+		ManualCalculationSet calculations = options.getManualCalculations();
+		if(options.getBoundingType()==BoundingType.MANUAL && (calculations == null || calculations.size() == 0)){
 			Notification.show(localizer.getUIText(GeneratorUIConstants.GENERATOR_NO_MANUAL_CALCULATIONS));
 			return false;
 		}

@@ -735,14 +735,22 @@ public class StandardUIFactory {
 	}
 
 	public static Button getLinkButton(String caption, Icon icon) {
-		final Button button = new Button(icon.getIcon().variant(
+		if(icon == null) {
+			return getLinkButton(caption);
+		}
+
+		return getLinkButton(icon.getIcon().variant(
 				IconVariant.BLUE)
 				+ "&nbsp;" + caption);
+	}
+
+	public static Button getLinkButton(String caption) {
+		final Button button = new Button(caption);
 		button.setStyleName(BaseTheme.BUTTON_LINK);
 		button.setHtmlContentAllowed(true);
 		return button;
 	}
-
+	
 	public static Window getModalWindow(String width, String caption) {
 		final Window window = new Window(caption);
 		window.setModal(true);
@@ -957,6 +965,39 @@ public class StandardUIFactory {
 		return box;
 	}
 
+	/**
+	 * Return a select element from a localizable enum with all items localized.
+	 * 
+	 * @param caption
+	 *            caption for element. Will be run through the localizer.
+	 * @param localizer
+	 * @param enumeration
+	 *            The values() of a localizable enum
+	 * @return a select element. Item id is the enum itself and its caption is the localized string it gives.
+	 */
+	public static NativeSelect getSelect(String caption,
+			Localizer localizer, LocalizableEnum... enumeration) {
+		NativeSelect select = new NativeSelect(localizer.getUIText(caption));
+		
+		if(enumeration == null || enumeration.length == 0)
+			return select;
+		
+		select.setNullSelectionAllowed(false);
+		for (LocalizableEnum kv : enumeration) {
+			if(kv.getLocalizerString().equals(LocalizableEnum.HIDDEN))
+				continue;
+						
+			select.addItem(kv);
+			
+			if(kv.getLocalizerString().equals(LocalizableEnum.UNLOCALIZED))
+				continue;
+			
+			select.setItemCaption(kv, localizer.getUIText(kv.getLocalizerString()));
+		}
+
+		return select;
+	}
+	
 	/**
 	 * Returns a label to be used as a separator between components in panels
 	 * and such

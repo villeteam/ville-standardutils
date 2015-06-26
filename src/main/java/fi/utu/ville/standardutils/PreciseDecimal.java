@@ -29,8 +29,8 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 			Long.MAX_VALUE);
 	private DecimalFormatSymbols formatSymbols;
 
-	final long value;
-	final int decPoint; // offset from the right
+	private final long value;
+	private final int decPoint; // offset from the right
 
 	public PreciseDecimal(PreciseDecimal toClone) {
 		this.value = toClone.value;
@@ -51,7 +51,7 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 	}
 
 	/**
-	 * lightly more precise way of initializing PreciseDecimal than passing
+	 * Slightly more precise way of initializing PreciseDecimal than passing
 	 * only double value
 	 * 
 	 * @param value initial value
@@ -252,6 +252,13 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 		return new PreciseDecimal(value, decPoint);
 	}
 
+	/**
+	 * Divides two PreciseDecimals and returns the result.
+	 * @param a The dividend
+	 * @param b The divisor
+	 * @return The quotient
+	 * @throws ArithmeticException on division by zero.
+	 */
 	public static PreciseDecimal divide(PreciseDecimal a, PreciseDecimal b) {
 		long value = a.value / b.value;
 		long remainder = a.value % b.value;
@@ -270,6 +277,18 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 		return PreciseDecimal.divide(new PreciseDecimal(a), new PreciseDecimal(b));
 	}
 
+	/**
+	 * Get a random decimal between the given values.
+	 * @param minValue the minimum value
+	 * @param maxValue the maximum value
+	 * @param decimals the number of decimals in the generated decimal
+	 * @return a random decimal
+	 */
+	public static PreciseDecimal getRandomDecimal(PreciseDecimal minValue, PreciseDecimal maxValue, int decimals){
+		double random = RandomProvider.getRandom().nextDouble()*(maxValue.doubleValue()-minValue.doubleValue())+minValue.doubleValue();
+		return new PreciseDecimal(random, decimals);
+	}
+	
 	public PreciseDecimal getInverse() {
 		return new PreciseDecimal(-this.value, this.decPoint);
 	}
