@@ -735,14 +735,22 @@ public class StandardUIFactory {
 	}
 
 	public static Button getLinkButton(String caption, Icon icon) {
-		final Button button = new Button(icon.getIcon().variant(
+		if(icon == null) {
+			return getLinkButton(caption);
+		}
+
+		return getLinkButton(icon.getIcon().variant(
 				IconVariant.BLUE)
 				+ "&nbsp;" + caption);
+	}
+
+	public static Button getLinkButton(String caption) {
+		final Button button = new Button(caption);
 		button.setStyleName(BaseTheme.BUTTON_LINK);
 		button.setHtmlContentAllowed(true);
 		return button;
 	}
-
+	
 	public static Window getModalWindow(String width, String caption) {
 		final Window window = new Window(caption);
 		window.setModal(true);
