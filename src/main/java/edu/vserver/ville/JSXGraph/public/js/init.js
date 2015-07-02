@@ -12,7 +12,7 @@ edu_vserver_ville_JSXGraph_JSXGraphComponent = function() {
 	var place = $(this.getElement());
 	
 	//TODO change back to local once done with debugging.
-	component = new JsxGraphComponent(place, config);
+	var component = new JsxGraphComponent(place, config);
 	
 	{ // Shared functions.
 	

@@ -219,6 +219,17 @@ JsxGraphComponent.prototype.add = function(type, id, params, styling) {
 	switch (type) {
 	
 		/*
+		 * 2D parametric curves
+		 */
+		case 'parametricCurve': {
+			finalType = 'curve';
+			processed[0] = new Function("t", "return " + params[0]); // x(t)
+			processed[1] = new Function("t", "return " + params[1]); // y(t)
+			processed[2] = parseFloat(params[2]); // t min value
+			processed[3] = parseFloat(params[3]); // t max value
+		}; break;
+	
+		/*
 		 * Point is always defined by two floating point numbers.
 		 */
 		case 'point': {

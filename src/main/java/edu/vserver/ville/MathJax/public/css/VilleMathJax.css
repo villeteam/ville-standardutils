@@ -1,0 +1,68 @@
+@font-face {
+    font-family: "Computer Modern Serif";
+    src: url('https://ville.utu.fi/static_resources/fonts/cmunrm-webfont.eot');
+    src: url('https://ville.utu.fi/static_resources/fonts/cmunrm-webfont.eot?#iefix') format('embedded-opentype'),
+    url('https://ville.utu.fi/static_resources/fonts/cmunrm.otf') format('opentype'),
+    url('https://ville.utu.fi/static_resources/fonts/cmunrm-webfont.woff') format('woff'),
+    url('https://ville.utu.fi/static_resources/fonts/cmunrm-webfont.ttf') format('truetype'),
+    url('https://ville.utu.fi/static_resources/fonts/cmunrm-webfont.svg#cmu_serifroman') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Computer Modern Serif";
+    src: url('https://ville.utu.fi/static_resources/fonts/cmunsl-webfont.eot');
+    src: url('https://ville.utu.fi/static_resources/fonts/cmunsl-webfont.eot?#iefix') format('embedded-opentype'),
+    url('https://ville.utu.fi/static_resources/fonts/cmunsl.otf') format('opentype'),
+    url('https://ville.utu.fi/static_resources/fonts/cmunsl-webfont.woff') format('woff'),
+    url('https://ville.utu.fi/static_resources/fonts/cmunsl-webfont.ttf') format('truetype'),
+    url('https://ville.utu.fi/static_resources/fonts/cmunsl-webfont.svg#cmu_serif_extraromanslanted') format('svg');
+    font-weight: normal;
+    font-style: italic;
+}
+@font-face {
+    font-family: "Computer Modern Serif";
+    src: url('https://ville.utu.fi/static_resources/fonts/cmunbl-webfont.eot');
+    src: url('https://ville.utu.fi/static_resources/fonts/cmunbl-webfont.eot?#iefix') format('embedded-opentype'),
+    url('https://ville.utu.fi/static_resources/fonts/cmunbl.otf') format('opentype'),
+    url('https://ville.utu.fi/static_resources/fonts/cmunbl-webfont.woff') format('woff'),
+    url('https://ville.utu.fi/static_resources/fonts/cmunbl-webfont.ttf') format('truetype'),
+    url('https://ville.utu.fi/static_resources/fonts/cmunbl-webfont.svg#cmu_serif_extraboldslanted') format('svg');
+    font-weight: bold;
+    font-style: italic;
+}
+@font-face {
+    font-family: "Computer Modern Serif";
+    src: url('https://ville.utu.fi/static_resources/fonts/cmunbx-webfont.eot');
+    src: url('https://ville.utu.fi/static_resources/fonts/cmunbx-webfont.eot?#iefix') format('embedded-opentype'),
+    url('https://ville.utu.fi/static_resources/fonts/cmunbx.otf') format('opentype'),
+    url('https://ville.utu.fi/static_resources/fonts/cmunbx-webfont.woff') format('woff'),
+    url('https://ville.utu.fi/static_resources/fonts/cmunbx-webfont.ttf') format('truetype'),
+    url('https://ville.utu.fi/static_resources/fonts/cmunbx-webfont.svg#cmu_serifbold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+.ville-graphlayout {
+
+	font-family: "Computer Modern Serif", serif;
+
+	// Kerning and ligatures
+	text-rendering: optimizeLegibility;
+	-webkit-font-variant-ligatures: common-ligatures;
+	font-variant-ligatures: common-ligatures;
+	-moz-font-feature-settings: "kern=1";
+	-webkit-font-feature-settings: "kern";
+	-moz-font-feature-settings: "kern";
+	font-feature-settings: "kern";
+	font-kerning: normal;
+	
+}
+
+.ville-graphlayout .v-label {
+	font-size: 16px;
+}
+	
+.ville-graphlayout .v-slot {
+	padding: 10px;
+}
