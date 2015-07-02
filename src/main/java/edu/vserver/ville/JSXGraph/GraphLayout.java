@@ -46,8 +46,11 @@ public class GraphLayout extends VerticalLayout {
 	}
 
 	private void appendLatex(String latexString) {
-		Label latexLabel = new Label(latexString);
-		this.addComponent(latexLabel);
+		String[] paragraphs = latexString.split("\\r?\\n");
+		for(String s : paragraphs) {
+			Label latexLabel = new Label(s);
+			this.addComponent(latexLabel);
+		}
 	}
 
 	private void appendGraph(String blockString) {
