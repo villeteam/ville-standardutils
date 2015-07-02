@@ -27,7 +27,6 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 			Long.MIN_VALUE);
 	public static final PreciseDecimal MAX_VALUE = new PreciseDecimal(
 			Long.MAX_VALUE);
-	private DecimalFormatSymbols formatSymbols;
 
 	private final long value;
 	private final int decPoint; // offset from the right
@@ -299,13 +298,19 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 	}
 
 	public String toString(int numDecimals) {
-		return getDecimalFormatter(numDecimals, formatSymbols).format(
+		return getDecimalFormatter(numDecimals, null).format(
 				toDouble());
+	}
+	
+	public String toString(int numDecimals, char decimalSeparator) {
+		DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+		symbols.setDecimalSeparator(decimalSeparator);
+		return getDecimalFormatter(numDecimals, symbols).format(toDouble());
 	}
 
 	public DecimalFormat getDecimalFormatter() {
 		int numDecimals = getNumDecimals();
-		return getDecimalFormatter(numDecimals, formatSymbols);
+		return getDecimalFormatter(numDecimals, null);
 	}
 
 	public static DecimalFormat getDecimalFormatter(int numDecimals) {
@@ -372,9 +377,9 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 		return false;
 	}
 
+	@Deprecated
 	public void setGroupingSeparator(char value) {
-		formatSymbols = new DecimalFormatSymbols();
-		formatSymbols.setDecimalSeparator(value);
+		
 	}
 
 	private static long[] optimizePresentation(long value, int decPoint) {
