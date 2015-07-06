@@ -77,17 +77,18 @@ class RandomMathGenerator implements Generator{
 		ArrayList<String> result = new ArrayList<>();
 		
 		for(int i=0; i<options.getNumberOfTerms(); i++){
+			String operator = options.getRandomAllowedOperator().getSymbol();
+			if(options.getBoundingType() != BoundingType.TERMS && operator.equals("/"))
+				throw new GeneratorException();
+			
 			PreciseDecimal term = options.getRandomTerm(i);
 			if(i>0 && term.compareTo(PreciseDecimal.ZERO) < 0)
 				result.add("(");
 			result.add(term+"");
 			if(i>0 && term.compareTo(PreciseDecimal.ZERO) < 0)
 				result.add(")");
-			
-			String operator = options.getRandomAllowedOperator().getSymbol();
-			if(options.getBoundingType() != BoundingType.TERMS && operator.equals("/"))
-				throw new GeneratorException();
-			result.add(operator);
+
+			result.add(operator);			
 		}
 		result.remove(result.size()-1);
 		return result;

@@ -165,9 +165,8 @@ public class GreedyGenerator implements Generator{
 	}
 	
 	private ArrayList<String> generateExpressionBySolution(
-			GeneratorData options) {
-		// TODO Auto-generated method stub
-		return null;
+			GeneratorData options) throws GeneratorException {
+		return generateExpressionByBoth(options);
 	}
 
 	/**
