@@ -6,7 +6,8 @@ window.MathJax = {
 		skipTags: ["body"]
 	},
 	TeX: {
-		equationNumbers: { autoNumber: "AMS" }
+		equationNumbers: { autoNumber: "AMS" },
+		extensions: ["mhchem.js"]
 	}
 	
 }
