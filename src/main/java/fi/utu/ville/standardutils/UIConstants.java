@@ -1,6 +1,5 @@
 package fi.utu.ville.standardutils;
 
-import java.io.Serializable;
 
 /**
  * Class for constants that are used to retrieve correct content for ViLLE's UI. <br>
@@ -15,7 +14,7 @@ import java.io.Serializable;
  * @author ertaka
  * 
  */
-public class UIConstants implements Serializable {
+public class UIConstants extends StandardUIConstants {
 
 	private static final long serialVersionUID = -4111712512819095369L;
 

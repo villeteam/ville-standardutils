@@ -1,11 +1,15 @@
 package fi.utu.ville.standardutils;
 
+import java.io.Serializable;
+
 /**
  * A collection of UIConstants that are guaranteed to have translations that can
  * be fetched through {@link Localizer#getUIText(String)}.
  * 
  */
-public class StandardUIConstants {
+public class StandardUIConstants implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private static final String PREFIX = "STANDARD-TRANSLATIONS.";
 

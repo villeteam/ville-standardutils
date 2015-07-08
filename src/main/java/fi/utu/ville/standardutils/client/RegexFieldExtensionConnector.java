@@ -108,6 +108,10 @@ public class RegexFieldExtensionConnector extends AbstractExtensionConnector imp
 	}
 	
 	private String getFieldValueAfterKeyPress(char charCode) {
+		return getFieldValueAfterKeyPress(textField, charCode);
+	}
+	
+	public static String getFieldValueAfterKeyPress(VVilleTextField textField, char charCode) {
 		int index = textField.getCursorPos();
 		String previousText = textField.getText();
 		StringBuffer buffer = new StringBuffer();
