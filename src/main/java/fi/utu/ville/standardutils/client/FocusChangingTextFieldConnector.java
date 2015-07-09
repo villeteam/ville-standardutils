@@ -3,7 +3,6 @@ package fi.utu.ville.standardutils.client;
 
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dev.json.Pair;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -13,7 +12,6 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.thirdparty.guava.common.base.Function;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.vaadin.client.ComponentConnector;
 import com.vaadin.client.ServerConnector;
@@ -40,16 +38,21 @@ public class FocusChangingTextFieldConnector extends AbstractExtensionConnector 
 	        if(keyCode == 0) { // Control keys seem pretty reliably to have charCode value of 0, 
 	        	return;		   // but very unreliably to map to correct KeyCodes.
 	        }
-	        
-//	        if(textField.getText().length() == getState().getChangeAfter()) {
-//	        	
-//	        	textField.setText("");
-//	        	textField.setCursorPos(0);
-//	        }
-	        
+
 	        int text = textField.getText().length();
 	        int sel = textField.getSelectedText().length();
-	        if((text == getState().getChangeAfter()-1 && sel == 0) || (text == getState().getChangeAfter() && sel <= 1)) {
+	        if(getState().getCharsToMoveToPrevious().indexOf(event.getCharCode()) >= 0) {
+	        	if(getPreviousComponent() != null) {
+	        		if(getPreviousComponent() instanceof VVilleTextField) {
+	        			VVilleTextField previous = (VVilleTextField)getPreviousComponent();
+	        			if(previous.getMaxLength() != previous.getText().length()) {
+	        				previous.setText(event.getCharCode() + previous.getText());
+	        			}
+	        			textField.cancelKey();
+	        		}
+	        	}
+	        }
+	        else if((text == getState().getChangeAfter()-1 && sel == 0) || (text == getState().getChangeAfter() && sel <= 1)) {
 	        	String textAfter = RegexFieldExtensionConnector.getFieldValueAfterKeyPress(textField, event.getCharCode());
 	        	if(textAfter.length() > getState().getChangeAfter())
 	        		textField.cancelKey();
@@ -90,18 +93,19 @@ public class FocusChangingTextFieldConnector extends AbstractExtensionConnector 
 			public void onKeyDown(KeyDownEvent event) {
 
 				if(event.getNativeKeyCode() == KeyCodes.KEY_BACKSPACE) {
-					
-					textField.setText("");
+					if(textField.getCursorPos() == 0) {
+						focusAndSelect(getPreviousComponent());
+					}
 				}
 				
 				if(event.getNativeKeyCode() == KeyCodes.KEY_RIGHT) {
 					if(textField.getCursorPos() == textField.getText().length()) {
-						focusAndSelect(getNextComponent());
+						focusAndSelect(getNextComponentImpl());
 					}
 				}
 				if(event.getNativeKeyCode() == KeyCodes.KEY_LEFT) {
 					if(textField.getCursorPos() == 0) {
-						focusAndSelect(getPreviousComponent());
+						focusAndSelect(getPreviousComponentImpl());
 					}
 				}
 				if(event.getNativeKeyCode() == KeyCodes.KEY_DOWN) {
@@ -115,10 +119,24 @@ public class FocusChangingTextFieldConnector extends AbstractExtensionConnector 
 	}
 
 	private FocusWidget getNextComponent() {
-		return ((FocusWidget)((ComponentConnector)getState().getNextComponent()).getWidget());
+		if(getState().isReversed()) {
+			return getPreviousComponentImpl();
+		}
+		return getNextComponent();
 	}
 	
 	private FocusWidget getPreviousComponent() {
+		if(getState().isReversed()) {
+			return getNextComponentImpl();
+		}
+		return getPreviousComponent();
+	}
+	
+	private FocusWidget getNextComponentImpl() {
+		return ((FocusWidget)((ComponentConnector)getState().getNextComponent()).getWidget());
+	}
+	
+	private FocusWidget getPreviousComponentImpl() {
 		return ((FocusWidget)((ComponentConnector)getState().getPreviousComponent()).getWidget());
 	}
 	

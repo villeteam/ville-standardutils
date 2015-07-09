@@ -9,6 +9,20 @@ public class FocusChangingTextFieldState extends AbstractComponentState {
 	private Connector previousComponent;
 	private Connector upComponent;
 	private Connector downComponent;
+	private String charsToMoveToPrevious;
+	private boolean isReversed;
+	
+	public String getCharsToMoveToPrevious() {
+		return charsToMoveToPrevious;
+	}
+
+	public void setCharsToMoveToPrevious(String charsToMoveToPrevious) {
+		if(charsToMoveToPrevious != null) {
+			isReversed = true;
+		}
+		this.charsToMoveToPrevious = charsToMoveToPrevious;
+	}
+
 	private int changeAfter = 1;
 	
 	public int getChangeAfter() {
@@ -66,6 +80,7 @@ public class FocusChangingTextFieldState extends AbstractComponentState {
 		this.downComponent = downComponent;
 	}
 	
-	
-	
+	public boolean isReversed() {
+		return isReversed;
+	}
 }
