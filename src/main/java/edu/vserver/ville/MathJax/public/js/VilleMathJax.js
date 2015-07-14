@@ -6,8 +6,7 @@ function() {
 
 	function typeset() {
 		if(MathJax.isReady) {
-			self.loadingDone();
-			MathJax.Hub.Queue(["Typeset", MathJax.Hub, processClasses]);
+			MathJax.Hub.Queue(["Typeset", MathJax.Hub, processClasses], self.loadingDone());
 		}
 		else {
 			setTimeout(typeset, 100);
@@ -16,7 +15,7 @@ function() {
 	typeset();
 
 	this.needsRepaint = function() {
-		MathJax.Callback.Queue(["Typeset", MathJax.Hub, processClasses], self.repaintDone());
+		MathJax.Hub.Queue(["Typeset", MathJax.Hub, processClasses], self.repaintDone());
 	}
 
 }
