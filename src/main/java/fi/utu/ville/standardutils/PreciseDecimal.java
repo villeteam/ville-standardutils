@@ -382,6 +382,15 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 		
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + decPoint;
+		result = prime * result + (int) (value ^ (value >>> 32));
+		return result;
+	}
+
 	private static long[] optimizePresentation(long value, int decPoint) {
 		while (decPoint > 0) {
 			if (value % 10 == 0) {
