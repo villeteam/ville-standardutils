@@ -9,7 +9,7 @@ import fi.utu.ville.standardutils.PreciseDecimal;
 
 public class GreedyGenerator implements Generator{
 
-	private static final int MAX_ATTEMPTS = 10000;
+	private static final int MAX_ATTEMPTS = 200000;
 	Random random = new Random();
 	
 	@Override
@@ -38,7 +38,7 @@ public class GreedyGenerator implements Generator{
 		boolean done = false;
 		int attempts = 0;
 		while(!done && attempts < MAX_ATTEMPTS){
-			
+						
 			if(Thread.interrupted()){
 				return null;
 			}
@@ -48,11 +48,12 @@ public class GreedyGenerator implements Generator{
 			
 			Node head = populateOperators(options);	
 						
-			PreciseDecimal newLowBound = PreciseDecimal.multiply(new PreciseDecimal(options.getRangeForSolution()[0]), new PreciseDecimal("1000"));
+			PreciseDecimal newLowBound = PreciseDecimal.multiply(new PreciseDecimal(options.getRangeForSolution()[0]).abs(), new PreciseDecimal("1000")).getInverse();
 			PreciseDecimal newHighBound = PreciseDecimal.multiply(new PreciseDecimal(options.getRangeForSolution()[1]), new PreciseDecimal("1000"));
+						
 			setIntermediateRanges(options, head, new PreciseDecimal[]{newLowBound, newHighBound});
 			setTermRanges(options, head.findTerms());
-						
+									
 			head.setIntermediateResult(answer);
 						
 			try{
@@ -67,14 +68,18 @@ public class GreedyGenerator implements Generator{
 			for(int i=0; i<terms.size(); i++){
 				Node n = terms.get(i);
 //				System.out.println("got term "+n.getIntermediateResult(options)+" termRange "+options.getRangeAsPreciseDecimal(i)[0]+" -- "+ options.getRangeAsPreciseDecimal(i)[1]);
-				if(n.getIntermediateResult(options).doubleValue()<options.getRangeAsPreciseDecimal(i)[0].doubleValue() &&
+				if(n.getIntermediateResult(options).doubleValue()<options.getRangeAsPreciseDecimal(i)[0].doubleValue() ||
 						n.getIntermediateResult(options).doubleValue()>options.getRangeAsPreciseDecimal(i)[1].doubleValue()){
 					done = false;
 					attempts++;
+					head = null;
 					break;
 				}
 			}
-			result = head.toInFixExpression();
+			if(head != null)
+				result = head.toInFixExpression();
+			else
+				result = null;
 		}
 		return result;
 	}

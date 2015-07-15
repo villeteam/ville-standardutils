@@ -277,6 +277,14 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 	}
 
 	/**
+	 * Get the absolute value of this PreciseDecimal.
+	 * @return a new PD that contains the absolute value of this PD.
+	 */
+	public PreciseDecimal abs(){
+		return new PreciseDecimal(Math.abs(this.value),this.decPoint);
+	}
+	
+	/**
 	 * Get a random decimal between the given values.
 	 * @param minValue the minimum value
 	 * @param maxValue the maximum value

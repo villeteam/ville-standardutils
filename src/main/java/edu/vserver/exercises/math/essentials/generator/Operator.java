@@ -69,7 +69,7 @@ public enum Operator implements Serializable, Operatable, EquationElement {
 				PreciseDecimal first = PreciseDecimal.getRandomDecimal(firstRange[0], firstRange[1], 0);
 				PreciseDecimal second = PreciseDecimal.subtract(number, first);
 				if(withinRange(second, secondRange)){
-					System.out.println("Obscured "+number+" into "+first+"+"+second);
+//					System.out.println("Obscured "+number+" into "+first+"+"+second);
 					return new PreciseDecimal[]{first,second};
 				}
 			}
@@ -177,12 +177,12 @@ public enum Operator implements Serializable, Operatable, EquationElement {
 				attempts++;
 								
 				if(attempts >= MAX_ATTEMPTS){
-					System.out.println("MAX ATTEMPTS IN SUB");
+//					System.out.println("MAX ATTEMPTS IN SUB");
 					return null;			
 				}
 			} while (!withinRange(secondTerm, secondRange));
 			
-			System.out.println("Obscured "+number+" into "+firstTerm+" - "+secondTerm);
+//			System.out.println("Obscured "+number+" into "+firstTerm+" - "+secondTerm);
 			
 			return new PreciseDecimal[] { firstTerm, secondTerm };
 		}
@@ -499,7 +499,7 @@ public enum Operator implements Serializable, Operatable, EquationElement {
 				
 				attempts++;
 				if(attempts > MAX_ATTEMPTS){
-					System.out.println("MAX ATTEMPSTS DIV");
+//					System.out.println("MAX ATTEMPSTS DIV");
 					break;
 				}
 			}while(denominator.equals(PreciseDecimal.ZERO)

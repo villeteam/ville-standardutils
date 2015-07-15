@@ -59,9 +59,9 @@ public class ExpressionGenerator implements Serializable {
 		//FALLBACK
 		if(result == null)
 			result = new ArrayList<>();
-		result.add("0");
+		result.add("1");
 		result.add("+");
-		result.add("0");
+		result.add("1");
 		
 		return result; 
 	}
