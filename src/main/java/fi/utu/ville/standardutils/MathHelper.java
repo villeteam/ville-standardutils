@@ -55,7 +55,9 @@ public class MathHelper {
 			// There is a term, not just a number, so let's continue->
 		}
 		try {
-			s = s.replace(":", "/");
+			s = preprocessInput(s);
+			s = s.replaceAll("-\\s*-", "+"); // Removes double negatives
+			s = s.replaceAll("(\\+\\s*-)|(-\\s*\\+)", "-"); // Removes negatives without parentheses
 			Vector<String> v = infixToPostfix(s);
 			LinkedList<String> stack = new LinkedList<String>();
 
@@ -66,36 +68,25 @@ public class MathHelper {
 
 					stack.add(v.get(i));
 				} else {
-
-					if (v.get(i).equals("*")) {
-						ans = (Double.parseDouble(stack
-								.remove(stack.size() - 2).replace(',', '.')) * Double
-								.parseDouble(stack.removeLast().replace(',',
-										'.')));
-
-						stack.addLast(Double.toString(ans));
-
-					} else if (v.get(i).equals("-")) {
-						ans = (Double.parseDouble(stack
-								.remove(stack.size() - 2).replace(',', '.')) - Double
-								.parseDouble(stack.removeLast().replace(',',
-										'.')));
-						stack.addLast(Double.toString(ans));
-
-					} else if (v.get(i).equals("+")) {
-						ans = (Double.parseDouble(stack
-								.remove(stack.size() - 2).replace(',', '.')) + Double
-								.parseDouble(stack.removeLast().replace(',',
-										'.')));
-						stack.addLast(Double.toString(ans));
-
-					} else if (v.get(i).equals("/")) {
-						ans = (Double.parseDouble(stack
-								.remove(stack.size() - 2).replace(',', '.')) / Double
-								.parseDouble(stack.removeLast().replace(',',
-										'.')));
-						stack.addLast(Double.toString(ans));
+					double	op1 = getDoubleFromString(stack.remove(stack.size() - 2)),
+							op2 = getDoubleFromString(stack.remove(stack.size() - 1));
+					
+					switch (v.get(i)) {
+					case "*":
+						ans = op1 * op2;
+						break;
+					case "/":
+						ans = op1 / op2;
+						break;
+					case "+":
+						ans = op1 + op2;
+						break;
+					case "-":
+						ans = op1 - op2;
+						break;
 					}
+					
+					stack.addLast(Double.toString(ans));
 				}
 			}
 		} catch (IndexOutOfBoundsException | NumberFormatException e) { 
@@ -105,6 +96,34 @@ public class MathHelper {
 		}
 
 		return ans;
+	}
+	
+	/**
+	 * Parse the given value with ',' replaced with '.'
+	 * @param input
+	 * @return
+	 * 			Double value of given string
+	 */
+	private static double getDoubleFromString(String input) {
+		double ans = Double.parseDouble(input.replace(',',  '.'));
+		return ans;
+	}
+	
+	/**
+	 * Preprocesses an input string, removing various calculation signs
+	 * ('×', '⋅' and ':')
+	 * @param input
+	 * 			Input string
+	 * @return
+	 * 			Processed output string
+	 */
+	private static String preprocessInput(String input) {
+		String s = input;
+		s = s.replace(":", "/");
+		s = s.replace("\u00D7", "*");
+		s = s.replace("\u22C5", "*");
+		
+		return s;
 	}
 
 	/**
@@ -116,12 +135,8 @@ public class MathHelper {
 	public static ArrayList<Double> stepBySolution(String s) {
 		ArrayList<Double> solution = new ArrayList<Double>();
 
-		s = s.replace(":", "/");
+		s = preprocessInput(s);
 		Vector<String> v = infixToPostfix(s);
-
-		// for (int i = 0; i < v.size(); i++) {
-		// System.out.print(v.get(i));
-		// }
 
 		double ans = 0;
 		LinkedList<String> stack = new LinkedList<String>();
@@ -134,42 +149,25 @@ public class MathHelper {
 
 					stack.add(v.get(i));
 				} else {
-
-					if (v.get(i).equals("*")) {
-						ans = (Double.parseDouble(stack
-								.remove(stack.size() - 2).replace(',', '.')) * Double
-								.parseDouble(stack.removeLast().replace(',',
-										'.')));
-						solution.add(ans);
-						stack.addLast(Double.toString(ans));
-
-					} else if (v.get(i).equals("-")) {
-						ans = (Double.parseDouble(stack
-								.remove(stack.size() - 2).replace(',', '.')) - Double
-								.parseDouble(stack.removeLast().replace(',',
-										'.')));
-						solution.add(ans);
-
-						stack.addLast(Double.toString(ans));
-
-					} else if (v.get(i).equals("+")) {
-						ans = (Double.parseDouble(stack
-								.remove(stack.size() - 2).replace(',', '.')) + Double
-								.parseDouble(stack.removeLast().replace(',',
-										'.')));
-						solution.add(ans);
-
-						stack.addLast(Double.toString(ans));
-
-					} else if (v.get(i).equals("/")) {
-						ans = (Double.parseDouble(stack
-								.remove(stack.size() - 2).replace(',', '.')) / Double
-								.parseDouble(stack.removeLast().replace(',',
-										'.')));
-						solution.add(ans);
-
-						stack.addLast(Double.toString(ans));
+					double	op1 = getDoubleFromString(stack.remove(stack.size() - 2)),
+							op2 = getDoubleFromString(stack.remove(stack.size() - 1));
+					
+					switch (v.get(i)) {
+					case "*":
+						ans = op1 * op2;
+						break;
+					case "/":
+						ans = op1 / op2;
+						break;
+					case "+":
+						ans = op1 + op2;
+						break;
+					case "-":
+						ans = op1 - op2;
+						break;
 					}
+					solution.add(ans);
+					stack.addLast(Double.toString(ans));
 				}
 			}
 		} catch (IndexOutOfBoundsException | NumberFormatException e) {
@@ -383,7 +381,7 @@ public class MathHelper {
 	 *         call from string
 	 */
 	public static Vector<String> split(String s) {
-		s = s.replace(":", "/");
+		s = preprocessInput(s);
 
 		// not used
 		// int o = 0;
