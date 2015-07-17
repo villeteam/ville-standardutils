@@ -5,7 +5,7 @@
 	<groupId>fi.utu.ville</groupId>
 	<artifactId>ville-standardutils</artifactId>
 	<packaging>jar</packaging>
-	<version>0.1.12-RELEASE</version>
+	<version>0.2.0-RELEASE</version>
 	<name>Ville-Standardutils</name>
 
 	<properties>
@@ -141,8 +141,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.0</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 
