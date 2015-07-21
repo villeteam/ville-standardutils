@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Stream;
 // TODO: after refreshing, a null reference may turn out to be a classState, baseType,
 /**
  * Created by Ali Leino on 28.6.2015.
@@ -18,21 +19,16 @@ public class Deb {
         TestA a = new TestA();
 //        parse(a);
         ObjectState s = new ObjectState(a);
-        s.readState(5);
+        s.readState(2);
         System.out.println(s.toStringRecursive());
 //        s.readState();
 
     }
 
-    public static void parse(Object input) {
-        Class<?> type = input.getClass();
-        ObjectState state = new ObjectState(input);
-    }
-
     static class ObjectStateReference extends ObjectStateI {
         private ObjectState reference;
-        public ObjectStateReference(Object value, ObjectStateI parent, ObjectState reference) {
-            super(value, parent);
+        public ObjectStateReference(ObjectStateI parent, ObjectState reference) {
+            super(reference.getValue(), parent);
             this.reference = reference;
         }
 
@@ -52,6 +48,7 @@ public class Deb {
         }
     }
 
+    // TODO: Generate an easy-to-read ID for all objectstates while reading the tree.
     static public abstract class ObjectStateI implements Iterable<Map.Entry<Field, ObjectStateI>> {
         private final ObjectStateI parent;
         private Object value; // TODO: it may not be a good idea to hold references to all objects
@@ -74,6 +71,35 @@ public class Deb {
 
         public boolean hasParent() {
             return parent != null;
+        }
+
+        /**
+         * Performs DFS on the root node of this tree.
+         * @param value
+         * @return
+         */
+        public Optional<ObjectStateI> find(Object value) {
+            ObjectStateI root = getRoot();
+            return root.findImpl(value);
+        }
+
+        protected Optional<ObjectStateI> findImpl(Object value) {
+            if(this.getValue().equals(value)) {
+                return Optional.of(this);
+            }
+            return stream()
+                    .map(x->x.getValue().findImpl(value))
+                    .filter(x -> x.isPresent())
+                    .findAny()
+                    .orElse(Optional.empty());
+        }
+
+        // TODO: No recursion for no reason
+        public ObjectStateI getRoot() {
+            if(hasParent()) {
+                return getParent().getRoot();
+            }
+            return this;
         }
 
         /**
@@ -102,21 +128,29 @@ public class Deb {
             return Iterators.emptyIterator();
         }
 
+        public Stream<Map.Entry<Field,ObjectStateI>> stream() { return Stream.empty();}
+
+//        public Iterator<ObjectStateI> objectStateIterator() {
+//            return spliterator().
+//        }
+
+//        public Stream<ObjectStateI> stream() {return Iterables.any(this, x -> x.getValue().equals())}
+
         public String toStringRecursive() {
             final StringBuilder sb = new StringBuilder();
             toStringRecursiveImpl(sb, 1);
             return sb.toString();
         }
 
-        private String toStringRecursiveImpl(StringBuilder sb, int depth) {
+        private void toStringRecursiveImpl(StringBuilder sb, int depth) {
             Function<Integer, String> indent = (tabs) -> StringUtils.repeat("\t", tabs);
 
-            if(hasFields()) {
+            if(hasFields() && isRead()) {
                 sb.append("{\n");
                 for(Map.Entry<Field, ObjectStateI> field : this) {
                     sb.append(indent.apply(depth) + field.getKey().getName() + "=");
                     if(field.getValue().hasFields()) {
-                        sb.append(field.getValue().toStringRecursiveImpl(sb, depth+1));
+                        field.getValue().toStringRecursiveImpl(sb, depth+1);
                     }
                     else {
                         sb.append(field.getValue() + "\n");
@@ -127,7 +161,6 @@ public class Deb {
             else {
                 sb.append(toString() + "\n");
             }
-            return null;
         }
 
         protected Object getValue() {
@@ -138,7 +171,13 @@ public class Deb {
             return value.getClass();
         }
 
-//        public abstract boolean hasFields();
+        public void readState(int depth) {
+            if(depth ==0) {
+                return;
+            }
+            readState();
+            stream().map(x-> x.getValue()).forEach(x -> x.readState(depth-1));
+        }
 
         /**
          * Reads this ObjectState's state. This method won't be called if isRead() returns true.
@@ -161,6 +200,10 @@ public class Deb {
                 return new ObjectState(value,caller);
             }
             else {
+                Optional<ObjectStateI> reference = find(value);
+                if(reference.isPresent() && reference.get() instanceof ObjectState) {
+                    return new ObjectStateReference(caller, (ObjectState)reference.get());
+                }
                 return new ObjectState(value, caller);
             }
         }
@@ -202,10 +245,13 @@ public class Deb {
         public Class<?> getType() {
             return this.type;
         }
+
+        @Override
+        public String toString() { return "null";}
     }
 
     static class ObjectState extends ObjectStateI {
-        private HashMap<Field, ObjectStateI> fields;
+        private HashMap<Field, ObjectStateI> fields = new HashMap<>();
 
         private ObjectState(Object input) {
             this(input, null);
@@ -234,7 +280,15 @@ public class Deb {
             }
         }
 
-        private ObjectState find(Object fieldValue) {
+        @Override
+        public String toString() {
+            if(!isRead()) {
+                return "unknown(" + Integer.toHexString(System.identityHashCode(getValue())) + ")";
+            }
+            return toStringRecursive();
+        }
+
+//        public ObjectState find(Object fieldValue) {
 //            Optional<ObjectState> result = fields.values().stream().filter(x -> x.isRead() && x.getValue().equals(fieldValue)).findAny();
 //            if(result.isPresent()) {
 //                return result.get();
@@ -244,13 +298,8 @@ public class Deb {
 //                // TODO: reimplement
 //                return null;
 //            }
-            return null;
-        }
-
-        public void readState(int depth) {
-            readState();
-            //TODO: Implement?
-        }
+//            return null;
+//        }
 
         public HashMap<Field, ObjectStateI> getFields() {
             return fields;
@@ -270,6 +319,10 @@ public class Deb {
             return true;
         }
 
+        @Override
+        public Stream<Map.Entry<Field, ObjectStateI>> stream() {
+            return fields.entrySet().stream();
+        }
     }
 
     static class StateDiff {
@@ -296,19 +349,19 @@ public class Deb {
 class TestA {
     private static int i = 0;
     private int a;
-//    private TestA b;
-//    private TestA parent;
+    private TestA b;
+    private TestA parent;
     public TestA() {
         this(null);
     }
     public TestA(TestA parent) {
         a = i;
         i++;
-//        this.parent = parent;
-//        Random rand = new Random();
-//        if(rand.nextBoolean()) {
-//            b = new TestA(this);
-//        }
+        this.parent = parent;
+        Random rand = new Random();
+        if(rand.nextBoolean()) {
+            b = new TestA(this);
+        }
     }
     public void inc() { a = a +1; }
 
