@@ -54,7 +54,7 @@ public class Deb {
 
     // TODO: Generate an easy-to-read ID for all objectstates while reading the tree.
     // TODO: Support for collections?
-    static public abstract class AbstractObjectState implements Iterable<Map.Entry<Field, AbstractObjectState>> {
+    static public abstract class AbstractObjectState {
         private final AbstractObjectState parent;
         private Object value; // TODO: it may not be a good idea to hold references to all objects
         // might not be smart to store these always, might be an option to do for only leaves / primitive types?
@@ -128,18 +128,9 @@ public class Deb {
             return false;
         }
 
-        @Deprecated
-        public Set<Map.Entry<Field, AbstractObjectState>> getFields() {
-            return ImmutableSet.of();
+        public Stream<Map.Entry<Field,AbstractObjectState>> stream() {
+            return ImmutableSet.<Map.Entry<Field, AbstractObjectState>>of().stream();
         }
-
-        @Override
-        @Deprecated
-        public Iterator<Map.Entry<Field, AbstractObjectState>> iterator() {
-            return getFields().iterator();
-        }
-
-        public Stream<Map.Entry<Field,AbstractObjectState>> stream() { return getFields().stream();}
 
 //        public Iterator<ObjectStateI> objectStateIterator() {
 //            return spliterator().
@@ -158,10 +149,10 @@ public class Deb {
 
             if(hasFields() && isRead()) {
                 sb.append("{\n");
-                for(Map.Entry<Field, AbstractObjectState> field : this) {
-                    sb.append(indent.apply(depth) + field.getKey().getName() + "=");
-                    field.getValue().toStringRecursiveImpl(sb, depth+1);
-                }
+                stream().forEach(child -> {
+                    sb.append(indent.apply(depth) + child.getKey().getName() + "=");
+                    child.getValue().toStringRecursiveImpl(sb, depth+1);
+                });
                 sb.append(indent.apply(depth-1) + "}\n");
             }
             else {
@@ -285,13 +276,7 @@ public class Deb {
         }
 
         @Override
-        public Set<Map.Entry<Field, AbstractObjectState>> getFields() {
-            return stream().collect(Collectors.toSet());
-        }
-
-        @Override
         public Stream<Map.Entry<Field, AbstractObjectState>> stream() {
-
             return content.stream().map(x -> Maps.immutableEntry((Field) null, x));
         }
 
@@ -355,11 +340,6 @@ public class Deb {
             }
         }
 
-        @Override
-        public Set<Map.Entry<Field, AbstractObjectState>> getFields() {
-            return fields.entrySet();
-        }
-
         public Iterable<Map.Entry<Field, AbstractObjectState>> getAllFields() {
             return Iterables.concat(fields.entrySet());
         }
@@ -371,7 +351,7 @@ public class Deb {
 
         @Override
         public Stream<Map.Entry<Field, AbstractObjectState>> stream() {
-            return getFields().stream();
+            return fields.entrySet().stream();
         }
 
     }
@@ -379,10 +359,13 @@ public class Deb {
     static class StateDiff {
         final ObjectState prevState, newState; // don't know if these are needed after initialization
         ArrayList<Field> diffFields = new ArrayList<>();
+
+
         public StateDiff(ObjectState prevState, ObjectState newState) { // make sure they are of the same type
             this.prevState = prevState;
             this.newState = newState;
             diff();
+
         }
 
         private void diff() {
