@@ -3,6 +3,7 @@ package fi.utu.ville.standardutils.deb;
 import com.google.gwt.thirdparty.guava.common.collect.ImmutableSet;
 import com.google.gwt.thirdparty.guava.common.collect.Iterables;
 import com.google.gwt.thirdparty.guava.common.collect.Iterators;
+import com.google.gwt.thirdparty.guava.common.collect.Maps;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -22,7 +23,7 @@ public class Deb {
         TestA a = new TestA();
 //        parse(a);
         ObjectState s = new ObjectState(a);
-        s.readState(2);
+        s.readState(3);
         System.out.println(s.toStringRecursive());
 //        s.readState();
 
@@ -47,7 +48,7 @@ public class Deb {
 
         @Override
         public String toString() {
-            return "REF";
+            return "REF(" + super.toString() + ")";
         }
     }
 
@@ -127,11 +128,13 @@ public class Deb {
             return false;
         }
 
+        @Deprecated
         public Set<Map.Entry<Field, AbstractObjectState>> getFields() {
             return ImmutableSet.of();
         }
 
         @Override
+        @Deprecated
         public Iterator<Map.Entry<Field, AbstractObjectState>> iterator() {
             return getFields().iterator();
         }
@@ -157,12 +160,7 @@ public class Deb {
                 sb.append("{\n");
                 for(Map.Entry<Field, AbstractObjectState> field : this) {
                     sb.append(indent.apply(depth) + field.getKey().getName() + "=");
-                    if(field.getValue().hasFields()) {
-                        field.getValue().toStringRecursiveImpl(sb, depth+1);
-                    }
-                    else {
-                        sb.append(field.getValue() + "\n");
-                    }
+                    field.getValue().toStringRecursiveImpl(sb, depth+1);
                 }
                 sb.append(indent.apply(depth-1) + "}\n");
             }
@@ -192,7 +190,7 @@ public class Deb {
             if(!isRead()) {
                 return "PENDING(" + Integer.toHexString(System.identityHashCode(getValue())) + ")";
             }
-            return toStringRecursive();
+            return Integer.toHexString(System.identityHashCode(getValue()));
         }
 
         /**
@@ -203,9 +201,15 @@ public class Deb {
         /** FACTORY **/
         private static final List<Class<?>> baseTypes = Arrays.asList(String.class, Integer.class, Double.class, Long.class, Character.class);
 
-        public AbstractObjectState createObjectState(AbstractObjectState caller, Field field, Object value) {
+        /**
+         * @param caller
+         * @param type Type of the value parameter. It's required because null values don't have type information.
+         * @param value
+         * @return
+         */
+        public AbstractObjectState createObjectState(AbstractObjectState caller, Class<?> type, Object value) {
             if(value == null) {
-                return new NullState(caller, field.getType());
+                return new NullState(caller, type);
             }
             if(baseTypes.stream().anyMatch(x ->x.equals(value.getClass()))) {
                 // CREATE BASETYPE
@@ -267,10 +271,12 @@ public class Deb {
     }
 
     static public class ArrayObjectState extends AbstractObjectState {
-        ArrayList<Object> content = new ArrayList<>();
 
+        private ArrayList<AbstractObjectState> content = new ArrayList<>();
+        private Class<?> componentType;
         public ArrayObjectState(Object value, AbstractObjectState parent) {
             super(value, parent);
+            this.componentType = getType().getComponentType();
         }
 
         @Override
@@ -279,11 +285,24 @@ public class Deb {
         }
 
         @Override
+        public Set<Map.Entry<Field, AbstractObjectState>> getFields() {
+            return stream().collect(Collectors.toSet());
+        }
+
+        @Override
+        public Stream<Map.Entry<Field, AbstractObjectState>> stream() {
+
+            return content.stream().map(x -> Maps.immutableEntry((Field) null, x));
+        }
+
+        @Override
         protected void readStateImpl() {
             int length =  Array.getLength(getValue());
             for(int i = 0; i < length; i++) {
                 Object element = Array.get(getValue(), i);
-                content.add(element);
+
+                AbstractObjectState st = createObjectState(this, componentType, element);
+                content.add(st);
             }
         }
 
@@ -328,7 +347,7 @@ public class Deb {
                     Object fieldValue = field.get(getValue());
 
 //                    System.out.println(field + " " + field.getName() + "=" + fieldValue.toString());
-                    AbstractObjectState st = createObjectState(this, field, fieldValue);
+                    AbstractObjectState st = createObjectState(this, field.getType(), fieldValue);
                     fields.put(field, st);
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
@@ -383,7 +402,7 @@ class TestA {
     private int a;
     private TestA b;
     private TestA parent;
-    private int[] t = {1,2};
+    private TestA[] c;
     public TestA() {
         this(null);
     }
@@ -394,6 +413,7 @@ class TestA {
         Random rand = new Random();
         if(rand.nextBoolean()) {
             b = new TestA(this);
+            c = new TestA[]{new TestA(b)};
         }
     }
     public void inc() { a = a +1; }
