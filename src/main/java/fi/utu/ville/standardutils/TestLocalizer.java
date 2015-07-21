@@ -2,6 +2,7 @@ package fi.utu.ville.standardutils;
 
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * A minimal (and non-functional) implementation of {@link Localizer} that can
@@ -31,6 +32,11 @@ public class TestLocalizer implements Localizer {
 	@Override
 	public Locale getCurrentLocale() {
 		return Locale.ENGLISH;
+	}
+
+	@Override
+	public TimeZone getCurrentTimeZone() {
+		return TimeZone.getTimeZone("Europe/Helsinki");
 	}
 
 	@Override

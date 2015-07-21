@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * <p>
@@ -152,6 +153,13 @@ public interface Localizer extends Serializable {
 	 * @return the locale used in the current user session
 	 */
 	Locale getCurrentLocale();
+
+	/**
+	 * Time zone to use when displaying UI elements for the user.
+	 *
+	 * @return the time zone for the current user session
+	 */
+	public TimeZone getCurrentTimeZone();
 
 	/**
 	 * Localizes the number based on user preferences. Localizing is done by changing the decimal separator.  
