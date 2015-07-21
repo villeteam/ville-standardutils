@@ -1,13 +1,16 @@
 package fi.utu.ville.standardutils.deb;
 
+import com.google.gwt.thirdparty.guava.common.collect.ImmutableSet;
 import com.google.gwt.thirdparty.guava.common.collect.Iterables;
 import com.google.gwt.thirdparty.guava.common.collect.Iterators;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 // TODO: after refreshing, a null reference may turn out to be a classState, baseType,
 /**
@@ -25,9 +28,9 @@ public class Deb {
 
     }
 
-    static class ObjectStateReference extends ObjectStateI {
+    static class ObjectStateReference extends AbstractObjectState {
         private ObjectState reference;
-        public ObjectStateReference(ObjectStateI parent, ObjectState reference) {
+        public ObjectStateReference(AbstractObjectState parent, ObjectState reference) {
             super(reference.getValue(), parent);
             this.reference = reference;
         }
@@ -49,23 +52,24 @@ public class Deb {
     }
 
     // TODO: Generate an easy-to-read ID for all objectstates while reading the tree.
-    static public abstract class ObjectStateI implements Iterable<Map.Entry<Field, ObjectStateI>> {
-        private final ObjectStateI parent;
+    // TODO: Support for collections?
+    static public abstract class AbstractObjectState implements Iterable<Map.Entry<Field, AbstractObjectState>> {
+        private final AbstractObjectState parent;
         private Object value; // TODO: it may not be a good idea to hold references to all objects
         // might not be smart to store these always, might be an option to do for only leaves / primitive types?
         // this might sometimes be set to a placeholder object which only tells the type it is supposed to refer to and its former address?
         private boolean isRead;
 
-        public ObjectStateI(Object value, ObjectStateI parent) {
+        public AbstractObjectState(Object value, AbstractObjectState parent) {
             this.value = value;
             this.parent = parent;
         }
 
-        public ObjectStateI(Object value) {
+        public AbstractObjectState(Object value) {
             this(value, null); // no parent
         }
 
-        public ObjectStateI getParent() {
+        public AbstractObjectState getParent() {
             return parent;
         }
 
@@ -78,12 +82,12 @@ public class Deb {
          * @param value
          * @return
          */
-        public Optional<ObjectStateI> find(Object value) {
-            ObjectStateI root = getRoot();
+        public Optional<AbstractObjectState> find(Object value) {
+            AbstractObjectState root = getRoot();
             return root.findImpl(value);
         }
 
-        protected Optional<ObjectStateI> findImpl(Object value) {
+        protected Optional<AbstractObjectState> findImpl(Object value) {
             if(this.getValue().equals(value)) {
                 return Optional.of(this);
             }
@@ -95,7 +99,7 @@ public class Deb {
         }
 
         // TODO: No recursion for no reason
-        public ObjectStateI getRoot() {
+        public AbstractObjectState getRoot() {
             if(hasParent()) {
                 return getParent().getRoot();
             }
@@ -123,12 +127,16 @@ public class Deb {
             return false;
         }
 
-        @Override
-        public Iterator<Map.Entry<Field, ObjectStateI>> iterator() {
-            return Iterators.emptyIterator();
+        public Set<Map.Entry<Field, AbstractObjectState>> getFields() {
+            return ImmutableSet.of();
         }
 
-        public Stream<Map.Entry<Field,ObjectStateI>> stream() { return Stream.empty();}
+        @Override
+        public Iterator<Map.Entry<Field, AbstractObjectState>> iterator() {
+            return getFields().iterator();
+        }
+
+        public Stream<Map.Entry<Field,AbstractObjectState>> stream() { return getFields().stream();}
 
 //        public Iterator<ObjectStateI> objectStateIterator() {
 //            return spliterator().
@@ -142,12 +150,12 @@ public class Deb {
             return sb.toString();
         }
 
-        private void toStringRecursiveImpl(StringBuilder sb, int depth) {
+        protected void toStringRecursiveImpl(StringBuilder sb, int depth) {
             Function<Integer, String> indent = (tabs) -> StringUtils.repeat("\t", tabs);
 
             if(hasFields() && isRead()) {
                 sb.append("{\n");
-                for(Map.Entry<Field, ObjectStateI> field : this) {
+                for(Map.Entry<Field, AbstractObjectState> field : this) {
                     sb.append(indent.apply(depth) + field.getKey().getName() + "=");
                     if(field.getValue().hasFields()) {
                         field.getValue().toStringRecursiveImpl(sb, depth+1);
@@ -176,7 +184,15 @@ public class Deb {
                 return;
             }
             readState();
-            stream().map(x-> x.getValue()).forEach(x -> x.readState(depth-1));
+            stream().forEach(x -> x.getValue().readState(depth - 1));
+        }
+
+        @Override
+        public String toString() {
+            if(!isRead()) {
+                return "PENDING(" + Integer.toHexString(System.identityHashCode(getValue())) + ")";
+            }
+            return toStringRecursive();
         }
 
         /**
@@ -187,7 +203,7 @@ public class Deb {
         /** FACTORY **/
         private static final List<Class<?>> baseTypes = Arrays.asList(String.class, Integer.class, Double.class, Long.class, Character.class);
 
-        public ObjectStateI createObjectState(ObjectStateI caller, Field field, Object value) {
+        public AbstractObjectState createObjectState(AbstractObjectState caller, Field field, Object value) {
             if(value == null) {
                 return new NullState(caller, field.getType());
             }
@@ -197,10 +213,10 @@ public class Deb {
             }
             else if(value.getClass().isArray()) {
                 // CREATE ARRAYTYPE
-                return new ObjectState(value,caller);
+                return new ArrayObjectState(value,caller);
             }
             else {
-                Optional<ObjectStateI> reference = find(value);
+                Optional<AbstractObjectState> reference = find(value);
                 if(reference.isPresent() && reference.get() instanceof ObjectState) {
                     return new ObjectStateReference(caller, (ObjectState)reference.get());
                 }
@@ -215,9 +231,9 @@ public class Deb {
         // abstract public boolean isExpanded();
     }
 
-    static public class BaseTypeState extends ObjectStateI {
+    static public class BaseTypeState extends AbstractObjectState {
 
-        public BaseTypeState(Object value, ObjectStateI parent) {
+        public BaseTypeState(Object value, AbstractObjectState parent) {
             super(value, parent);
         }
 
@@ -230,10 +246,10 @@ public class Deb {
         }
     }
 
-    static public class NullState extends ObjectStateI {
+    static public class NullState extends AbstractObjectState {
         private final Class<?> type;
 
-        public NullState(ObjectStateI parent, Class<?> type) {
+        public NullState(AbstractObjectState parent, Class<?> type) {
             super(ObjectUtils.NULL, parent);
             this.type = type;
         }
@@ -250,14 +266,54 @@ public class Deb {
         public String toString() { return "null";}
     }
 
-    static class ObjectState extends ObjectStateI {
-        private HashMap<Field, ObjectStateI> fields = new HashMap<>();
+    static public class ArrayObjectState extends AbstractObjectState {
+        ArrayList<Object> content = new ArrayList<>();
+
+        public ArrayObjectState(Object value, AbstractObjectState parent) {
+            super(value, parent);
+        }
+
+        @Override
+        public boolean hasFields() {
+            return true;
+        }
+
+        @Override
+        protected void readStateImpl() {
+            int length =  Array.getLength(getValue());
+            for(int i = 0; i < length; i++) {
+                Object element = Array.get(getValue(), i);
+                content.add(element);
+            }
+        }
+
+        @Override
+        protected void toStringRecursiveImpl(StringBuilder sb, int depth) {
+            sb.append((isRead() ? toString() : super.toString()) + "\n");
+        }
+
+        @Override
+        public String toString() {
+            return "[" + content.stream()
+                    .map(x -> x.toString())
+                    .collect(Collectors.joining(", ")) + "]";
+//            StringJoiner sj = new StringJoiner(",", "[", "]");
+//            for(Object element : content) {
+//                sj.add(element.toString());
+//            }
+//            return sj.toString();
+        }
+
+    }
+
+    static class ObjectState extends AbstractObjectState {
+        private HashMap<Field, AbstractObjectState> fields = new HashMap<>();
 
         private ObjectState(Object input) {
             this(input, null);
         }
 
-        private ObjectState(Object value, ObjectStateI parent) {
+        private ObjectState(Object value, AbstractObjectState parent) {
             super(value, parent);
 
         }
@@ -272,7 +328,7 @@ public class Deb {
                     Object fieldValue = field.get(getValue());
 
 //                    System.out.println(field + " " + field.getName() + "=" + fieldValue.toString());
-                    ObjectStateI st = createObjectState(this, field, fieldValue);
+                    AbstractObjectState st = createObjectState(this, field, fieldValue);
                     fields.put(field, st);
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
@@ -281,37 +337,12 @@ public class Deb {
         }
 
         @Override
-        public String toString() {
-            if(!isRead()) {
-                return "unknown(" + Integer.toHexString(System.identityHashCode(getValue())) + ")";
-            }
-            return toStringRecursive();
+        public Set<Map.Entry<Field, AbstractObjectState>> getFields() {
+            return fields.entrySet();
         }
 
-//        public ObjectState find(Object fieldValue) {
-//            Optional<ObjectState> result = fields.values().stream().filter(x -> x.isRead() && x.getValue().equals(fieldValue)).findAny();
-//            if(result.isPresent()) {
-//                return result.get();
-//            }
-//            else if(hasParent()) {
-//                //return getParent().find(fieldValue);
-//                // TODO: reimplement
-//                return null;
-//            }
-//            return null;
-//        }
-
-        public HashMap<Field, ObjectStateI> getFields() {
-            return fields;
-        }
-
-        public Iterable<Map.Entry<Field, ObjectStateI>> getAllFields() {
+        public Iterable<Map.Entry<Field, AbstractObjectState>> getAllFields() {
             return Iterables.concat(fields.entrySet());
-        }
-
-        @Override
-        public Iterator<Map.Entry<Field, ObjectStateI>> iterator() {
-            return fields.entrySet().iterator();
         }
 
         @Override
@@ -320,9 +351,10 @@ public class Deb {
         }
 
         @Override
-        public Stream<Map.Entry<Field, ObjectStateI>> stream() {
-            return fields.entrySet().stream();
+        public Stream<Map.Entry<Field, AbstractObjectState>> stream() {
+            return getFields().stream();
         }
+
     }
 
     static class StateDiff {
@@ -351,6 +383,7 @@ class TestA {
     private int a;
     private TestA b;
     private TestA parent;
+    private int[] t = {1,2};
     public TestA() {
         this(null);
     }
