@@ -63,7 +63,6 @@ public class GeneratorView implements Serializable {
 
 	public GeneratorView(Localizer localizer, MathGeneratorExerciseData oldData) {
 		if (oldData == null){
-			System.out.println("oldData was null!");
 			oldData = new MathGeneratorExerciseData(2);
 		}
 		if(oldData.getManualCalculations() == null)
