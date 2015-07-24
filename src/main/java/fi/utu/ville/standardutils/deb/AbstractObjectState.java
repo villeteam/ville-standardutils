@@ -4,10 +4,7 @@ import com.google.gwt.thirdparty.guava.common.collect.ImmutableSet;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -22,15 +19,17 @@ public abstract class AbstractObjectState {
     // might not be smart to store these always, might be an option to do for only leaves / primitive types?
     // this might sometimes be set to a placeholder object which only tells the type it is supposed to refer to and its former address?
     private boolean isRead;
+    protected final ObjectStateFactory factory;
 
-    public AbstractObjectState(Object value, AbstractObjectState parent) {
+    public AbstractObjectState(ObjectStateFactory factory, Object value, AbstractObjectState parent) {
         this.value = value;
         this.parent = parent;
+        this.factory = factory;
     }
 
-    public AbstractObjectState(Object value) {
-        this(value, null); // no parent
-    }
+//    public AbstractObjectState(ObjectStateFactory factory, Object value) {
+//        this(factory, value, null); // no parent
+//    }
 
     public AbstractObjectState getParent() {
         return parent;
@@ -60,6 +59,10 @@ public abstract class AbstractObjectState {
                 .filter(x -> x.isPresent())
                 .findAny()
                 .orElse(Optional.empty());
+    }
+
+    protected ObjectStateFactory getFactory() {
+        return factory;
     }
 
     // TODO: No recursion for no reason
@@ -152,37 +155,7 @@ public abstract class AbstractObjectState {
      */
     protected abstract void readStateImpl();
 
-    /**
-     * FACTORY
-     **/
-    private static final List<Class<?>> baseTypes = Arrays.asList(String.class, Integer.class, Double.class, Long.class, Character.class);
-
-    /**
-     * @param caller
-     * @param type   Type of the value parameter. It's required because null values don't have type information.
-     * @param value
-     * @return
-     */
-    public AbstractObjectState createObjectState(AbstractObjectState caller, Class<?> type, Object value) {
-        if (value == null) {
-            return new NullState(caller, type);
-        }
-        if (baseTypes.stream().anyMatch(x -> x.equals(value.getClass()))) {
-            // CREATE BASETYPE
-            return new BaseTypeState(value, caller);
-        } else if (value.getClass().isArray()) {
-            // CREATE ARRAYTYPE
-            return new ArrayObjectState(value, caller);
-        } else {
-            Optional<AbstractObjectState> reference = find(value);
-            if (reference.isPresent() && reference.get() instanceof ObjectState) {
-                return new ObjectStateReference(caller, (ObjectState) reference.get());
-            }
-            return new ObjectState(value, caller);
-        }
-    }
-
-//        abstract public void refresh(); // maybe? I'm pretty sure it has to be done through the parent because:
+    //        abstract public void refresh(); // maybe? I'm pretty sure it has to be done through the parent because:
     // this might be a basetype, which is not a reference to the original value
     // this might be a nulltype, which is not a reference to the original value
 

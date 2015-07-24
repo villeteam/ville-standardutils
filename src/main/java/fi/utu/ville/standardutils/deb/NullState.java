@@ -8,8 +8,8 @@ import org.apache.commons.lang3.ObjectUtils;
 public class NullState extends AbstractObjectState {
     private final Class<?> type;
 
-    public NullState(AbstractObjectState parent, Class<?> type) {
-        super(ObjectUtils.NULL, parent);
+    public NullState(ObjectStateFactory factory, AbstractObjectState parent, Class<?> type) {
+        super(factory, ObjectUtils.NULL, parent);
         this.type = type;
     }
 

@@ -1,12 +1,7 @@
 package fi.utu.ville.standardutils.deb;
 
-import com.google.gwt.thirdparty.guava.common.collect.Maps;
-import org.apache.commons.lang3.ObjectUtils;
-
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.*;
-import java.util.stream.Stream;
 // TODO: after refreshing, a null reference may turn out to be a classState, baseType,
 
 /**
@@ -17,7 +12,8 @@ public class Deb {
     public static void main(String[] args) {
         TestA a = new TestA();
 //        parse(a);
-        ObjectState s = new ObjectState(a);
+        ObjectStateFactory f = new ObjectStateFactory();
+        AbstractObjectState s =  f.createRoot(a);
         s.readState(3);
         System.out.println(s.toStringRecursive());
         s.readState();
@@ -56,6 +52,7 @@ class TestA {
     private TestA b;
     private TestA parent;
     private TestA[] c;
+    private ArrayList<TestA> arr;
     public TestA() {
         this(null);
     }
@@ -67,6 +64,8 @@ class TestA {
         if(rand.nextBoolean()) {
             b = new TestA(this);
             c = new TestA[]{new TestA(b)};
+            arr = new ArrayList<>();
+            arr.add(b);
         }
     }
     public void inc() { a = a +1; }

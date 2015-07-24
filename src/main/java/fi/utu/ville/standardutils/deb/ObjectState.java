@@ -14,12 +14,12 @@ public class ObjectState extends AbstractObjectState {
     private HashMap<Field, AbstractObjectState> fields = new HashMap<>();
 
     // TODO: protected
-    public ObjectState(Object input) {
-        this(input, null);
-    }
+//    public ObjectState(Object input) {
+//        this(input, null);
+//    }
 
-    protected ObjectState(Object value, AbstractObjectState parent) {
-        super(value, parent);
+    protected ObjectState(ObjectStateFactory factory, Object value, AbstractObjectState parent) {
+        super(factory, value, parent);
 
     }
 
@@ -31,9 +31,9 @@ public class ObjectState extends AbstractObjectState {
             try {
                 field.setAccessible(true);
                 Object fieldValue = field.get(getValue());
-
 //                    System.out.println(field + " " + field.getName() + "=" + fieldValue.toString());
-                AbstractObjectState st = createObjectState(this, field.getType(), fieldValue);
+                AbstractObjectState st = getFactory().create(this, field.getType(), fieldValue);
+
                 fields.put(field, st);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();

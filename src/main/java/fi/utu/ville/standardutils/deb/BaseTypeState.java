@@ -5,8 +5,8 @@ package fi.utu.ville.standardutils.deb;
  */
 public class BaseTypeState extends AbstractObjectState {
 
-    public BaseTypeState(Object value, AbstractObjectState parent) {
-        super(value, parent);
+    public BaseTypeState(ObjectStateFactory factory, Object value, AbstractObjectState parent) {
+        super(factory, value, parent);
     }
 
     @Override

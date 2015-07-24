@@ -6,8 +6,8 @@ package fi.utu.ville.standardutils.deb;
 class ObjectStateReference extends AbstractObjectState {
     private ObjectState reference;
 
-    public ObjectStateReference(AbstractObjectState parent, ObjectState reference) {
-        super(reference.getValue(), parent);
+    public ObjectStateReference(ObjectStateFactory factory, AbstractObjectState parent, ObjectState reference) {
+        super(factory, reference.getValue(), parent);
         this.reference = reference;
     }
 
