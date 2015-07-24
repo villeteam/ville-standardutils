@@ -39,6 +39,10 @@ public abstract class AbstractObjectState {
         return parent != null;
     }
 
+    public int getId() {
+        return factory.getId(this);
+    }
+
     /**
      * Performs DFS on the root node of this tree.
      *
@@ -144,10 +148,11 @@ public abstract class AbstractObjectState {
 
     @Override
     public String toString() {
+        // Integer.toHexString(System.identityHashCode(getValue()))
         if (!isRead()) {
-            return "PENDING(" + Integer.toHexString(System.identityHashCode(getValue())) + ")";
+            return "PENDING(" + getId() + ")";
         }
-        return Integer.toHexString(System.identityHashCode(getValue()));
+        return "" + getId();
     }
 
     /**

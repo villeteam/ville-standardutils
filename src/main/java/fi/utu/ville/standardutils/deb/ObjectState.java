@@ -3,6 +3,7 @@ package fi.utu.ville.standardutils.deb;
 import com.google.gwt.thirdparty.guava.common.collect.Iterables;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -29,10 +30,10 @@ public class ObjectState extends AbstractObjectState {
         fields = new HashMap<>();
         for (Field field : getType().getDeclaredFields()) {
             try {
+
                 field.setAccessible(true);
                 Object fieldValue = field.get(getValue());
-//                    System.out.println(field + " " + field.getName() + "=" + fieldValue.toString());
-                AbstractObjectState st = getFactory().create(this, field.getType(), fieldValue);
+                AbstractObjectState st = getFactory().create(this, field.getType(), fieldValue, field.getGenericType());
 
                 fields.put(field, st);
             } catch (IllegalAccessException e) {

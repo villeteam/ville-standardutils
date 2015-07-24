@@ -4,6 +4,7 @@ import com.google.gwt.thirdparty.guava.common.collect.Maps;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,20 +21,13 @@ public class ArrayObjectState extends AbstractObjectState {
     private ArrayList<AbstractObjectState> content = new ArrayList<>();
     private Class<?> componentType;
 
-    public ArrayObjectState(ObjectStateFactory factory, Object value, AbstractObjectState parent) {
+    public ArrayObjectState(ObjectStateFactory factory, Object value, AbstractObjectState parent, Class<?>[] typeParams) {
         super(factory, value, parent);
         if(getType().isArray()) {
             this.componentType = getType().getComponentType();
         } else {
-            final TypeVariable<? extends Class<?>>[] typeParameters = getType().getTypeParameters();
-            if(typeParameters.length > 0) {
-                System.out.println(typeParameters.length);
-                System.out.println(Arrays.toString(typeParameters[0].getBounds()));
-                componentType = (Class<?>)typeParameters[0].getBounds()[0];
-            }
-            System.out.println("componenttype: " + componentType);
+            componentType = typeParams[0];
         }
-
     }
 
     @Override

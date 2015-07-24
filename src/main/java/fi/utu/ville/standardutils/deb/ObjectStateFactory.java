@@ -1,22 +1,21 @@
 package fi.utu.ville.standardutils.deb;
 
 import javax.lang.model.type.NullType;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.lang.reflect.Type;
+import java.util.*;
 
 /**
  * Created by Phatency on 24.7.2015.
  */
-class ObjectStateFactory {
+public class ObjectStateFactory {
 
     private static final List<Class<?>> baseTypes = Arrays.asList(String.class, Integer.class, Double.class, Long.class, Character.class);
     private static final List<Class<?>> collectionTypes = Arrays.asList(Collection.class);
+    private final HashMap<AbstractObjectState, Integer> ids = new HashMap<>();
     private AbstractObjectState root;
+    private int nextId = 0;
 
     public ObjectStateFactory() {
-
     }
 
     /**
@@ -25,7 +24,10 @@ class ObjectStateFactory {
      * @param value
      * @return
      */
-    public AbstractObjectState create(AbstractObjectState parent, Class<?> type, Object value) {
+    public AbstractObjectState create(AbstractObjectState parent, Class<?> type, Object value, Type genericType) {
+        if(type == null) {
+            throw new NullPointerException();
+        }
         AbstractObjectState state;
         if (value == null) {
             state = new NullState(this, parent, type);
@@ -33,9 +35,11 @@ class ObjectStateFactory {
             // CREATE BASETYPE
             state = new BaseTypeState(this, value, parent);
         } else if (value.getClass().isArray() ||
-                collectionTypes.stream().anyMatch(x -> x.isAssignableFrom(type))) {
+                collectionTypes
+                        .stream()
+                        .anyMatch(x -> x.isAssignableFrom(type))) {
             // CREATE ARRAYTYPE
-            state = new ArrayObjectState(this, value, parent);
+            state = new ArrayObjectState(this, value, parent, inferTypeParameters(genericType));
         } else {
             Optional<AbstractObjectState> reference = root != null ? root.find(value) : Optional.empty();
             if (reference.isPresent() && reference.get() instanceof ObjectState) {
@@ -47,14 +51,54 @@ class ObjectStateFactory {
         if (root == null) {
             root = state;
         }
+        ids.put(state, nextId++);
         return state;
     }
+
+    public AbstractObjectState create(AbstractObjectState parent, Class<?> type, Object value) {
+        return create(parent,type,value,null);
+    }
+
+    /**
+     * Returns the generic type parameters in param or if none found (possibly due to type erasure), returns an array
+     * with single Object.class type. This conforms to Java's normal generic type returning methods when the type
+     * information has been erased.
+     * @param genericType
+     * @return An array with generic type parameter(s), array.length > 0.
+     */
+    public static Class<?>[] inferTypeParameters(Type genericType) {
+        String typeString = genericType.getTypeName();
+        int beginIndex = typeString.indexOf('<');
+        int endIndex = typeString.lastIndexOf('>');
+        if(beginIndex == -1 || endIndex == -1) {
+            return new Class<?>[] {Object.class};
+        }
+        String genericParams = typeString.substring(beginIndex+1, endIndex);
+        if(genericParams.contains("<")) {
+            // TODO: support for nested type parameters
+            return new Class<?>[] { Object.class}; // We don't support nested typeParameters
+        }
+        String[] splittedParams = genericParams.split(",");
+        Class<?>[] typeParams = new Class<?>[splittedParams.length];
+        for(int i = 0; i < splittedParams.length; ++i) {
+            try {
+                typeParams[i] = Class.forName(splittedParams[i]);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return typeParams;
+    }
+
 
     public AbstractObjectState createRoot(Object value) {
         // If the user for some reason wants the root node to be null, we'll accept their decision, but have
         // no type information
         Class<?> type = value != null ? value.getClass() : NullType.class;
-        return create(null, type, value);
+        return create(null, type, value, null);
     }
 
+    public int getId(AbstractObjectState state) {
+        return ids.get(state);
+    }
 }
