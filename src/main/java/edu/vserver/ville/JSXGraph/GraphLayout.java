@@ -24,10 +24,6 @@ public class GraphLayout extends VerticalLayout {
 
 	public GraphLayout(String input) {
 
-		this.addStyleName("ville-graphlayout");
-		mjax = new VilleMathJax("ville-graphlayout");
-		this.addComponent(mjax);
-
 		TeXParser texParser = new TeXParser(input);
 		Iterator<TeXBlock> blockIter =
 				texParser.iterator();
@@ -42,6 +38,10 @@ public class GraphLayout extends VerticalLayout {
 				appendGraph(block.blockString);
 
 		}
+		
+		this.addStyleName("ville-graphlayout");
+		mjax = new VilleMathJax("ville-graphlayout");
+		this.addComponent(mjax);
 
 	}
 
