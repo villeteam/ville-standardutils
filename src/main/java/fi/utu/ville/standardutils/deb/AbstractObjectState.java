@@ -47,31 +47,20 @@ abstract class AbstractStateTree<T extends AbstractStateTree> {
  */ // TODO: Generate an easy-to-read ID for all objectstates while reading the tree.
 // Maybe there should exist an ObjectStateFactory of which all ObjectStates have a reference to?
 // TODO: Support for collections?
-public abstract class AbstractObjectState {
-    private final AbstractObjectState parent;
-    private final Object value; // TODO: it may not be a good idea to hold references to all objects
+public abstract class AbstractObjectState extends AbstractStateTree<AbstractObjectState> {
     // might not be smart to store these always, might be an option to do for only leaves / primitive types?
     // this might sometimes be set to a placeholder object which only tells the type it is supposed to refer to and its former address?
     private boolean isRead;
     protected final ObjectStateFactory factory;
 
     public AbstractObjectState(ObjectStateFactory factory, Object value, AbstractObjectState parent) {
-        this.value = value;
-        this.parent = parent;
+        super(value, parent);
         this.factory = factory;
     }
 
 //    public AbstractObjectState(ObjectStateFactory factory, Object value) {
 //        this(factory, value, null); // no parent
 //    }
-
-    public AbstractObjectState getParent() {
-        return parent;
-    }
-
-    public boolean hasParent() {
-        return parent != null;
-    }
 
     public int getId() {
         return factory.getId(this);
@@ -119,17 +108,9 @@ public abstract class AbstractObjectState {
      */
     public void readState() {
         if (!isRead()) {
-            readStateImpl();
             isRead = true;
+            readStateImpl();
         }
-    }
-
-    public boolean hasChildren() {
-        return stream().count() > 0;
-    }
-
-    public Stream<Map.Entry<Field, AbstractObjectState>> stream() {
-        return ImmutableSet.<Map.Entry<Field, AbstractObjectState>>of().stream();
     }
 
 //        public Iterator<ObjectStateI> objectStateIterator() {
@@ -158,14 +139,6 @@ public abstract class AbstractObjectState {
         } else {
             sb.append(toString() + "\n");
         }
-    }
-
-    protected Object getValue() {
-        return value;
-    }
-
-    public Class<?> getType() {
-        return value.getClass();
     }
 
     public void readState(int depth) {
