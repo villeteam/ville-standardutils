@@ -8,11 +8,11 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-abstract class AbstractStateTree<T extends AbstractStateTree> {
+abstract class AbstractStateTree<T extends AbstractStateTree, U> {
     private final T parent;
-    private final Object value;
+    private final U value;
 
-    public AbstractStateTree(Object value, T parent) {
+    public AbstractStateTree(U value, T parent) {
         this.parent = parent;
         this.value = value;
     }
@@ -33,7 +33,7 @@ abstract class AbstractStateTree<T extends AbstractStateTree> {
         return ImmutableSet.<Map.Entry<Field, AbstractObjectState>>of().stream();
     }
 
-    protected Object getValue() {
+    protected U getValue() {
         return value;
     }
 
@@ -47,7 +47,7 @@ abstract class AbstractStateTree<T extends AbstractStateTree> {
  */ // TODO: Generate an easy-to-read ID for all objectstates while reading the tree.
 // Maybe there should exist an ObjectStateFactory of which all ObjectStates have a reference to?
 // TODO: Support for collections?
-public abstract class AbstractObjectState extends AbstractStateTree<AbstractObjectState> {
+public abstract class AbstractObjectState extends AbstractStateTree<AbstractObjectState, Object> {
     // might not be smart to store these always, might be an option to do for only leaves / primitive types?
     // this might sometimes be set to a placeholder object which only tells the type it is supposed to refer to and its former address?
     private boolean isRead;
@@ -164,8 +164,30 @@ public abstract class AbstractObjectState extends AbstractStateTree<AbstractObje
     protected abstract void readStateImpl();
 
     //        abstract public void refresh(); // maybe? I'm pretty sure it has to be done through the parent because:
-    // this might be a basetype, which is not a reference to the original value
-    // this might be a nulltype, which is not a reference to the original value
 
-    // abstract public boolean isExpanded();
+    static class ChildReference {
+        private final AbstractObjectState state;
+        private final Field field;
+
+        public ChildReference(AbstractObjectState state, Field field) {
+            this.state = state;
+            this.field = field;
+        }
+
+        public AbstractObjectState getState() {
+            return state;
+        }
+
+        public Field getField() {
+            return field;
+        }
+
+        public ChildReference(AbstractObjectState state) {
+            this(state, null);
+        }
+
+        public boolean isField() {
+            return field != null;
+        }
+    }
 }

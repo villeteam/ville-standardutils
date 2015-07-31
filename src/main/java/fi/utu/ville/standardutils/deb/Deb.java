@@ -22,10 +22,12 @@ public class Deb {
 
 }
 
-class ObjectStateDiff {
-    private AbstractObjectState state;
+class ObjectStateDiff extends AbstractStateTree<ObjectStateDiff, AbstractObjectState> {
     private boolean isChanged;
 
+    public ObjectStateDiff(ObjectStateDiff parent, AbstractObjectState value) {
+        super(value, parent);
+    }
 }
 
 /**
