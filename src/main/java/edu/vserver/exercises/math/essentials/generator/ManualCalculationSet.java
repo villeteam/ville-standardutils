@@ -16,6 +16,7 @@ public class ManualCalculationSet implements Serializable{
 	private ArrayList<ManualCalculation> manualCalculations;
 	private int currentCalculation = 0;	
 	private transient ManualCalculation nullCalc = new ManualCalculation("0=0");
+	private transient boolean firstShuffle = false;
 	
 	/**
 	 * Creates a manually inputted calculation set.
@@ -41,6 +42,11 @@ public class ManualCalculationSet implements Serializable{
 	
 	public ArrayList<String> getNextCalculation(){		
 		ArrayList<String> result = splitString(manualCalculations.get(currentCalculation).getExpression());
+		
+		if(!firstShuffle){
+			shuffleQuestionset();
+			firstShuffle = true;
+		}
 		
 		currentCalculation++;
 		if(!hasNext()){
@@ -105,8 +111,6 @@ public class ManualCalculationSet implements Serializable{
 
 		private double evaluateArrayList(ArrayList<String> generatedExpression){
 			StringBuilder b = new StringBuilder();
-			
-			
 			
 			for (int i = 0; i < generatedExpression.size(); i++) {
 				b.append(generatedExpression.get(i));
