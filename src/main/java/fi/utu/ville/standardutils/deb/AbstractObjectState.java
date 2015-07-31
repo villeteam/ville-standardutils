@@ -8,6 +8,40 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+abstract class AbstractStateTree<T extends AbstractStateTree> {
+    private final T parent;
+    private final Object value;
+
+    public AbstractStateTree(Object value, T parent) {
+        this.parent = parent;
+        this.value = value;
+    }
+
+    public T getParent() {
+        return parent;
+    }
+
+    public boolean hasParent() {
+        return parent != null;
+    }
+
+    public boolean hasChildren() {
+        return stream().count() > 0;
+    }
+
+    public Stream<Map.Entry<Field, AbstractObjectState>> stream() {
+        return ImmutableSet.<Map.Entry<Field, AbstractObjectState>>of().stream();
+    }
+
+    protected Object getValue() {
+        return value;
+    }
+
+    public Class<?> getType() {
+        return value.getClass();
+    }
+}
+
 /**
  * Created by Phatency on 23.7.2015.
  */ // TODO: Generate an easy-to-read ID for all objectstates while reading the tree.
@@ -15,7 +49,7 @@ import java.util.stream.Stream;
 // TODO: Support for collections?
 public abstract class AbstractObjectState {
     private final AbstractObjectState parent;
-    private Object value; // TODO: it may not be a good idea to hold references to all objects
+    private final Object value; // TODO: it may not be a good idea to hold references to all objects
     // might not be smart to store these always, might be an option to do for only leaves / primitive types?
     // this might sometimes be set to a placeholder object which only tells the type it is supposed to refer to and its former address?
     private boolean isRead;
@@ -69,12 +103,8 @@ public abstract class AbstractObjectState {
         return factory;
     }
 
-    // TODO: No recursion for no reason
     public AbstractObjectState getRoot() {
-        if (hasParent()) {
-            return getParent().getRoot();
-        }
-        return this;
+        return factory.getRoot();
     }
 
     /**
@@ -94,8 +124,8 @@ public abstract class AbstractObjectState {
         }
     }
 
-    public boolean hasFields() {
-        return false;
+    public boolean hasChildren() {
+        return stream().count() > 0;
     }
 
     public Stream<Map.Entry<Field, AbstractObjectState>> stream() {
@@ -117,11 +147,11 @@ public abstract class AbstractObjectState {
     protected void toStringRecursiveImpl(StringBuilder sb, int depth) {
         Function<Integer, String> indent = (tabs) -> StringUtils.repeat("\t", tabs);
 
-        if (hasFields() && isRead()) {
+        if (hasChildren() && isRead()) {
             sb.append("{\n");
             stream().forEach(child -> {
                 if (child.getKey() != null)
-                    sb.append(indent.apply(depth) + child.getKey().getName() + "=");
+                    sb.append(indent.apply(depth) + child.getKey().getName() + "(" + child.getValue().getId() + ")=");
                 child.getValue().toStringRecursiveImpl(sb, depth + 1);
             });
             sb.append(indent.apply(depth - 1) + "}\n");
@@ -152,7 +182,7 @@ public abstract class AbstractObjectState {
         if (!isRead()) {
             return "PENDING(" + getId() + ")";
         }
-        return "" + getId();
+        return "id(" + getId() + ")";
     }
 
     /**

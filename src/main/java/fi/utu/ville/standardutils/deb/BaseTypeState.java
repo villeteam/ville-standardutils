@@ -15,6 +15,6 @@ public class BaseTypeState extends AbstractObjectState {
 
     @Override
     public String toString() {
-        return getValue().toString();
+        return getValue().toString() + "("+getFactory().getId(this) + ")";
     }
 }

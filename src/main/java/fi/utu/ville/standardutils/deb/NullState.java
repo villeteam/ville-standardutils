@@ -24,6 +24,6 @@ public class NullState extends AbstractObjectState {
 
     @Override
     public String toString() {
-        return "null";
+        return "null" + "(" + getId() +")";
     }
 }

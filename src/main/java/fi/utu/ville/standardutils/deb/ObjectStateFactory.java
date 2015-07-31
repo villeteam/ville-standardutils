@@ -1,6 +1,7 @@
 package fi.utu.ville.standardutils.deb;
 
 import javax.lang.model.type.NullType;
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.*;
 
@@ -52,11 +53,17 @@ public class ObjectStateFactory {
             root = state;
         }
         ids.put(state, nextId++);
+        System.out.println("" + (nextId-1) + " created " + state.toString() + ":" + type.getName() +  " parent: " + (parent != null ? parent.getId(): -1));
         return state;
     }
 
+
     public AbstractObjectState create(AbstractObjectState parent, Class<?> type, Object value) {
         return create(parent,type,value,null);
+    }
+
+    public AbstractObjectState create(AbstractObjectState parent, Field field, Object value) {
+        return create(parent, field.getType(), value, field.getGenericType());
     }
 
     /**
@@ -78,11 +85,11 @@ public class ObjectStateFactory {
             // TODO: support for nested type parameters
             return new Class<?>[] { Object.class}; // We don't support nested typeParameters
         }
-        String[] splittedParams = genericParams.split(",");
-        Class<?>[] typeParams = new Class<?>[splittedParams.length];
-        for(int i = 0; i < splittedParams.length; ++i) {
+        String[] splitParams = genericParams.split(",");
+        Class<?>[] typeParams = new Class<?>[splitParams.length];
+        for(int i = 0; i < splitParams.length; ++i) {
             try {
-                typeParams[i] = Class.forName(splittedParams[i]);
+                typeParams[i] = Class.forName(splitParams[i]);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -100,5 +107,9 @@ public class ObjectStateFactory {
 
     public int getId(AbstractObjectState state) {
         return ids.get(state);
+    }
+
+    public AbstractObjectState getRoot() {
+        return root;
     }
 }

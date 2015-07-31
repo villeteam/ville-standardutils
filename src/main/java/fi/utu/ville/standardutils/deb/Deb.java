@@ -19,55 +19,44 @@ public class Deb {
         s.readState();
     }
 
-    static class StateDiff {
-        final ObjectState prevState, newState; // don't know if these are needed after initialization
-        ArrayList<Field> diffFields = new ArrayList<>();
 
+}
 
-        public StateDiff(ObjectState prevState, ObjectState newState) { // make sure they are of the same type
-            this.prevState = prevState;
-            this.newState = newState;
-            diff();
+class ObjectStateDiff {
+    private AbstractObjectState state;
+    private boolean isChanged;
 
-        }
-
-        private void diff() {
-//            for(Map.Entry<Field, Object> oldField : prevState.getFields().entrySet()) {
-//                Object newValue = newState.getFields().get(oldField.getKey());
-//                if (!Objects.equals(oldField.getValue(), newValue)) {
-//                    diffFields.add(oldField.getKey());
-//                }
-//
-//            }
-        }
-    }
 }
 
 /**
  * A temporary testing class
  */
 class TestA {
-    private static int i = 0;
-    private int a;
-    private TestA b;
-    private TestA parent;
-    private TestA[] c;
+      private static int i = 42;
+      private int a = 84;
+//    private TestA b;
+//    private TestA parent;
+//    private TestA[] c;
     private ArrayList<TestA> arr;
+//    private ArrayList<Integer> arr2;
     public TestA() {
         this(null);
     }
     public TestA(TestA parent) {
-        a = i;
-        i++;
-        this.parent = parent;
+//        a = i;
+//        i++;
+//        this.parent = parent;
         Random rand = new Random();
-        if(rand.nextBoolean()) {
-            b = new TestA(this);
-            c = new TestA[]{new TestA(b)};
+        if(parent == null) {
+//            b = new TestA(this);
+            TestA b = new TestA(this);
+//            c = new TestA[]{new TestA(b)};
             arr = new ArrayList<>();
             arr.add(b);
+//            arr2 = new ArrayList<>();
+//            arr2.add(420);
         }
     }
-    public void inc() { a = a +1; }
+//    public void inc() { a = a +1; }
 
 }

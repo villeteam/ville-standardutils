@@ -30,10 +30,10 @@ public class ArrayObjectState extends AbstractObjectState {
         }
     }
 
-    @Override
-    public boolean hasFields() {
-        return true;
-    }
+//    @Override
+//    public boolean hasChildren() {
+//        return true;
+//    }
 
     @Override
     public Stream<Map.Entry<Field, AbstractObjectState>> stream() {
@@ -42,6 +42,9 @@ public class ArrayObjectState extends AbstractObjectState {
 
     @Override
     protected void readStateImpl() {
+        if(content.size() > 0) {
+            System.out.println("Throwing array away: ");
+        }
         if(getType().isArray()) {
             int length = Array.getLength(getValue());
             for (int i = 0; i < length; i++) {
@@ -65,7 +68,11 @@ public class ArrayObjectState extends AbstractObjectState {
 //            for(AbstractObjectState element : content) {
 //                sb.append()
 //            }
-            sb.append((isRead() ? toString() : super.toString()) + "\n");
+            sb.append((isRead() ?
+                    "[" + content.stream()
+                            .map(x -> x.toStringRecursive())
+                            .collect(Collectors.joining(", ")) + "]"
+                    : super.toString()) + "\n");
         }
 
         @Override

@@ -27,13 +27,16 @@ public class ObjectState extends AbstractObjectState {
     @Override
     protected void readStateImpl() {
         // Note: getDeclaredFields ignores inherited fields, get them with getFields
+        if(fields.size() > 0) {
+            System.out.println("Throwing away : " + fields);
+        }
         fields = new HashMap<>();
         for (Field field : getType().getDeclaredFields()) {
             try {
 
                 field.setAccessible(true);
                 Object fieldValue = field.get(getValue());
-                AbstractObjectState st = getFactory().create(this, field.getType(), fieldValue, field.getGenericType());
+                AbstractObjectState st = getFactory().create(this, field, fieldValue);
 
                 fields.put(field, st);
             } catch (IllegalAccessException e) {
@@ -46,10 +49,10 @@ public class ObjectState extends AbstractObjectState {
         return Iterables.concat(fields.entrySet());
     }
 
-    @Override
-    public boolean hasFields() {
-        return true;
-    }
+//    @Override
+//    public boolean hasChildren() {
+//        return true;
+//    }
 
     @Override
     public Stream<Map.Entry<Field, AbstractObjectState>> stream() {
