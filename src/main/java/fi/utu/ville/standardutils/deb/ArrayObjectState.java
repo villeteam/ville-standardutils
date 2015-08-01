@@ -1,5 +1,6 @@
 package fi.utu.ville.standardutils.deb;
 
+import com.google.gwt.i18n.server.testing.Child;
 import com.google.gwt.thirdparty.guava.common.collect.Maps;
 
 import java.lang.reflect.Array;
@@ -18,7 +19,7 @@ import java.util.stream.Stream;
  */
 public class ArrayObjectState extends AbstractObjectState {
 
-    private ArrayList<AbstractObjectState> content = new ArrayList<>();
+    private ArrayList<ChildReference> content = new ArrayList<>();
     private Class<?> componentType;
 
     public ArrayObjectState(ObjectStateFactory factory, Object value, AbstractObjectState parent, Class<?>[] typeParams) {
@@ -30,14 +31,9 @@ public class ArrayObjectState extends AbstractObjectState {
         }
     }
 
-//    @Override
-//    public boolean hasChildren() {
-//        return true;
-//    }
-
     @Override
-    public Stream<Map.Entry<Field, AbstractObjectState>> stream() {
-        return content.stream().map(x -> Maps.immutableEntry((Field) null, x));
+    public Stream<ChildReference> stream() {
+        return content.stream();
     }
 
     @Override
@@ -51,14 +47,14 @@ public class ArrayObjectState extends AbstractObjectState {
                 Object element = Array.get(getValue(), i);
 
                 AbstractObjectState st = getFactory().create(this, componentType, element);
-                content.add(st);
+                content.add(new ChildReference(st));
             }
         }
         else {
             Collection c = (Collection)getValue();
             for(Object element : c) {
                 AbstractObjectState st = getFactory().create(this, componentType, element);
-                content.add(st);
+                content.add(new ChildReference(st));
             }
         }
     }
@@ -70,7 +66,7 @@ public class ArrayObjectState extends AbstractObjectState {
 //            }
             sb.append((isRead() ?
                     "[" + content.stream()
-                            .map(x -> x.toStringRecursive())
+                            .map(x -> x.getState().toStringRecursive())
                             .collect(Collectors.joining(", ")) + "]"
                     : super.toString()) + "\n");
         }

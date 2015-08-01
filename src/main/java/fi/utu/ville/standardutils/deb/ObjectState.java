@@ -1,18 +1,17 @@
 package fi.utu.ville.standardutils.deb;
 
+import com.google.gwt.i18n.server.testing.Child;
 import com.google.gwt.thirdparty.guava.common.collect.Iterables;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Stream;
 
 /**
  * Created by Phatency on 23.7.2015.
  */
 public class ObjectState extends AbstractObjectState {
-    private HashMap<Field, AbstractObjectState> fields = new HashMap<>();
+    private ArrayList<ChildReference> fields = new ArrayList<>();
 
     // TODO: protected
 //    public ObjectState(Object input) {
@@ -29,8 +28,8 @@ public class ObjectState extends AbstractObjectState {
         // Note: getDeclaredFields ignores inherited fields, get them with getFields
         if(fields.size() > 0) {
             System.out.println("Throwing away : " + fields);
+            fields.clear();
         }
-        fields = new HashMap<>();
         for (Field field : getType().getDeclaredFields()) {
             try {
 
@@ -38,25 +37,20 @@ public class ObjectState extends AbstractObjectState {
                 Object fieldValue = field.get(getValue());
                 AbstractObjectState st = getFactory().create(this, field, fieldValue);
 
-                fields.put(field, st);
+                fields.add(new ChildReference(st, field));
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public Iterable<Map.Entry<Field, AbstractObjectState>> getAllFields() {
-        return Iterables.concat(fields.entrySet());
-    }
-
-//    @Override
-//    public boolean hasChildren() {
-//        return true;
+//    public Iterable<Map.Entry<Field, AbstractObjectState>> getAllFields() {
+//        return Iterables.concat(fields.entrySet());
 //    }
 
     @Override
-    public Stream<Map.Entry<Field, AbstractObjectState>> stream() {
-        return fields.entrySet().stream();
+    public Stream<ChildReference> stream() {
+        return fields.stream();
     }
 
 }
