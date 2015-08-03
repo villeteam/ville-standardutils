@@ -2,6 +2,7 @@ package fi.utu.ville.standardutils.deb;
 
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.stream.Stream;
 // TODO: after refreshing, a null reference may turn out to be a classState, baseType,
 
 /**
@@ -18,15 +19,28 @@ public class Deb {
         System.out.println(s.toStringRecursive());
         s.readState();
     }
-
-
 }
 
 class ObjectStateDiff extends AbstractStateTree<ObjectStateDiff, AbstractObjectState> {
-    private boolean isChanged;
+    enum ChangeType {
+        NO_CHANGE,
+        CHANGED,
+        REMOVED
+    }
+    private ArrayList<ObjectStateDiff> children = new ArrayList<>();
 
     public ObjectStateDiff(ObjectStateDiff parent, AbstractObjectState value) {
         super(value, parent);
+    }
+
+    @Override
+    public Stream<ObjectStateDiff> children() {
+        return children.stream();
+    }
+
+    public static ObjectStateDiff create(ObjectStateDiff old, AbstractObjectState newState) {
+        ChangeType type = ChangeType.NO_CHANGE;
+        if(old)
     }
 }
 
