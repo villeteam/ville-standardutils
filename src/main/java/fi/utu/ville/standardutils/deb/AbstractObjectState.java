@@ -8,66 +8,6 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-abstract class AbstractStateTree<T extends AbstractStateTree, U> {
-    private final T parent;
-    private final U value;
-
-    public AbstractStateTree(U value, T parent) {
-        this.parent = parent;
-        this.value = value;
-    }
-
-    public T getParent() {
-        return parent;
-    }
-
-    public boolean hasParent() {
-        return parent != null;
-    }
-
-    public boolean hasChildren() {
-        return children().count() > 0;
-    }
-
-    public Stream<T> children() {
-        return ImmutableSet.<T>of().stream();
-    }
-
-    protected U getValue() {
-        return value;
-    }
-
-    public Class<?> getType() {
-        return value.getClass();
-    }
-
-    static class ChildReference {
-        private final AbstractObjectState state;
-        private final Field field;
-
-        public ChildReference(AbstractObjectState state, Field field) {
-            this.state = state;
-            this.field = field;
-        }
-
-        public AbstractObjectState getState() {
-            return state;
-        }
-
-        public Field getField() {
-            return field;
-        }
-
-        public ChildReference(AbstractObjectState state) {
-            this(state, null);
-        }
-
-        public boolean isField() {
-            return field != null;
-        }
-    }
-}
-
 /**
  * Created by Phatency on 23.7.2015.
  */ // TODO: Generate an easy-to-read ID for all objectstates while reading the tree.

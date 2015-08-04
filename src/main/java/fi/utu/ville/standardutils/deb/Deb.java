@@ -22,9 +22,11 @@ public class Deb {
 }
 
 class ObjectStateDiff extends AbstractStateTree<ObjectStateDiff, AbstractObjectState> {
+
     enum ChangeType {
         NO_CHANGE,
         CHANGED,
+        NEW,
         REMOVED
     }
     private ArrayList<ObjectStateDiff> children = new ArrayList<>();
@@ -40,7 +42,13 @@ class ObjectStateDiff extends AbstractStateTree<ObjectStateDiff, AbstractObjectS
 
     public static ObjectStateDiff create(ObjectStateDiff old, AbstractObjectState newState) {
         ChangeType type = ChangeType.NO_CHANGE;
-        if(old)
+        if(old == null) {
+            type = ChangeType.NEW;
+        }
+        else if(old.getValue().equals(newState)) {
+
+        }
+        return null;
     }
 }
 

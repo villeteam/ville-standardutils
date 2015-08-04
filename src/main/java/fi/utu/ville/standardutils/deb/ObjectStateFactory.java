@@ -10,6 +10,9 @@ import java.util.*;
  */
 public class ObjectStateFactory {
 
+    // TODO: ability to add more basetypes (which would not technically be "base types" per se, but classes which would
+    // always be leaf-nodes.
+
     private static final List<Class<?>> baseTypes = Arrays.asList(String.class, Integer.class, Double.class, Long.class, Character.class);
     private static final List<Class<?>> collectionTypes = Arrays.asList(Collection.class);
     private final HashMap<AbstractObjectState, Integer> ids = new HashMap<>();
