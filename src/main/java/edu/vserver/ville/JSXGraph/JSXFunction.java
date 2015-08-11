@@ -1,7 +1,7 @@
 package edu.vserver.ville.JSXGraph;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import elemental.json.JsonException;
+import elemental.json.JsonObject;
 
 public class JSXFunction extends JSXElement {
 
@@ -28,23 +28,22 @@ public class JSXFunction extends JSXElement {
 		setDerivative(isDerivative);
 	}
 
-	public JSXFunction updateFromJSON(JSONObject json) {
+	public JSXFunction updateFromJSON(JsonObject json) {
 
 		// Duck type it to fit.
 		try {
 
-			if (json.has("type")
-					&& ((json.getString("type") == "curve") || (json
-							.getString("type") == "functiongraph"))) {
-				if (json.has("id"))
+			if (json.hasKey("type") && ((json.getString("type") == "curve")
+					|| (json.getString("type") == "functiongraph"))) {
+				if (json.hasKey("id"))
 					setId(json.getString("id"));
-				if (json.has("func"))
+				if (json.hasKey("func"))
 					setId(json.getString("func"));
 			} else {
 				// Handled by program design.
 			}
 			return this;
-		} catch (JSONException e) {
+		} catch (JsonException e) {
 			// This should never be executed. Print the error.
 			System.err.println(e.getStackTrace());
 		}

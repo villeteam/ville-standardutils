@@ -1,7 +1,7 @@
 package edu.vserver.ville.JSXGraph;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import elemental.json.JsonException;
+import elemental.json.JsonObject;
 
 public class JSXPoint extends JSXElement {
 	private double x;
@@ -29,25 +29,25 @@ public class JSXPoint extends JSXElement {
 		setY(y);
 	}
 
-	public JSXPoint updateFromJSON(JSONObject json) {
+	public JSXPoint updateFromJSON(JsonObject json) {
 
 		// Duck type it to fit.
 		try {
 
-			if (json.has("type") && (json.getString("type") == "point")) {
-				if (json.has("id"))
+			if (json.hasKey("type") && (json.getString("type") == "point")) {
+				if (json.hasKey("id"))
 					setId(json.getString("id"));
-				if (json.has("x"))
+				if (json.hasKey("x"))
 					setId(json.getString("x"));
-				if (json.has("y"))
+				if (json.hasKey("y"))
 					setId(json.getString("y"));
-				if (json.has("name"))
+				if (json.hasKey("name"))
 					setId(json.getString("name"));
 			} else {
 				// Handled by program design.
 			}
 			return this;
-		} catch (JSONException e) {
+		} catch (JsonException e) {
 			// This should never be executed. Print the error.
 			System.err.println(e.getStackTrace());
 		}

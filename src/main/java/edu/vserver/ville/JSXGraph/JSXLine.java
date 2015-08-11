@@ -1,7 +1,7 @@
 package edu.vserver.ville.JSXGraph;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import elemental.json.JsonException;
+import elemental.json.JsonObject;
 
 public class JSXLine extends JSXElement {
 	private double length;
@@ -26,33 +26,33 @@ public class JSXLine extends JSXElement {
 		setP2Id(p2Id);
 	}
 
-	public JSXLine updateFromJSON(JSONObject json) {
+	public JSXLine updateFromJSON(JsonObject json) {
 
 		// Duck type it to fit.
 		try {
 
-			if (json.has("type") && (json.getString("type") == "line")) {
-				if (json.has("id"))
+			if (json.hasKey("type") && (json.getString("type") == "line")) {
+				if (json.hasKey("id"))
 					setId(json.getString("id"));
-				if (json.has("p1"))
+				if (json.hasKey("p1"))
 					setId(json.getString("p1"));
-				if (json.has("p2"))
+				if (json.hasKey("p2"))
 					setId(json.getString("p2"));
-				if (json.has("length"))
+				if (json.hasKey("length"))
 					setId(json.getString("length"));
-				if (json.has("rise"))
+				if (json.hasKey("rise"))
 					setId(json.getString("rise"));
-				if (json.has("slope"))
+				if (json.hasKey("slope"))
 					setId(json.getString("slope"));
-				if (json.has("angle"))
+				if (json.hasKey("angle"))
 					setId(json.getString("angle"));
-				if (json.has("name"))
+				if (json.hasKey("name"))
 					setId(json.getString("name"));
 			} else {
 				// Handled by program design.
 			}
 			return this;
-		} catch (JSONException e) {
+		} catch (JsonException e) {
 			// This should never be executed. Print the error.
 			System.err.println(e.getStackTrace());
 		}

@@ -5,13 +5,14 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import elemental.json.Json;
+import elemental.json.JsonException;
+import elemental.json.JsonObject;
 
 public class TempFileHelper {
 
-	private static final Logger logger = Logger.getLogger(TempFileHelper.class
-			.getName());
+	private static final Logger logger = Logger
+			.getLogger(TempFileHelper.class.getName());
 
 	private File tempFile;
 
@@ -37,7 +38,7 @@ public class TempFileHelper {
 		}
 
 		String res = null;
-		JSONObject json = new JSONObject();
+		JsonObject json = Json.createObject();
 
 		try {
 			json.put("name", tempFile.getName());
@@ -45,7 +46,7 @@ public class TempFileHelper {
 			json.put("data",
 					BinaryStringConversionHelper.fileToString(tempFile));
 			res = json.toString();
-		} catch (JSONException e) {
+		} catch (JsonException e) {
 			logger.log(Level.SEVERE, "Error saving to JSON", e);
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, "Error converting file to base64", e);
@@ -62,11 +63,11 @@ public class TempFileHelper {
 		}
 
 		try {
-			JSONObject json = new JSONObject(jsonStr);
+			JsonObject json = Json.parse(jsonStr);
 
 			tempFile = BinaryStringConversionHelper.base64toNonConflictingFile(
 					json.getString("data"), tempMan, json.getString("name"));
-		} catch (JSONException e) {
+		} catch (JsonException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {

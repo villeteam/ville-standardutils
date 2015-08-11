@@ -2,7 +2,7 @@ package edu.vserver.ville.JSXGraph;
 
 import java.util.ArrayList;
 
-import org.json.JSONObject;
+import elemental.json.JsonObject;
 
 public class JSXGraphConfig {
 
@@ -17,7 +17,7 @@ public class JSXGraphConfig {
 		setItemIDs(itemIDs2);
 	}
 
-	public void updateFromJSON(JSONObject configObj) {
+	public void updateFromJSON(JsonObject configObj) {
 		// TODO complete
 	}
 

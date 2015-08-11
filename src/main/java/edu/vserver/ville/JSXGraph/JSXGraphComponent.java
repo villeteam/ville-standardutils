@@ -3,17 +3,17 @@ package edu.vserver.ville.JSXGraph;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.vaadin.ui.JavaScriptFunction;
 
 import edu.vserver.mathutils.jsexertype.AbstractVilleJSComponent;
+import elemental.json.JsonArray;
+import elemental.json.JsonException;
+import elemental.json.JsonObject;
 
 @com.vaadin.annotations.JavaScript({ "public/lib/jsxgraphcore.js",
 		"public/js/init.js", "public/js/JsxGraphComponent.js" })
-@com.vaadin.annotations.StyleSheet({ "vaadin://themes/ville-theme/jsxgraph.css" })
+@com.vaadin.annotations.StyleSheet({
+		"vaadin://themes/ville-theme/jsxgraph.css" })
 public class JSXGraphComponent extends AbstractVilleJSComponent {
 
 	private static final long serialVersionUID = 1L;
@@ -32,11 +32,11 @@ public class JSXGraphComponent extends AbstractVilleJSComponent {
 			private static final long serialVersionUID = -2315647695434533051L;
 
 			@Override
-			public void call(JSONArray arguments) {
+			public void call(JsonArray arguments) {
 				// System.out.println("sendResults(): " + arguments);
 				try {
-					JSONArray realArgs = arguments.getJSONArray(0);
-					JSONObject response = realArgs.getJSONObject(0);
+					JsonArray realArgs = arguments.getArray(0);
+					JsonObject response = realArgs.getObject(0);
 
 					// System.out.println("sendResults(): response = " +
 					// response);
@@ -45,7 +45,7 @@ public class JSXGraphComponent extends AbstractVilleJSComponent {
 					if (responseType == "item") {
 						// String callerID = response.getString("callerID");
 						// String itemID = response.getString("itemID");
-						JSONObject item = response.getJSONObject("item");
+						JsonObject item = response.getObject("item");
 
 						@SuppressWarnings("unused")
 						JSXElement elem;
@@ -71,7 +71,7 @@ public class JSXGraphComponent extends AbstractVilleJSComponent {
 						// System.out.println("Updated config = " + config);
 					}
 
-				} catch (JSONException e) {
+				} catch (JsonException e) {
 					e.printStackTrace();
 				}
 			}
@@ -158,10 +158,8 @@ public class JSXGraphComponent extends AbstractVilleJSComponent {
 		return new JSXLine(this, id, null, p1, p2);
 	}
 
-	public JSXParametricCurve addParametricCurve(
-			String id,
-			String x_t, String y_t,
-			Double tMin, Double tMax,
+	public JSXParametricCurve addParametricCurve(String id, String x_t,
+			String y_t, Double tMin, Double tMax,
 			HashMap<String, String> styling) {
 
 		ArrayList<String> params = new ArrayList<String>();
