@@ -6,6 +6,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.TextField;
 
 import fi.utu.ville.standardutils.client.FocusChangingTextFieldState;
+import fi.utu.ville.standardutils.client.FocusChangingTextFieldState.FocusLogicType;
 
 
 public class FocusChangingTextFieldExtension extends AbstractExtension {
@@ -13,15 +14,22 @@ public class FocusChangingTextFieldExtension extends AbstractExtension {
 	private static final long serialVersionUID = 8986814555711778351L;
 	
 	public static FocusChangingTextFieldExtension[] extend(int changeAfter, TextField ... fields) {
-		return extend(changeAfter, (String)null, fields);
+		return extend(1, FocusLogicType.DEFAULT, fields);
 	}
 	
-	public static FocusChangingTextFieldExtension[] extend(int changeAfter, String charsToMoveToPrevious, TextField ... fields) {
+	public static FocusChangingTextFieldExtension[] extend(int changeAfter, FocusLogicType logic, TextField ... fields) {
 		FocusChangingTextFieldExtension[] extensions = new FocusChangingTextFieldExtension[fields.length];
 		
 		for(int i = 0; i < fields.length; i++) {
-			int prev = i == 0 ? fields.length-1 : i-1;
-			extensions[i] = extend(fields[i], fields[(i+1) % fields.length], fields[prev], changeAfter, charsToMoveToPrevious);
+			Component prevComp = null;
+			Component nextComp = null;
+			if(i > 0) {
+				prevComp = fields[i-1];
+			}
+			if(i + 1 < fields.length) {
+				nextComp = fields[i+1];
+			}
+			extensions[i] = extend(fields[i], nextComp, prevComp, changeAfter, logic);
 		}
 		return extensions;
 	}
@@ -32,7 +40,7 @@ public class FocusChangingTextFieldExtension extends AbstractExtension {
 	 * @param fields where 0,0 is the top left corner, x coordinate (column) is the first coordinate and y the second (row)
 	 * @return
 	 */
-	public static FocusChangingTextFieldExtension[][] extend(int changeAfter, TextField[][] fields) {
+	public static FocusChangingTextFieldExtension[][] extend(int changeAfter, FocusLogicType logic, TextField[][] fields) {
 		if(fields.length == 0) {
 			return null;
 		}
@@ -56,18 +64,14 @@ public class FocusChangingTextFieldExtension extends AbstractExtension {
 						fields[x][prevY],
 						fields[x][nextY],
 						changeAfter,
-						null);
+						logic);
 			}
 		}
 		return extensions;
 	}
-
-	public static FocusChangingTextFieldExtension extend(TextField field, Component nextComponent) {
-		return extend(field, nextComponent, null, field.getMaxLength(), null);
-	}
 	
-	public static FocusChangingTextFieldExtension extend(TextField field, Component nextComponent, Component previousComponent, int changeAfter, String charsToMoveToPrevious) {
-		return extend(field, nextComponent, previousComponent, null, null, changeAfter, charsToMoveToPrevious);
+	public static FocusChangingTextFieldExtension extend(TextField field, Component nextComponent, Component previousComponent, int changeAfter, FocusLogicType logic) {
+		return extend(field, nextComponent, previousComponent, null, null, changeAfter, logic);
 	}
 	
 	public static FocusChangingTextFieldExtension extend(TextField field, 
@@ -75,8 +79,8 @@ public class FocusChangingTextFieldExtension extends AbstractExtension {
 			Component previousComponent, 
 			Component upComponent, 
 			Component downComponent, 
-			int changeAfter, 
-			String charsToMoveToPrevious) {
+			int changeAfter,
+			FocusLogicType logic) {
         FocusChangingTextFieldExtension extension = new FocusChangingTextFieldExtension();
 		extension.extend((AbstractClientConnector) field);
 		FocusChangingTextFieldState state = extension.getState();
@@ -85,8 +89,7 @@ public class FocusChangingTextFieldExtension extends AbstractExtension {
 		state.setUpComponent(upComponent);
 		state.setDownComponent(downComponent);
 		state.setChangeAfter(changeAfter);
-		state.setCharsToMoveToPrevious(charsToMoveToPrevious);
-		
+		state.setFocusLogic(logic);
 		return extension;
     }
 	

@@ -3,24 +3,39 @@ package fi.utu.ville.standardutils.client;
 import com.vaadin.shared.AbstractComponentState;
 import com.vaadin.shared.Connector;
 
+import fi.utu.ville.standardutils.client.FocusChangingTextFieldConnector.StateHelper;
+
+
 public class FocusChangingTextFieldState extends AbstractComponentState {
 	private static final long serialVersionUID = -539970526903290526L;
+	
+	public enum FocusLogicType {
+		DEFAULT,
+		ROW_CALC;
+		
+		public FocusLogic create(StateHelper state) {
+			if(this == DEFAULT) {
+				return new FocusLogic(state);
+			}
+			else if(this == ROW_CALC) {
+				return new RowCalcLogic(state);
+			}
+			return null;
+		}
+	}
+	
 	private Connector nextComponent;
 	private Connector previousComponent;
 	private Connector upComponent;
 	private Connector downComponent;
-	private String charsToMoveToPrevious;
-	private boolean isReversed;
+	private FocusLogicType focusLogic = FocusLogicType.DEFAULT;
 	
-	public String getCharsToMoveToPrevious() {
-		return charsToMoveToPrevious;
+	public FocusLogicType getFocusLogic() {
+		return focusLogic;
 	}
 
-	public void setCharsToMoveToPrevious(String charsToMoveToPrevious) {
-		if(charsToMoveToPrevious != null) {
-			isReversed = true;
-		}
-		this.charsToMoveToPrevious = charsToMoveToPrevious;
+	public void setFocusLogic(FocusLogicType focusLogic) {
+		this.focusLogic = focusLogic;
 	}
 
 	private int changeAfter = 1;
@@ -55,7 +70,6 @@ public class FocusChangingTextFieldState extends AbstractComponentState {
 		this.nextComponent = otherComponent;
 	}
 
-
 	public Connector getPreviousComponent() {
 		return previousComponent;
 	}
@@ -78,9 +92,5 @@ public class FocusChangingTextFieldState extends AbstractComponentState {
 
 	public void setDownComponent(Connector downComponent) {
 		this.downComponent = downComponent;
-	}
-	
-	public boolean isReversed() {
-		return isReversed;
 	}
 }

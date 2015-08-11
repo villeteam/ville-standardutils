@@ -85,14 +85,19 @@ public class RegexFieldExtensionConnector extends AbstractExtensionConnector imp
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
 
-				if(event.getNativeKeyCode() == KeyCodes.KEY_BACKSPACE) {
+				switch(event.getNativeKeyCode()) {
+				case KeyCodes.KEY_BACKSPACE: 
 					String newText = getFieldValueAfterKeyPress('\b');
 //					log.log(Level.SEVERE, newText.replace("\b", "\\b"));
 //					log.log(Level.SEVERE, getState().getPattern());
 					if(!newText.matches(getState().getPattern())) {
 						textField.cancelKey();
 					}
-					
+				case KeyCodes.KEY_UP:
+					if(getState().isArrowStepper()) {
+						String text = textField.getText();
+						
+					}
 				}
 			}
 		});
@@ -112,23 +117,26 @@ public class RegexFieldExtensionConnector extends AbstractExtensionConnector imp
 	}
 	
 	public static String getFieldValueAfterKeyPress(VVilleTextField textField, char charCode) {
-		int index = textField.getCursorPos();
-		String previousText = textField.getText();
+		return getFieldValueAfterKeyPress(textField.getText(), textField.getCursorPos(), textField.getSelectionLength(), charCode);
+	}
+	
+	
+	public static String getFieldValueAfterKeyPress(String previousText, int cursorPos, int selectionLength, char charCode) {
 		StringBuffer buffer = new StringBuffer();
-		buffer.append(previousText.substring(0, index));
+		buffer.append(previousText.substring(0, cursorPos));
 		
 		
-		if (textField.getSelectionLength() > 0) {
+		if (selectionLength > 0) {
 			if(charCode != '\b') // handle backspace
 				buffer.append(charCode);
-			buffer.append(previousText.substring(index + textField.getSelectionLength(),
+			buffer.append(previousText.substring(cursorPos + selectionLength,
 					previousText.length()));
 		} else {
 			if(charCode != '\b')  // handle backspace
 				buffer.append(charCode);
 			else
 				buffer.deleteCharAt(buffer.length()-1);
-			buffer.append(previousText.substring(index, previousText.length()));
+			buffer.append(previousText.substring(cursorPos, previousText.length()));
 		}
 		return buffer.toString();
 	}
