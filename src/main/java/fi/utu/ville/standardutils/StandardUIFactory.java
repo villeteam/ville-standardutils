@@ -929,6 +929,16 @@ public class StandardUIFactory {
 		return new Label(icon.getIcon().variant(IconVariant.RED),
 				ContentMode.HTML);
 	}
+	
+	public static Button getRoundButton(Icon icon) {
+
+		final Button button = new Button(icon.getIcon().variant(
+				IconVariant.BLUE, IconVariant.SIZE_LARGE));
+		button.setHtmlContentAllowed(true);
+		button.addStyleName("button-big-round");
+		return button;
+
+	}
 
 	/**
 	 * Returns default save button
