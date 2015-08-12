@@ -42,12 +42,13 @@ public class TeXParser implements Iterable<TeXBlock> {
 
 		final Matcher matcher =
 				pattern.matcher(input);
-
+		
 		while(matcher.find()) {
 			this.appendTeX		  (	matcher.group(1));
 			this.appendEscapeBlock(	matcher.group(2));
 		}
 
+		// Handler for the remainder.
 		appendTeX(matcher.replaceAll(""));
 
 	}
