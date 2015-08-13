@@ -94,7 +94,7 @@ public class JSXGraphComponent extends AbstractVilleJSComponent {
 	public void add(String type, String id, ArrayList<String> params,
 			HashMap<String, String> styling) {
 
-		callFunction("add", type, id, params, styling);
+		callFunction("add", type, id, params.toArray(), styling);
 	}
 
 	public void rem(String id) {
