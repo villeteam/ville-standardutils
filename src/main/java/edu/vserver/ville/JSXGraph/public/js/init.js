@@ -24,7 +24,7 @@ edu_vserver_ville_JSXGraph_JSXGraphComponent = function() {
 		
 		this.setHeight = function(hei) { component.setHeight(hei); };
 		
-		this.add = function(type, id, params, styling) { component.add(type, id, params, styling); }
+		this.add = function(type, id, params, styling) { component.add(type, id, JSON.parse(params), JSON.parse(styling)); }
 		
 		this.get = function(itemID, callerID) {
 			component.get(itemID, callerID);

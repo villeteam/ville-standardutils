@@ -2,6 +2,7 @@ package edu.vserver.ville.JSXGraph;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -43,34 +44,47 @@ public class JSXGraphComponentFactory {
 	}
 
 	public JSXGraphComponent parametricPlot(HashMap<String, String> params) {
-		JSXGraphComponent graph =
-			new JSXGraphComponent(new JSXGraphConfig());
+		JSXGraphConfig config = new JSXGraphConfig();
+		config.setWidth("400");
+		config.setHeight("400");
+
+		HashMap<String, String> styling = new HashMap<String, String>();
+		styling.put("strokeWidth", "2");
+		styling.put("strokeColor", "#000");
+		JSXGraphComponent graph = new JSXGraphComponent(config);
 		try {
+			
 			graph.addParametricCurve(
 				"someID",
 				JavaScriptMathValidator.validate(params.get("x")),
 				JavaScriptMathValidator.validate(params.get("y")),
 				Double.parseDouble(params.get("tMin")),
 				Double.parseDouble(params.get("tMax")),
-				new HashMap<String, String>()
+				styling
 			);
 		}
 		catch (Exception e) {
 			// Malformed user input
-			// TODO draw text on the graph indicating the error?
+			e.printStackTrace();
 		}
 		return graph;
 	}
 
 	public JSXGraphComponent linePlot(HashMap<String, String> params) {
-		JSXGraphComponent graph =
-			new JSXGraphComponent(new JSXGraphConfig());
+		JSXGraphConfig config = new JSXGraphConfig();
+		config.setWidth("400");
+		config.setHeight("400");
+		
+		HashMap<String, String> styling = new HashMap<String, String>();
+		styling.put("strokeWidth", "2");
+		styling.put("strokeColor", "#000");
+		JSXGraphComponent graph = new JSXGraphComponent(config);
 		try {
 			graph.addLine(
 				"someID",
 				params.get("p1"),
 				params.get("p2"),
-				new HashMap<String, String>()
+				styling
 			);
 		}
 		catch (Exception e) {
@@ -81,13 +95,21 @@ public class JSXGraphComponentFactory {
 	}
 
 	public JSXGraphComponent functionPlot(HashMap<String, String> params) {
-		JSXGraphComponent graph =
-			new JSXGraphComponent(new JSXGraphConfig());
+		JSXGraphConfig config = new JSXGraphConfig();
+		config.setWidth("400");
+		config.setHeight("400");
+		
+		HashMap<String, String> styling = new HashMap<String, String>();
+		styling.put("strokeWidth", "2");
+		styling.put("strokeColor", "#000");
+		
+		JSXGraphComponent graph = new JSXGraphComponent(config);
 		try {
 			graph.addFunction(
 				"someID",
 				JavaScriptMathValidator.validate(params.get("f")),
-				new HashMap<String, String>());
+				styling
+			);
 		}
 		catch (Exception e) {
 			// Malformed user input
@@ -98,8 +120,10 @@ public class JSXGraphComponentFactory {
 	}
 
 	public JSXGraphComponent pointPlot(HashMap<String, String> params) {
-		JSXGraphComponent graph =
-			new JSXGraphComponent(new JSXGraphConfig());
+		JSXGraphConfig config = new JSXGraphConfig();
+		config.setWidth("400");
+		config.setHeight("400");
+		JSXGraphComponent graph = new JSXGraphComponent(config);
 		try {
 
 			String points = params.get("points");
