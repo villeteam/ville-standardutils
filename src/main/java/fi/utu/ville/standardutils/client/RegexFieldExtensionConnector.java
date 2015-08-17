@@ -87,9 +87,11 @@ public class RegexFieldExtensionConnector extends AbstractExtensionConnector imp
 
 				switch(event.getNativeKeyCode()) {
 				case KeyCodes.KEY_BACKSPACE: 
+					// This allows the field to enter into invalid state if the cursor is positioned at the end
+					if(textField.getCursorPos() == textField.getValue().length()) {
+						return;
+					}
 					String newText = getFieldValueAfterKeyPress('\b');
-//					log.log(Level.SEVERE, newText.replace("\b", "\\b"));
-//					log.log(Level.SEVERE, getState().getPattern());
 					if(!newText.matches(getState().getPattern())) {
 						textField.cancelKey();
 					}
