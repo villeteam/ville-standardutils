@@ -7,8 +7,6 @@ import fi.utu.ville.standardutils.client.FocusChangingTextFieldConnector.StateHe
 
 
 public class FocusChangingTextFieldState extends AbstractComponentState {
-	private static final long serialVersionUID = -539970526903290526L;
-	
 	public enum FocusLogicType {
 		DEFAULT,
 		ROW_CALC;
@@ -24,73 +22,77 @@ public class FocusChangingTextFieldState extends AbstractComponentState {
 		}
 	}
 	
-	private Connector nextComponent;
-	private Connector previousComponent;
+	private static final long serialVersionUID = -539970526903290526L;
+	
+	private Connector rightComponent;
+	private Connector leftComponent;
 	private Connector upComponent;
 	private Connector downComponent;
 	private FocusLogicType focusLogic = FocusLogicType.DEFAULT;
 	
+	private int changeAfter = 1;
+
+	public int getChangeAfter() {
+		return changeAfter;
+	}
+
+	public Connector getDownComponent() {
+		return downComponent;
+	}
+	
 	public FocusLogicType getFocusLogic() {
 		return focusLogic;
+	}
+	
+	public Connector getLeftComponent() {
+		return leftComponent;
+	}
+	
+	public Connector getRightComponent() {
+		return rightComponent;
+	}
+	
+	public Connector getUpComponent() {
+		return upComponent;
+	}
+	
+	public boolean hasDownComponent() {
+		return downComponent != null;
+	}
+	
+	public boolean hasLeftComponent() {
+		return leftComponent != null;
+	}
+	
+	public boolean hasRightComponent() {
+		return rightComponent != null;
+	}
+	
+	public boolean hasUpComponent() {
+		return upComponent != null;
+	}
+
+	public void setChangeAfter(int changeAfter) {
+		this.changeAfter = changeAfter;
+	}
+
+	public void setDownComponent(Connector downComponent) {
+		this.downComponent = downComponent;
 	}
 
 	public void setFocusLogic(FocusLogicType focusLogic) {
 		this.focusLogic = focusLogic;
 	}
 
-	private int changeAfter = 1;
-	
-	public int getChangeAfter() {
-		return changeAfter;
-	}
-	
-	public void setChangeAfter(int changeAfter) {
-		this.changeAfter = changeAfter;
-	}
-	
-	public boolean hasNextComponent() {
-		return nextComponent != null;
-	}
-	
-	public boolean hasPreviousComponent() {
-		return previousComponent != null;
-	}
-	public boolean hasUpComponent() {
-		return upComponent != null;
-	}
-	public boolean hasDownComponent() {
-		return downComponent != null;
-	}
-	
-	public Connector getNextComponent() {
-		return nextComponent;
-	}
-	
-	public void setNextComponent(Connector otherComponent) {
-		this.nextComponent = otherComponent;
+	public void setLeftComponent(Connector previousComponent) {
+		this.leftComponent = previousComponent;
 	}
 
-	public Connector getPreviousComponent() {
-		return previousComponent;
-	}
-
-	public void setPreviousComponent(Connector previousComponent) {
-		this.previousComponent = previousComponent;
-	}
-
-	public Connector getUpComponent() {
-		return upComponent;
+	public void setRightComponent(Connector otherComponent) {
+		this.rightComponent = otherComponent;
 	}
 
 	public void setUpComponent(Connector upComponent) {
 		this.upComponent = upComponent;
-	}
-
-	public Connector getDownComponent() {
-		return downComponent;
-	}
-
-	public void setDownComponent(Connector downComponent) {
-		this.downComponent = downComponent;
 	}
 }

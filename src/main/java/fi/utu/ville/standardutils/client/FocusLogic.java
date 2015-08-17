@@ -154,25 +154,13 @@ public class FocusLogic {
 		else {
 			int rightLimit = curText.length();
 			int leftLimit = 0;
-//			if(isReversed()) {
-//				leftLimit = rightLimit;
-//				rightLimit = 0;
-//			}
+
 			Direction leftDir = Direction.LEFT;
 			if((direction != leftDir && rightLimit == cursorPos) ||
 					(direction == leftDir && cursorPos == leftLimit)) {
 				action.setDirection(direction);
 				action.setSelectionFull();
-//				if(!isReversed()) {
-//					action.setDirection(direction);
-//				}
-//				else if(direction == Direction.RIGHT) {
-//					action.setDirection(Direction.LEFT);
-//				}
-//				else {
-//					action.setDirection(Direction.RIGHT);
-//				}
-//				action.setSelectionFull();
+
 			}
 		}
 		return action;
@@ -188,6 +176,10 @@ public class FocusLogic {
 			action = FocusAction.DO_NOTHING;
 		}
 		return action;
+	}
+
+	public void onFocus(StateHelper fromState) {
+		
 	}
 	
 }

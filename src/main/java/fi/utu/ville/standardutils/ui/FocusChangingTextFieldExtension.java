@@ -84,8 +84,8 @@ public class FocusChangingTextFieldExtension extends AbstractExtension {
         FocusChangingTextFieldExtension extension = new FocusChangingTextFieldExtension();
 		extension.extend((AbstractClientConnector) field);
 		FocusChangingTextFieldState state = extension.getState();
-		state.setNextComponent(nextComponent);
-		state.setPreviousComponent(previousComponent);
+		state.setRightComponent(nextComponent);
+		state.setLeftComponent(previousComponent);
 		state.setUpComponent(upComponent);
 		state.setDownComponent(downComponent);
 		state.setChangeAfter(changeAfter);
