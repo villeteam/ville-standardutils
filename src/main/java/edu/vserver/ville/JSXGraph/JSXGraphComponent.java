@@ -1,7 +1,10 @@
 package edu.vserver.ville.JSXGraph;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+
+import org.eclipse.jetty.util.ajax.JSON;
 
 import com.vaadin.ui.JavaScriptFunction;
 
@@ -94,7 +97,7 @@ public class JSXGraphComponent extends AbstractVilleJSComponent {
 	public void add(String type, String id, ArrayList<String> params,
 			HashMap<String, String> styling) {
 
-		callFunction("add", type, id, params, styling);
+		callFunction("add", type, id, JSON.toString(params), JSON.toString(styling));
 	}
 
 	public void rem(String id) {
@@ -161,7 +164,7 @@ public class JSXGraphComponent extends AbstractVilleJSComponent {
 	public JSXParametricCurve addParametricCurve(String id, String x_t,
 			String y_t, Double tMin, Double tMax,
 			HashMap<String, String> styling) {
-
+		
 		ArrayList<String> params = new ArrayList<String>();
 		params.add(x_t);
 		params.add(y_t);

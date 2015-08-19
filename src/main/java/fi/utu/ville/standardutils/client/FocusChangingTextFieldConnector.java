@@ -22,14 +22,14 @@ import com.vaadin.shared.ui.Connect;
 import fi.utu.ville.standardutils.client.FocusLogic.FocusAction;
 import fi.utu.ville.standardutils.ui.FocusChangingTextFieldExtension;
 
+
+/** GWT doesn't support Java 8 yet, so this simple thing has to be done via an interface **/
 interface StateProvider {
 	SharedState getState();
 }
 
 @Connect(FocusChangingTextFieldExtension.class)
 public class FocusChangingTextFieldConnector extends AbstractExtensionConnector implements StateProvider{
-	
-	/** GWT doesn't support Java 8 yet, so this simple thing has to be done via an interface **/
 
 	
 	public enum Direction {
@@ -79,18 +79,17 @@ public class FocusChangingTextFieldConnector extends AbstractExtensionConnector 
 					connector = state.getUpComponent();
 					break;
 				case RIGHT:
-					connector = state.getNextComponent();
+					connector = state.getRightComponent();
 					break;
 				case DOWN:
 					connector = state.getDownComponent();
 					break;
 				case LEFT:
-					connector = state.getPreviousComponent();
+					connector = state.getLeftComponent();
 					break;
 				case THIS:
 					connector = thisComponent;
 			}
-
 			if(connector != null) {
 				return (VVilleTextField)((ComponentConnector)connector).getWidget();
 			}
@@ -198,13 +197,12 @@ public class FocusChangingTextFieldConnector extends AbstractExtensionConnector 
         		
         	}
         }
-        focusAndSelect(state.getComponentAtDirection(focusAction.getDirection()), focusAction);
+        focusAndSelect(focusAction);
 
 	}
 	
-	private void focusAndSelect(final FocusWidget widget, final FocusAction focusAction) {
-//		log.log(Level.SEVERE, "focus:" + widget);
-//		log.log(Level.SEVERE, "focusNext: " + getState().getNextComponent());
+	private void focusAndSelect(final FocusAction focusAction) {
+		final FocusWidget widget = state.getComponentAtDirection(focusAction.getDirection());
 		if(widget == null) {
 			return;
 		}

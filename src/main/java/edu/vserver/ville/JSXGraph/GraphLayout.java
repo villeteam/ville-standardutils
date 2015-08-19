@@ -13,9 +13,6 @@ import edu.vserver.ville.MathJax.VilleMathJax;
 
 public class GraphLayout extends VerticalLayout {
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 815293195464420655L;
 
 	private VilleMathJax mjax = null;
@@ -74,20 +71,27 @@ public class GraphLayout extends VerticalLayout {
 		//}
 	}
 
-	private void appendGraph(String blockString) {
+	private void appendGraph(String blockString) throws IllegalArgumentException {
 
-		JSXGraphComponentFactory fac =
-				new JSXGraphComponentFactory();
+		JSXGraphComponentFactory fac = new JSXGraphComponentFactory();
 		try {
 
-			HashMap<String, String> blockContents =
-				EscapeBlockParser.parseBlock(blockString);
-
-			JSXGraphComponent graph = fac.makeGraph(blockContents);
-			graph.addStyleName("readability");
-			this.addComponent(graph);
-			this.setComponentAlignment(graph, Alignment.MIDDLE_CENTER);
-
+			HashMap<String, String> blockContents = EscapeBlockParser.parseBlock(blockString);
+			
+			switch (blockContents.get("type")) {
+				case "parametricPlot": case "linePlot": case "pointPlot": case "functionPlot":
+					JSXGraphComponent graph = fac.makeGraph(blockContents);
+					graph.addStyleName("readability");
+					this.addComponent(graph);
+					this.setComponentAlignment(graph, Alignment.MIDDLE_CENTER);
+				break;
+				default:
+					Notification.show(
+						"Unhandled escape block type '" + blockContents.get("type") + "' in '" + blockString + "'.",
+						Notification.Type.WARNING_MESSAGE
+					);
+				break;
+			}
 		} catch(IllegalArgumentException iae) {
 
 			Notification.show("Illegal arguments: " +

@@ -21,7 +21,6 @@ function JsxGraphComponent(place, config) {
 }
 
 JsxGraphComponent.prototype.initialize = function(place, config) {
-	
 	this.place = place;
 	for (var item in config) this.config[item] = config[item];
 	
@@ -32,8 +31,8 @@ JsxGraphComponent.prototype.initialize = function(place, config) {
 	this.place
 		.empty()
 		.addClass('jsxboard background-color-white')
-		.css('width', this.config.width + 'px')
-		.css('height', this.config.height + 'px')
+		.css('width', this.config.width)
+		.css('height', this.config.height)
 		.attr('id', this.boardID);
 	
 	this.board = JXG.JSXGraph.initBoard(

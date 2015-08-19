@@ -42,7 +42,7 @@ public class JavaScriptMathValidator {
 		"[a-z](?![a-zA-Z0-9])"	+ "|" +
 
 		// whitespace
-		"\\s"					+ "|" +
+		"\\s+"					+ "|" +
 
 		"Math"	+ "|" +
 

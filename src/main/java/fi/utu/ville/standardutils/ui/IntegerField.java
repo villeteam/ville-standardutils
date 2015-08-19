@@ -1,5 +1,6 @@
 package fi.utu.ville.standardutils.ui;
 
+import fi.utu.ville.standardutils.PreciseDecimal;
 
 public class IntegerField extends DecimalField implements NumericValueProvider {
 
@@ -30,7 +31,7 @@ public class IntegerField extends DecimalField implements NumericValueProvider {
 			return defaultValue;
 		}
 		else {
-			return Long.parseLong(this.getValue());
+			return PreciseDecimal.parseDecimalFromString(super.getValue())[0];
 		}
 	}
 	
