@@ -59,5 +59,21 @@ public class GeneratorTest {
 		
 	}
 
+	@Test
+	public void divisionWithZero() {
+
+		Operator[] opers = {Operator.DIVISION};
+		MathGeneratorExerciseData options = new MathGeneratorExerciseData(2, opers);
+
+		for(int i = 0; i < NUM_ITERS; i++) {
+
+			String generatedExpr = ExpressionGenerator.generateExpressionAsString(options);
+			Double value = MathHelper.evaluate(generatedExpr);
+			org.junit.Assert.assertTrue("Division by zero", value != Double.POSITIVE_INFINITY);
+
+		}
+
+	}
+
 
 }
