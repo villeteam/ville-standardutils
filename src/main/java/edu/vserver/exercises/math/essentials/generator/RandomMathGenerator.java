@@ -1,9 +1,11 @@
 package edu.vserver.exercises.math.essentials.generator;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 import java.util.Vector;
 
-import edu.vserver.exercises.math.essentials.generator.MathGeneratorExerciseData.BoundingType;
+import edu.vserver.exercises.math.essentials.generator.GreedyGenerator.Node;
 import fi.utu.ville.standardutils.MathHelper;
 import fi.utu.ville.standardutils.PreciseDecimal;
 
@@ -14,6 +16,7 @@ import fi.utu.ville.standardutils.PreciseDecimal;
 class RandomMathGenerator implements Generator{
 
 	private final static int MAX_ATTEMPTS = 1000;
+	private final static Random r = new Random();
 	
 	@Override
 	public ArrayList<String> generateExpression (GeneratorData options) throws GeneratorException{
@@ -42,25 +45,30 @@ class RandomMathGenerator implements Generator{
 		if(!(generatorData instanceof MathGeneratorExerciseData))
 			throw new GeneratorException();
 		
+		
 		MathGeneratorExerciseData options = (MathGeneratorExerciseData) generatorData;
 		
 		ArrayList<String> result = null;
 		
 		for(int i=0; i<MAX_ATTEMPTS;i++){
 			result = generateExpressionByTerms(options);
+			if(result == null)
+				continue;
+			
 			Vector<String> vector = new Vector<String>();
 			vector.addAll(result);
 			Double a = MathHelper.evaluateVector(vector);
-			
-			if(a == null)
+			if(a == null || a.isInfinite() || a.isNaN())
 				continue;
 			
 			PreciseDecimal answer = new PreciseDecimal(a);
-			
 			if(answer.doubleValue() >= options.getRangeForSolution()[0] && 
 					answer.doubleValue() <= options.getRangeForSolution()[1] &&
-					answer.getNumDecimals() == options.getNumberOfDecimalsInSolution())
+					answer.getNumDecimals() == options.getNumberOfDecimalsInSolution()){
 				return result;
+			}
+			if(i==MAX_ATTEMPTS-1)
+				throw new GeneratorException();
 		}
 		
 		return result;
@@ -68,30 +76,83 @@ class RandomMathGenerator implements Generator{
 
 	private ArrayList<String> generateExpressionByTerms(
 			GeneratorData generatorData) throws GeneratorException {
-		
+				
 		if(!(generatorData instanceof MathGeneratorExerciseData))
 			throw new GeneratorException();
 		
+		if(Thread.interrupted()){
+			System.out.println("interr");
+			return null;
+		}
+		
 		MathGeneratorExerciseData options = (MathGeneratorExerciseData) generatorData;
 		
-		ArrayList<String> result = new ArrayList<>();
+		Node head = populateOperators(options);
 		
-		for(int i=0; i<options.getNumberOfTerms(); i++){
-			String operator = options.getRandomAllowedOperator().getSymbol();
-			if(options.getBoundingType() != BoundingType.TERMS && operator.equals("/"))
-				throw new GeneratorException();
-			
-			PreciseDecimal term = options.getRandomTerm(i);
-			if(i>0 && term.compareTo(PreciseDecimal.ZERO) < 0)
-				result.add("(");
-			result.add(term+"");
-			if(i>0 && term.compareTo(PreciseDecimal.ZERO) < 0)
-				result.add(")");
-
-			result.add(operator);			
+		ArrayList<Node> terms = head.findTerms();
+		
+		for(int i=0; i<terms.size(); i++){
+			terms.get(i).setIntermediateResult(options.getRandomTerm(i));
 		}
-		result.remove(result.size()-1);
+		
+		ArrayList<String> result = head.toInFixExpression();
+		
+		for(int i=0, term=0; i< result.size(); i++){
+			Double d = null;;
+			try{
+				d = Double.parseDouble(result.get(i));
+			}catch(NumberFormatException e){
+				continue;
+			}
+		}
 		return result;
 	}
+	
+	private String combineList(ArrayList<String> list){
+		StringBuilder sb = new StringBuilder();
+		for(String s : list)
+			sb.append(s);
+		return sb.toString();
+	}
+	
+	/**
+	 * Populates the operators appropriately for this expression.
+	 * 
+	 * @param options
+	 * @return the head node for the expression tree
+	 * @throws GeneratorException 
+	 */
+	private Node populateOperators(MathGeneratorExerciseData options) throws GeneratorException {
+		Operator randomOperator;
+		int attempts = 0;
+		do{
+			randomOperator = options.getRandomAllowedOperator();
+			if(attempts++ > 30){
+				throw new GeneratorException();
+			}
+		}while(randomOperator.getSymbol().equals("/"));		
+		
+		ArrayList<Node> emptyNodes = new ArrayList<>();
 
+		Node head = new Node(randomOperator);
+
+		Node currentNode = head;
+		emptyNodes.add(head);
+		int terms = 1;
+		do {
+			currentNode = getRandomElementFromList(emptyNodes);
+			randomOperator = options.getRandomAllowedOperator();
+			currentNode.setElement(randomOperator);
+			emptyNodes.remove(currentNode);
+			currentNode.createChildren();
+			Collections.addAll(emptyNodes, currentNode.getChildren());
+			terms++;
+		} while (terms < options.getNumberOfTerms());
+		
+		return head;
+	}	
+
+	private <T> T getRandomElementFromList(ArrayList<T> list) {
+		return list.get(r.nextInt(list.size()));
+	}
 }

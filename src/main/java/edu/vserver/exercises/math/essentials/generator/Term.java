@@ -87,14 +87,13 @@ class Term extends PreciseDecimal implements EquationElement {
 	}
 
 	public Term(Number number, int decimals) {
-		super(number.toString());
+		super(number.doubleValue(), decimals);
 		this.decimals = decimals;
 
 		format = new DecimalFormat(GeneratorUtils.getDecimalFormatPattern(
 				decimals, false));
 		format.setRoundingMode(RoundingMode.HALF_UP);
-		String num = format.format(number);
-		value = Double.valueOf(num.replace(',', '.'));
+		value = getDouble();
 	}
 
 	private int[] convertToFraction() {

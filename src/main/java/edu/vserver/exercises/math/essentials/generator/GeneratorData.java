@@ -6,4 +6,5 @@ import edu.vserver.exercises.math.essentials.generator.MathGeneratorExerciseData
 public interface GeneratorData {
 
 	BoundingType getBoundingType();
+	int getNumberOfDecimalsInSolution();
 }

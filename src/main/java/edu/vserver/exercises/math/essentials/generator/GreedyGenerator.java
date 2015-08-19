@@ -48,8 +48,8 @@ public class GreedyGenerator implements Generator{
 			
 			Node head = populateOperators(options);	
 						
-			PreciseDecimal newLowBound = PreciseDecimal.multiply(new PreciseDecimal(options.getRangeForSolution()[0]).abs(), new PreciseDecimal("1000")).getInverse();
-			PreciseDecimal newHighBound = PreciseDecimal.multiply(new PreciseDecimal(options.getRangeForSolution()[1]), new PreciseDecimal("1000"));
+			PreciseDecimal newLowBound = PreciseDecimal.multiply(new PreciseDecimal(options.getRangeForSolution()[0]).abs(), new PreciseDecimal("10")).getInverse();
+			PreciseDecimal newHighBound = PreciseDecimal.multiply(new PreciseDecimal(options.getRangeForSolution()[1]), new PreciseDecimal("10"));
 						
 			setIntermediateRanges(options, head, new PreciseDecimal[]{newLowBound, newHighBound});
 			setTermRanges(options, head.findTerms());

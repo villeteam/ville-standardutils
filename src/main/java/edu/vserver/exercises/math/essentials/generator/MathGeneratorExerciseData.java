@@ -32,6 +32,7 @@ public class MathGeneratorExerciseData implements Serializable, GeneratorData {
 	
 	private static final long serialVersionUID = 8505981692063360701L;
 	private static final int UNBOUNDDECIMALS = 16;
+	private static final int MAX_NUM_OF_TERMS = 10;
 
 	private final StringBuilder builder = new StringBuilder();
 	private final Random gen;
@@ -48,6 +49,7 @@ public class MathGeneratorExerciseData implements Serializable, GeneratorData {
 	MathGeneratorExerciseData(){
 		gen = new Random();
 		termRange = new ArrayList<Range>();
+		numberOfTerms = 0;
 
 		answerRange = new Range(0, 10);
 		allowParenthesis = true;
@@ -74,9 +76,7 @@ public class MathGeneratorExerciseData implements Serializable, GeneratorData {
 
 	public MathGeneratorExerciseData(int numberOfTerms) {
 		this();
-		this.numberOfTerms = numberOfTerms;
-		for (int i = 0; i < numberOfTerms; i++)
-			termRange.add(new Range(0, 10));
+		setNumberOfTerms(numberOfTerms);
 		
 		allowedOperators.add(Operator.SUM);
 	}
@@ -90,12 +90,14 @@ public class MathGeneratorExerciseData implements Serializable, GeneratorData {
 	}
 
 	public void addTerm() {
-		if (numberOfTerms < 10) {
+		if (numberOfTerms < MAX_NUM_OF_TERMS) {
 			numberOfTerms++;
 			if(termRange.size() == 0)
 				termRange.add(new Range(0,10));
 			else
 				termRange.add(new Range(termRange.get(0)));
+		} else{
+			numberOfTerms = MAX_NUM_OF_TERMS;
 		}
 	}
 

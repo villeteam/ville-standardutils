@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import fi.utu.ville.standardutils.MathHelper;
+import fi.utu.ville.standardutils.PreciseDecimal;
 
 public class ExpressionGenerator implements Serializable {
 	
@@ -81,7 +82,7 @@ public class ExpressionGenerator implements Serializable {
 		case MANUAL:
 			return new Generator[]{new ManualInputGenerator()};
 		default:
-			return new Generator[]{new RandomMathGenerator(), new GreedyGenerator(), new OldExpressionGenerator()};
+			return new Generator[]{new RandomMathGenerator(), new OldExpressionGenerator()};
 		}
 	}
 
@@ -111,7 +112,7 @@ public class ExpressionGenerator implements Serializable {
 	 */
 	public static ArrayList<String> generateExpressionWithAnswer(GeneratorData options, boolean equalitySign){
 		ArrayList<String> result = generateExpression(options);
-		double answer = MathHelper.evaluate(combineExpression(result));
+		PreciseDecimal answer = new PreciseDecimal(MathHelper.evaluate(combineExpression(result)), options.getNumberOfDecimalsInSolution());
 		if(equalitySign)
 			result.add("=");
 		result.add(answer+"");
