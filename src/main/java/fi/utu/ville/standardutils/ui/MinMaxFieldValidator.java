@@ -20,6 +20,9 @@ public class MinMaxFieldValidator {
 		this.maxValue = maxValue;
 		this.smallerField = field;
 		this.largerField = smallerField;
+		if (smallerField.isMutable()){
+			smallerField.setValue(minValue);
+		}
 		this.listener1 = new MinMaxValueChangeListener(PreciseDecimal.MIN_VALUE, minValue, field, maxValue, PreciseDecimal.MAX_VALUE, modifyPreference, PreciseDecimal.ZERO);
 		listener2 = null;
 //		System.out.println("Added valuechangelistener: " + minValue.getDouble() + " < x < " + maxValue.getDouble() + modifyPreference.toString());
@@ -36,6 +39,12 @@ public class MinMaxFieldValidator {
 		this.maxValue = maxValue;
 		this.smallerField = field1;
 		this.largerField = field2;
+		if (smallerField.isMutable()){
+			smallerField.setValue(minValue);
+		}
+		if (largerField.isMutable()){
+			largerField.setValue(maxValue);
+		}
 		
 		this.listener1 = new MinMaxValueChangeListener(PreciseDecimal.MIN_VALUE, minValue, field1, field2, maxValue, ModifyPreference.MODIFY_OTHER, difference);
 		this.listener2 = new MinMaxValueChangeListener(minValue, field1, field2, maxValue, PreciseDecimal.MAX_VALUE, ModifyPreference.MODIFY_OTHER, difference);
@@ -193,6 +202,7 @@ class MinMaxValueChangeListener implements ValueChangeListener {
 //			System.out.println("Calling changeValue because of max criteria");
 			changeValue(maxValue, differenceMax.getPreciseDecimal());
 		}
+		hasChanged = false;
 	}
 	
 	private void changeValue(NumericValueProvider restrictor, PreciseDecimal diff) {
