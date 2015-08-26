@@ -294,6 +294,18 @@ JsxGraphComponent.prototype.add = function(type, id, params, styling) {
 			processed[0] = JXG.Math.Numerics.D(func);
 			this.funcs[id] = processed[0];
 		}; break;
+		
+		case 'derivativeglider': {
+			
+			finalType = 'functiongraph'
+			var func = this.items[params[0]];
+			var glider = this.items[params[1]];
+			processed[0] = function(x) {
+				return JXG.Math.Numerics.D(func.Y)(glider.X()) * ( x - glider.X()) + glider.Y();
+			};
+			
+		}; break;
+		
 	}
 	
 	//console.log(type, processed);
