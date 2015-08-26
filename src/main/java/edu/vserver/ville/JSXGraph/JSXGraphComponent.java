@@ -214,6 +214,18 @@ public class JSXGraphComponent extends AbstractVilleJSComponent {
 		return new JSXFunction(this, id, jsFunc, true);
 	}
 
+	public JSXDerivativeGlider addDerivativeGlider(String id, String jsFunc,
+			String jsGlider, HashMap<String, String> styling) {
+
+		ArrayList<String> params = new ArrayList<String>();
+		params.add(jsFunc);
+		params.add(jsGlider);
+		add("derivativeglider", id, params, styling);
+
+		return new JSXDerivativeGlider(this, id, jsFunc, jsGlider);
+
+	}
+
 	public void suspendUpdate() {
 		callFunction("suspendUpdate");
 	}
