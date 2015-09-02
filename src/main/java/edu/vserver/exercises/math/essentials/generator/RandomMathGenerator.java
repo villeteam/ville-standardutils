@@ -58,8 +58,30 @@ class RandomMathGenerator implements Generator{
 			Vector<String> vector = new Vector<String>();
 			vector.addAll(result);
 			Double a = MathHelper.evaluateVector(vector);
+			
+			boolean ok = true;
+			
 			if(a == null || a.isInfinite() || a.isNaN())
-				continue;
+				ok = false;
+			
+			if(!ok) continue;
+			
+			if(!options.getAllowParenthesis()){
+				for(String s : result){
+					if(s.contains("(") || s.contains(")"))
+						ok = false;
+				}
+			}else if(options.getForceParenthesis()){
+				boolean foundParenthesis = false;
+				for(String s : result){
+					if(s.contains("(") || s.contains(")"))
+						foundParenthesis = true;
+				}
+				
+				ok = foundParenthesis;
+			}
+			
+			if(!ok) continue;
 			
 			PreciseDecimal answer = new PreciseDecimal(a);
 			if(answer.doubleValue() >= options.getRangeForSolution()[0] && 
