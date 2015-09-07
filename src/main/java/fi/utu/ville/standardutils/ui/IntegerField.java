@@ -51,4 +51,12 @@ public class IntegerField extends DecimalField implements NumericValueProvider {
 	public void setValue(NumericValueProvider preciseDecimal) {
 		this.setValue(preciseDecimal.getPreciseDecimal().getIntegerPart() + "");
 	}
+	
+	public void setArrowStepping(boolean enabled) {
+		getRegexFieldExtender().extension.getState().setArrowStepper(enabled);
+	}
+	
+	public boolean isArrowStepping() {
+		return getRegexFieldExtender().extension.getState().isArrowStepper();
+	}
 }

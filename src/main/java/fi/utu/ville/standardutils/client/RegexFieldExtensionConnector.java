@@ -1,7 +1,5 @@
 package fi.utu.ville.standardutils.client;
 
-
-
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -25,7 +23,6 @@ public class RegexFieldExtensionConnector extends AbstractExtensionConnector imp
 	private KeyPressHandler keyPressHandler = new KeyPressHandler() {
 	    @Override
 	    public void onKeyPress(KeyPressEvent event) {
-
 	        if (textField.isReadOnly() || !textField.isEnabled()) {
 	            return;
 	        }
@@ -85,24 +82,62 @@ public class RegexFieldExtensionConnector extends AbstractExtensionConnector imp
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
 
+				String text = textField.getValue();
+
 				switch(event.getNativeKeyCode()) {
 				case KeyCodes.KEY_BACKSPACE: 
 					// This allows the field to enter into invalid state if the cursor is positioned at the end
-					if(textField.getCursorPos() == textField.getValue().length()) {
+					if(textField.getCursorPos() == text.length()) {
 						return;
 					}
 					String newText = getFieldValueAfterKeyPress('\b');
 					if(!newText.matches(getState().getPattern())) {
 						textField.cancelKey();
 					}
+					break;
 				case KeyCodes.KEY_UP:
 					if(getState().isArrowStepper()) {
-						String text = textField.getText();
-						
+						step(true);
+						textField.cancelKey();
 					}
+					break;
+				case KeyCodes.KEY_DOWN:
+					if(getState().isArrowStepper()) {
+						step(false);
+						textField.cancelKey();
+					}
+					break;
 				}
 			}
 		});
+	}
+	
+	/**
+	 * Increment/decrement field's value by 1.
+	 * @param up
+	 * 		Increment if true, decrement otherwise
+	 */
+	private void step(boolean up) {
+		String text = textField.getValue();
+		String[] defaults = {"0", "1", "-1"};
+		if (text.matches("^-?\\d+$")) {
+			if (up) {
+				text = (Integer.parseInt(text) + 1) + "";
+			} else {
+				text = (Integer.parseInt(text) - 1) + "";
+			}
+		} else {
+			for (String s : defaults) {
+				if (s.matches(getState().getPattern())) {
+					text = s;
+					break;
+				}
+			}
+		}
+		
+		if (text.matches(getState().getPattern())) {
+			textField.setValue(text);
+		}
 	}
 	
 	private boolean isValueValid(KeyPressEvent event) {
