@@ -51,18 +51,13 @@ public class FocusChangingTextFieldExtension extends AbstractExtension {
 				if(fields[x][y] == null) {
 					continue;
 				}
-				int prevX = x == 0 ? fields.length-1 : x-1;
+				TextField next	= x+1 < fields.length ? fields[x+1][y] : null;
+				TextField prev	= x-1 >= 0 ? fields[x-1][y] : null;
+				TextField up	= y-1 >= 0 ? fields[x][y-1] : null;
+				TextField down	= y+1 < fields[0].length ? fields[x][y+1] : null;
 				
-				int prevY = y == 0 ? fields[0].length-1 : y-1;
-				int prevXY = x == 0 ? prevY : y;
-				int nextX = (x+1) % fields.length;
-				int nextY = (y+1) % fields[0].length;
-				int nextXY = nextX == 0 ? nextY : y;
 				extensions[x][y] = extend(fields[x][y], 
-						fields[nextX][nextXY], 
-						fields[prevX][prevXY],
-						fields[x][prevY],
-						fields[x][nextY],
+						next, prev, up, down,
 						changeAfter,
 						logic);
 			}

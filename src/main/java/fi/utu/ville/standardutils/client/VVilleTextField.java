@@ -4,12 +4,14 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.user.client.Event;
+import com.vaadin.client.extensions.AbstractExtensionConnector;
 import com.vaadin.client.ui.VTextField;
 
 public class VVilleTextField extends VTextField {
 	
 	private PasteHandler pasteHandler = null;
 	private boolean fireValueChangeOnPaste = false;
+	private AbstractExtensionConnector connector;
 	
 	public VVilleTextField() {
 		super();
@@ -47,6 +49,13 @@ public class VVilleTextField extends VTextField {
     public void addPasteEventHandler(PasteHandler handler) {
     	pasteHandler = handler;
     }
+
+	public AbstractExtensionConnector getConnector() {
+		return connector;
+	}
+
+	public void setConnector(AbstractExtensionConnector connector) {
+		this.connector = connector;
+	}
     
-	
 }

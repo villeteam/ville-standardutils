@@ -3,22 +3,27 @@ package fi.utu.ville.standardutils.client;
 import com.vaadin.shared.AbstractComponentState;
 import com.vaadin.shared.Connector;
 
+import fi.utu.ville.standardutils.client.FocusChangingTextFieldConnector.Direction;
 import fi.utu.ville.standardutils.client.FocusChangingTextFieldConnector.StateHelper;
 
 
 public class FocusChangingTextFieldState extends AbstractComponentState {
 	public enum FocusLogicType {
 		DEFAULT,
-		ROW_CALC;
+		ROW_CALC,
+		CROSSWORD;
 		
 		public FocusLogic create(StateHelper state) {
-			if(this == DEFAULT) {
+			switch(this) {
+			case DEFAULT:
 				return new FocusLogic(state);
-			}
-			else if(this == ROW_CALC) {
+			case ROW_CALC:
 				return new RowCalcLogic(state);
+			case CROSSWORD:
+				return new CrosswordLogic(state);
+			default:
+				return null;
 			}
-			return null;
 		}
 	}
 	
@@ -28,6 +33,7 @@ public class FocusChangingTextFieldState extends AbstractComponentState {
 	private Connector leftComponent;
 	private Connector upComponent;
 	private Connector downComponent;
+	private Direction incomeDirection;
 	private FocusLogicType focusLogic = FocusLogicType.DEFAULT;
 	
 	private int changeAfter = 1;
@@ -70,6 +76,14 @@ public class FocusChangingTextFieldState extends AbstractComponentState {
 	
 	public boolean hasUpComponent() {
 		return upComponent != null;
+	}
+
+	public Direction getIncomeDirection() {
+		return incomeDirection;
+	}
+
+	public void setIncomeDirection(Direction incomeDirection) {
+		this.incomeDirection = incomeDirection;
 	}
 
 	public void setChangeAfter(int changeAfter) {
