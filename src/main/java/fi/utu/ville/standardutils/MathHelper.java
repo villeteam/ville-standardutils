@@ -92,6 +92,7 @@ public class MathHelper {
 		} catch (IndexOutOfBoundsException | NumberFormatException e) { 
 			// something went wrong; most likely a nonsense calculation. e.g.
 			// 2.6.4+-4-.6 or 5+g3
+			e.printStackTrace();
 			return null;
 		}
 
@@ -459,59 +460,56 @@ public class MathHelper {
 			if (!ch.equals("") && !quotaOpen) {
 				for (String operator : splitOperators) {
 					if (ch.equals(operator) && !quotaOpen) {
-						// Test ++a and a++
-						if( (ind+1) >= s.length()){
-							System.out.println(ind);
-							break;
-						}
 						
-						if (ch.equals("+") && s.charAt(ind + 1) == '+') {
-							block += "+"; // add first, second added at the end
-											// of the loop
-							ind++;
-							break;
-						}
-						if (ch.equals("-") && s.charAt(ind + 1) == '-') {
-							block += "-";
-							ind++;
-							break;
-						}
-						// Test << and >>
-						if (ch.equals(">") && s.charAt(ind + 1) == '>') {
-							operator = ">>";
-							ind++;
-						}
-						if (ch.equals("<") && s.charAt(ind + 1) == '<') {
-							operator = "<<";
-							ind++;
-						}
-						// Test && and ||
-						if (ch.equals("&") && s.charAt(ind + 1) == '&') {
-							operator = "&&";
-							ind++;
-						}
-						if (ch.equals("|") && s.charAt(ind + 1) == '|') {
-							operator = "||";
-							ind++;
-						}
-
-						// Test <= and >=
-						if (ch.equals("<") && s.charAt(ind + 1) == '=') {
-							operator = "<=";
-							ind++;
-						}
-						if (ch.equals(">") && s.charAt(ind + 1) == '=') {
-							operator = ">=";
-							ind++;
-						}
-						// Test == and !=
-						if (ch.equals("=") && s.charAt(ind + 1) == '=') {
-							operator = "==";
-							ind++;
-						}
-						if (ch.equals("!") && s.charAt(ind + 1) == '=') {
-							operator = "!=";
-							ind++;
+						if(ind < s.length() - 1){
+							if (ch.equals("+") && s.charAt(ind + 1) == '+') {
+								block += "+"; // add first, second added at the end
+												// of the loop
+								ind++;
+								break;
+							}
+							if (ch.equals("-") && s.charAt(ind + 1) == '-') {
+								block += "-";
+								ind++;
+								break;
+							}
+							// Test << and >>
+							if (ch.equals(">") && s.charAt(ind + 1) == '>') {
+								operator = ">>";
+								ind++;
+							}
+							if (ch.equals("<") && s.charAt(ind + 1) == '<') {
+								operator = "<<";
+								ind++;
+							}
+							// Test && and ||
+							if (ch.equals("&") && s.charAt(ind + 1) == '&') {
+								operator = "&&";
+								ind++;
+							}
+							if (ch.equals("|") && s.charAt(ind + 1) == '|') {
+								operator = "||";
+								ind++;
+							}
+	
+							// Test <= and >=
+							if (ch.equals("<") && s.charAt(ind + 1) == '=') {
+								operator = "<=";
+								ind++;
+							}
+							if (ch.equals(">") && s.charAt(ind + 1) == '=') {
+								operator = ">=";
+								ind++;
+							}
+							// Test == and !=
+							if (ch.equals("=") && s.charAt(ind + 1) == '=') {
+								operator = "==";
+								ind++;
+							}
+							if (ch.equals("!") && s.charAt(ind + 1) == '=') {
+								operator = "!=";
+								ind++;
+							}
 						}
 
 						String sss = s.substring(0, ind).trim();
