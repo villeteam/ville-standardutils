@@ -460,6 +460,11 @@ public class MathHelper {
 				for (String operator : splitOperators) {
 					if (ch.equals(operator) && !quotaOpen) {
 						// Test ++a and a++
+						if( (ind+1) >= s.length()){
+							System.out.println(ind);
+							break;
+						}
+						
 						if (ch.equals("+") && s.charAt(ind + 1) == '+') {
 							block += "+"; // add first, second added at the end
 											// of the loop
@@ -529,10 +534,6 @@ public class MathHelper {
 										|| lastComponent.equals("<=") || lastComponent
 											.equals("!="))) {
 							break;
-						}
-
-						if (operator.trim().equals("(")
-								|| operator.trim().equals(")")) {
 						}
 						v.add(new String(block.trim()));
 						v.add(new String(operator));
