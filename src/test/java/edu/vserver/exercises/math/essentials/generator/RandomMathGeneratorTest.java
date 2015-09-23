@@ -1,5 +1,6 @@
 package edu.vserver.exercises.math.essentials.generator;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
@@ -12,6 +13,22 @@ import fi.utu.ville.standardutils.MathHelper;
 public class RandomMathGeneratorTest {
 
 	private final int MAX_ATTEMPTS = 1000;
+	
+	@Test
+	public void solutionSetTo20IsNotConstantly10Plus10(){
+		MathGeneratorExerciseData options = new MathGeneratorExerciseData(2);
+		options.setBoundingType(BoundingType.SOLUTION);
+		options.setSolutionRange(20, 20);
+
+		int found = 0;
+		for(int i=0; i<MAX_ATTEMPTS; i++){
+			String result = ExpressionGenerator.generateExpressionAsString(options);
+			if(result.equals("10+10"))
+				found++;
+		}
+		
+		assertTrue("Regression: solution set to 20 is 10+10 too often+ ("+found+"/"+MAX_ATTEMPTS+")", found<MAX_ATTEMPTS/3);
+	}
 	
 	@Test
 	public void expressionIsBoundedByTermsCorrectly() {		
@@ -47,12 +64,27 @@ public class RandomMathGeneratorTest {
 	}
 	
 	@Test
+	public void TestNoDivByZero(){
+		Operator[] opers = {Operator.DIVISION};
+		MathGeneratorExerciseData options = new MathGeneratorExerciseData(4, opers);
+
+		for(int i = 0; i < MAX_ATTEMPTS; i++) {
+
+			String generatedExpr = ExpressionGenerator.generateExpressionAsString(options);
+			Double value = MathHelper.evaluate(generatedExpr);
+			org.junit.Assert.assertTrue("Division by zero", (value != Double.POSITIVE_INFINITY && value != Double.NEGATIVE_INFINITY));
+			org.junit.Assert.assertTrue("Division by zero", !generatedExpr.contains("/0"));
+
+		}
+	}
+	
+	@Test
 	public void expressionIsBoundedBySolutionCorrectly() {		
 		RandomMathGenerator generator = new RandomMathGenerator();
 		
 		final int SOLUTION_MIN = 4;
 		final int SOLUTION_MAX = 7;
-		final int MAX_TERMS = 10;
+		final int MAX_TERMS = 8;
 		
 		int foundExpressions = 2;
 		
@@ -117,6 +149,7 @@ public class RandomMathGeneratorTest {
 			options.setBoundingType(BoundingType.BOTH);
 			options.setAllowedOperators(allowedOperators);
 			options.setGlobalTermRange(0, 1000);
+			options.setSolutionRange(50, 500);
 			
 				for(int index = 0; index < MAX_ATTEMPTS; index++){
 					int termIndex = 0;

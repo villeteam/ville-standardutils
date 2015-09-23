@@ -27,14 +27,10 @@ class OldExpressionGenerator implements Generator{
 		MathGeneratorExerciseData options = (MathGeneratorExerciseData)generatorData;
 		Node head;
 		int counter = 0;
+		boolean ok= true;
 		do {
 			counter++;
-			int operatorCounter = 0;
-			do{
 				head = populateOperators(options);
-				if(operatorCounter++ > 20) //giving up
-					break;
-			}while(options.getForceParenthesis() && !head.toInFixExpression().toString().contains(")"));
 
 			// System.out.println("operators are "+head.toInFixExpression().toString());
 
@@ -48,7 +44,17 @@ class OldExpressionGenerator implements Generator{
 			// calculations, which is not yet implemented.
 			// setOperatorBounds(head, options);
 
-		} while (!populateTerms(head, options) && counter < MAXATTEMPTS);
+			ok = populateTerms(head, options);
+			String infix = head.toInFixExpression().toString();
+			
+			if(!options.getAllowParenthesis()){
+				if(infix.contains(")"))
+					ok = false;
+			}else if(options.getForceParenthesis()){
+				if(!infix.contains(")"))
+					ok = false;
+			}				
+		} while (!ok && counter < MAXATTEMPTS);
 
 		// System.out.println("postfix: "+head.toPostfixExpression().toString());
 

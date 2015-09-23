@@ -44,7 +44,7 @@ public class MathHelper {
 	 * 
 	 * @param s
 	 *            The expression to evaluate.
-	 * @return The double value or null if the expression is nonsense.
+	 * @return The double value or null if the expression is nonsense. When dividing by zero, either positive or negative infinity will be returned, depending on the dividend. 
 	 */
 	public static Double evaluate(String s) {
 		Double ans = null;
@@ -56,8 +56,8 @@ public class MathHelper {
 		}
 		try {
 			s = preprocessInput(s);
-			s = s.replaceAll("-\\s*-", "+"); // Removes double negatives
-			s = s.replaceAll("(\\+\\s*-)|(-\\s*\\+)", "-"); // Removes negatives without parentheses
+			s = s.replaceAll("\\-\\s*\\-", "+"); // Removes double negatives
+			s = s.replaceAll("(\\+\\s*\\-)|(\\-\\s*\\+)", "-"); // Removes negatives without parentheses
 			Vector<String> v = infixToPostfix(s);
 			LinkedList<String> stack = new LinkedList<String>();
 
@@ -76,7 +76,10 @@ public class MathHelper {
 						ans = op1 * op2;
 						break;
 					case "/":
-						ans = op1 / op2;
+						if(op2 == 0 || !Double.isFinite(op2)){							
+							return op1 < 0 ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;							
+						}
+						ans = op1 / op2;						
 						break;
 					case "+":
 						ans = op1 + op2;
@@ -381,7 +384,7 @@ public class MathHelper {
 	 * @return new vector where each element is an operator, operand or method
 	 *         call from string
 	 */
-	public static Vector<String> split(String s) {
+	public static Vector<String> split(String s) {		
 		s = preprocessInput(s);
 
 		// not used

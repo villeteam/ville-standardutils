@@ -422,9 +422,16 @@ public class MathGeneratorExerciseData implements Serializable, GeneratorData {
 	 * @return a random term respecting all bounds.
 	 */
 	public PreciseDecimal getRandomTerm(int index) {
-		double solution = gen.nextInt((int) Math.rint(termRange.get(index).max)
-				- (int) Math.rint(termRange.get(index).min) + 1)
-				+ Math.rint(termRange.get(index).min);
+		int max = (int) Math.rint(termRange.get(index).max);
+		int min = (int) Math.rint(termRange.get(index).min);
+		
+		if(boundingType == BoundingType.SOLUTION){
+			max = (int)(answerRange.max*2);
+			min = -max;
+		}
+		
+		double solution = gen.nextInt(max-min + 1) + min;
+		
 		// add decimals to the int solution
 		if (termRange.get(index).allowedDecimals > 0) {
 			solution = Math.min(solution + gen.nextDouble(),

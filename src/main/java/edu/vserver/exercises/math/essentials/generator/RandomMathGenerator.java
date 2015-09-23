@@ -51,6 +51,10 @@ class RandomMathGenerator implements Generator{
 		ArrayList<String> result = null;
 		
 		for(int i=0; i<MAX_ATTEMPTS;i++){
+			
+			if(i==MAX_ATTEMPTS-1)
+				throw new GeneratorException();
+			
 			result = generateExpressionByTerms(options);
 			if(result == null)
 				continue;
@@ -58,7 +62,6 @@ class RandomMathGenerator implements Generator{
 			Vector<String> vector = new Vector<String>();
 			vector.addAll(result);
 			Double a = MathHelper.evaluateVector(vector);
-			
 			boolean ok = true;
 			
 			if(a == null || a.isInfinite() || a.isNaN())
@@ -80,7 +83,7 @@ class RandomMathGenerator implements Generator{
 				
 				ok = foundParenthesis;
 			}
-			
+						
 			if(!ok) continue;
 			
 			PreciseDecimal answer = new PreciseDecimal(a);
@@ -89,8 +92,6 @@ class RandomMathGenerator implements Generator{
 					answer.getNumDecimals() == options.getNumberOfDecimalsInSolution()){
 				return result;
 			}
-			if(i==MAX_ATTEMPTS-1)
-				throw new GeneratorException();
 		}
 		
 		return result;
