@@ -28,6 +28,10 @@ public class CrosswordLogic extends FocusLogic {
 				dir = Direction.RIGHT;
 			}
 		}
+		// Avoid typing to the wrong direction after backspace
+		if (dir == Direction.LEFT || dir == Direction.UP) {
+			dir = Direction.invert(dir);
+		}
 		action.setDirection(dir);
 
 		return action;
