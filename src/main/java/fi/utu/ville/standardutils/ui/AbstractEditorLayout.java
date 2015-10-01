@@ -113,6 +113,7 @@ public class AbstractEditorLayout extends VerticalLayout {
 	protected void drawSettingsPanel() {
 		settingsLayout = new VerticalLayout();
 		settingsLayout.setWidth("100%");
+		settingsLayout.setHeight("100%");
 		settingsLayout.setSpacing(true);
 		settingsLayout.setMargin(true);
 
