@@ -620,7 +620,8 @@ public class StandardIcon {
 				RawIcon.arrow_circle_right), TURN_WEST(
 				RawIcon.arrow_circle_left), IS_ROAD(RawIcon.road), LOOP(
 				RawIcon.refresh), IF(RawIcon.question_circle), IFELSE(
-				RawIcon.random), INFO_CIRCLE(RawIcon.info_circle);
+				RawIcon.random), INFO_CIRCLE(RawIcon.info_circle), TAKE_PHOTO(RawIcon.camera),
+				PH_MEASUREMENT(RawIcon.balance_scale);
 
 		private final RawIcon rawIcon;
 
