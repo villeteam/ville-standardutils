@@ -400,6 +400,18 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 	}
 
 	private static long[] optimizePresentation(long value, int decPoint) {
+
+		if(decPoint>5){
+			//double precision stuff; no student given answer should ever contain 6 decimals of 9s or 0s
+			if((value+"").matches(".*9999.")){
+				value /= 10;
+				value++;
+				decPoint--;
+			}else if((value+"").matches(".*0000.")){
+				value /= 10;
+				decPoint--;
+			}
+		}
 		while (decPoint > 0) {
 			if (value % 10 == 0) {
 				decPoint--;
