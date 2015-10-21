@@ -40,6 +40,16 @@ import fi.utu.ville.standardutils.ui.IntegerField;
 
 public class GeneratorView implements Serializable {
 
+	public enum ViewComponent{
+		TERM_RANGE_SELECTOR,
+		SOLUTION_RANGE_SELECTOR,
+		TERM_AND_SOLUTION_SELECTOR,
+		BOUND_SELECTOR,
+		OPERATOR_SELECTOR,
+		TERM_NUMBER_SELECTOR,
+		MANUAL_INPUT
+	};
+	
 	private static final long serialVersionUID = 5611161972887417441L;
 	private static final int MIN_TERM_VALUE = -1000000000;
 	private static final int MAX_TERM_VALUE =  1000000000;
@@ -55,6 +65,7 @@ public class GeneratorView implements Serializable {
 	private static final String FORM_PANEL_TITLE_WIDTH = "200px";
 
 	private transient boolean[] operatorsShown;
+	private boolean allowDecimals = true;
 	private static int TEXTFIELDWIDTH = 50;
 
 	public GeneratorView(Localizer localizer) {
@@ -144,11 +155,17 @@ public class GeneratorView implements Serializable {
 			}
 		});
 
-		VerticalLayout result = StandardUIFactory.getFormPanel(
+		VerticalLayout result;
+		if(allowDecimals)
+			result = StandardUIFactory.getFormPanel(
 				localizer.getUIText(GeneratorUIConstants.RANGEFORSOLUTION),
 				Icon.RESULT, FORM_PANEL_TITLE_WIDTH, minSolution, maxSolution,
 				solutionDecimals);
-
+		else
+			result = StandardUIFactory.getFormPanel(
+				localizer.getUIText(GeneratorUIConstants.RANGEFORSOLUTION),
+				Icon.RESULT, FORM_PANEL_TITLE_WIDTH, minSolution, maxSolution);
+		
 		loadedComponents.add(result);
 		
 		return result;
@@ -286,10 +303,14 @@ public class GeneratorView implements Serializable {
 		panelLayout.addComponent(calculationEntryFields);
 		panelLayout.addComponent(manualCalculationFields);
 		HorizontalLayout settingsLayout = new HorizontalLayout();
-		settingsLayout.addComponent(getGenerateCalculationsButton(manualCalculationFields, options.getManualCalculations()));
-		settingsLayout.addComponent(getShuffleButton(manualCalculationFields, options.getManualCalculations()));
-		settingsLayout.addComponent(getImportManualCalculationsButton(manualCalculationFields, options.getManualCalculations()));
-		settingsLayout.addComponent(getClearAllButton(manualCalculationFields, options.getManualCalculations()));
+		ManualCalculationSet questionset = options.getManualCalculations();
+		if(questionset == null)
+			questionset = new ManualCalculationSet();
+		
+		settingsLayout.addComponent(getGenerateCalculationsButton(manualCalculationFields, questionset));
+		settingsLayout.addComponent(getShuffleButton(manualCalculationFields, questionset));
+		settingsLayout.addComponent(getImportManualCalculationsButton(manualCalculationFields, questionset));
+		settingsLayout.addComponent(getClearAllButton(manualCalculationFields, questionset));
 		result.addComponent(settingsLayout);
 		
 		return result;
@@ -459,8 +480,16 @@ public class GeneratorView implements Serializable {
 		return true;
 	}
 	
+	/**
+	 * Adds the given calculations to a layout, if there is anything to add
+	 * @param layout The layout to add the calculations to. Will be emptied before adding anything.
+	 * @param calculations The calculations to add. If null, nothing is added.
+	 */
 	private void addManualInputFields(final Layout layout, final ManualCalculationSet calculations){
 		layout.removeAllComponents();
+		if(calculations == null)
+			return;
+		
 		for(int i=0;i<calculations.size();i++){
 			final ManualCalculation calculation = calculations.get(i);
 			HorizontalLayout horizontalLayout = new HorizontalLayout();
@@ -474,7 +503,7 @@ public class GeneratorView implements Serializable {
 					calculations.remove(calculation);
 					addManualInputFields(layout, calculations);
 				}
-			});
+			});			
 			
 			horizontalLayout.addComponent(addOneManualCalculationField(calculation));
 			horizontalLayout.addComponent(deleteButton);
@@ -856,7 +885,8 @@ public class GeneratorView implements Serializable {
 
 				hLayout.addComponent(minTermRange);
 				hLayout.addComponent(maxTermRange);
-				hLayout.addComponent(getDecimalTextField(index));
+				if(allowDecimals)
+					hLayout.addComponent(getDecimalTextField(index));
 				hLayout.addComponent(getForcedMultiplierComponent(index));
 				oldLayout.addComponent(hLayout);
 			}
@@ -870,7 +900,8 @@ public class GeneratorView implements Serializable {
 
 			hLayout.addComponent(minTermRange);
 			hLayout.addComponent(maxTermRange);
-			hLayout.addComponent(getDecimalTextField(0));
+			if(allowDecimals)
+				hLayout.addComponent(getDecimalTextField(0));
 			hLayout.addComponent(getForcedMultiplierComponent(0));
 			oldLayout.addComponent(hLayout);
 		}
@@ -1105,6 +1136,16 @@ public class GeneratorView implements Serializable {
 	
 	public MathGeneratorExerciseData getOptions() {
 		return options;
+	}
+
+	/**
+	 * Controls whether the user is given the choice of selecting the number of decimals for exercises.
+	 * The decimal fields are shown by default.
+	 * 
+	 * @param b should the decimal fields be shown to the user.
+	 */
+	public void allowCreatingDecimalCalculations(boolean b) {
+		allowDecimals = b;
 	}
 
 }

@@ -1,12 +1,9 @@
 package edu.vserver.exercises.math.essentials.generator;
 
-import java.util.ArrayList;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import edu.vserver.exercises.math.essentials.generator.ManualCalculationSet.ManualCalculation;
 import edu.vserver.exercises.math.essentials.generator.MathGeneratorExerciseData.BoundingType;
 
 public abstract class MathGeneratorXML {
@@ -18,6 +15,7 @@ public abstract class MathGeneratorXML {
 		/*1*/
 		{"MG_numberOfTerms","MG_allowedOperators","MG_termRange","MG_manualCalculations",
 				"MG_answerRange","MG_allowParenthesis","MG_boundingType","MG_separateRanges"},
+		/*2*/
 		{"MG_numberOfTerms","MG_allowedOperators","MG_termRange","MG_manualCalculations",
 				"MG_answerRange","MG_allowParenthesis","MG_boundingType","MG_separateRanges",
 				"MG_forceParenthesis"}
@@ -62,7 +60,7 @@ public abstract class MathGeneratorXML {
 		}
 		
 		currentNode = root.appendChild(document.createElement(VERSION[currentVersion][3]));
-		System.out.println("manualCalcSize: "+data.getManualCalculations().size());
+//		System.out.println("manualCalcSize: "+data.getManualCalculations().size());
 		for(int i=0; i<data.getManualCalculations().size(); i++){
 			Node calc = currentNode.appendChild(document.createElement("manCalc"+i));
 			calc.setTextContent(data.getManualCalculations().get(i).toString());
@@ -181,9 +179,9 @@ public abstract class MathGeneratorXML {
 				if(!b.toString().isEmpty())
 					data.setManualCalculations(b.toString());
 						
-				ArrayList<ManualCalculation> l =data.getManualCalculations().getCalculations();
-				for(ManualCalculation m : l)
-					System.out.println(m.getExpression()+m.getAnswer());
+//				ArrayList<ManualCalculation> l =data.getManualCalculations().getCalculations();
+//				for(ManualCalculation m : l)
+//					System.out.println(m.getExpression()+m.getAnswer());
 				
 				currentNodes = document.getElementsByTagName(nodeNames[4]);
 				for(int i=0; i<currentNodes.getLength(); i++){
@@ -272,9 +270,9 @@ public abstract class MathGeneratorXML {
 			if(!b.toString().isEmpty())
 				data.setManualCalculations(b.toString());
 					
-			ArrayList<ManualCalculation> l =data.getManualCalculations().getCalculations();
-			for(ManualCalculation m : l)
-				System.out.println(m.getExpression()+m.getAnswer());
+//			ArrayList<ManualCalculation> l =data.getManualCalculations().getCalculations();
+//			for(ManualCalculation m : l)
+//				System.out.println(m.getExpression()+m.getAnswer());
 			
 			currentNodes = document.getElementsByTagName(nodeNames[4]);
 			for(int i=0; i<currentNodes.getLength(); i++){
