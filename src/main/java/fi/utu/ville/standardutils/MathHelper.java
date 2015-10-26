@@ -95,7 +95,7 @@ public class MathHelper {
 		} catch (IndexOutOfBoundsException | NumberFormatException e) { 
 			// something went wrong; most likely a nonsense calculation. e.g.
 			// 2.6.4+-4-.6 or 5+g3
-			e.printStackTrace();
+			//			e.printStackTrace();
 			return null;
 		}
 
