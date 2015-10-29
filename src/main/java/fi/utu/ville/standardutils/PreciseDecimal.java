@@ -572,7 +572,7 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 		//cannot go on infinitely; search for nestIndex never starts from index 0
 		while (number.length() > 0 && nextIndex <= 0) {
 			nextIndex = number.indexOf(number.charAt(0), 1);
-			if (nextIndex < 0) {
+			if (nextIndex < 0 || number.length() <= nextIndex * 2) {
 				number = number.substring(1);
 			} else {
 				for (int i = 0; i < nextIndex && i + 2 * nextIndex < number.length(); i++) {
