@@ -28,6 +28,7 @@ import edu.vserver.exercises.math.essentials.generator.ManualCalculationSet.Manu
 import edu.vserver.exercises.math.essentials.generator.MathGeneratorExerciseData.BoundingType;
 import fi.utu.ville.standardutils.Localizer;
 import fi.utu.ville.standardutils.MathHelper;
+import fi.utu.ville.standardutils.PreciseDecimal;
 import fi.utu.ville.standardutils.StandardIcon.Icon;
 import fi.utu.ville.standardutils.StandardUIFactory;
 import fi.utu.ville.standardutils.StandardUIFactory.PanelStyle;
@@ -287,7 +288,7 @@ public class GeneratorView implements Serializable {
 					return;
 				}
 				
-				String answerString = (Double.toString(MathHelper.evaluate(expressionValue.replace(',', '.'))));
+				String answerString = new PreciseDecimal(MathHelper.evaluate(expressionValue.replace(',', '.'))).toString();
 				calculations.addCalculation(expressionValue+"="+answerString);
 				addManualInputFields(manualCalculationFields, calculations);
 				expression.setValue("");
@@ -529,7 +530,7 @@ public class GeneratorView implements Serializable {
 					return;
 				}
 				
-				String answerString = Double.toString(MathHelper.evaluate(expressionValue.replace(',', '.')));
+				String answerString = new PreciseDecimal(MathHelper.evaluate(expressionValue.replace(',', '.'))).toString();
 				
 				calculation.setExpression(expressionValue);
 				calculation.setAnswer(answerString);

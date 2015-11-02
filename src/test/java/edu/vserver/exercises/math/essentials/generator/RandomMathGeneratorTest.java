@@ -13,6 +13,7 @@ import fi.utu.ville.standardutils.MathHelper;
 public class RandomMathGeneratorTest {
 
 	private final int MAX_ATTEMPTS = 1000;
+	private final int MAX_TERMS = 5;
 	
 	@Test
 	public void solutionSetTo20IsNotConstantly10Plus10(){
@@ -33,7 +34,7 @@ public class RandomMathGeneratorTest {
 	@Test
 	public void expressionIsBoundedByTermsCorrectly() {		
 		RandomMathGenerator generator = new RandomMathGenerator();
-		for(int terms=2; terms<10; terms++){
+		for(int terms=2; terms<MAX_TERMS; terms++){
 			MathGeneratorExerciseData options = new MathGeneratorExerciseData(terms);
 			options.setBoundingType(BoundingType.TERMS);
 
@@ -83,8 +84,7 @@ public class RandomMathGeneratorTest {
 		RandomMathGenerator generator = new RandomMathGenerator();
 		
 		final int SOLUTION_MIN = 4;
-		final int SOLUTION_MAX = 7;
-		final int MAX_TERMS = 8;
+		final int SOLUTION_MAX = 7;		
 		
 		int foundExpressions = 2;
 		

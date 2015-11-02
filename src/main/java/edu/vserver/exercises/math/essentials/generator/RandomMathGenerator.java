@@ -92,6 +92,7 @@ class RandomMathGenerator implements Generator{
 					answer.getNumDecimals() == options.getNumberOfDecimalsInSolution()){
 				return result;
 			}
+			result = null;
 		}
 		
 		return result;
