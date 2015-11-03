@@ -429,14 +429,8 @@ public class MathGeneratorExerciseData implements Serializable, GeneratorData {
 			max = (int)(answerRange.max*2);
 			min = -max;
 		}
-		
-		if(max < min){
-			int temp = max;
-			max = min;
-			min = temp;
-		}
-		
-		double solution = gen.nextInt(max-min + 1) + min;
+				
+		double solution = gen.nextInt(Math.abs(max-min) + 1) + min;
 		
 		// add decimals to the int solution
 		if (termRange.get(index).allowedDecimals > 0) {
