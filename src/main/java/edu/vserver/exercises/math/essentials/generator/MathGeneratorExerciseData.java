@@ -430,6 +430,12 @@ public class MathGeneratorExerciseData implements Serializable, GeneratorData {
 			min = -max;
 		}
 		
+		if(max < min){
+			int temp = max;
+			max = min;
+			min = temp;
+		}
+		
 		double solution = gen.nextInt(max-min + 1) + min;
 		
 		// add decimals to the int solution
