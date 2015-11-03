@@ -584,7 +584,7 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 				}
 			}
 		}
-		if (nextIndex < 0)
+		if (nextIndex <= 0)
 			return "";
 		else
 			return number.substring(0, nextIndex);
