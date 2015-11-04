@@ -516,7 +516,7 @@ public class GeneratorView implements Serializable {
 	private Layout addOneManualCalculationField(final ManualCalculation calculation){
 		final HorizontalLayout layout = new HorizontalLayout();
 		final CleanTextField expression = new CleanTextField(null, calculation.getExpression());
-		final Label answer = new Label(calculation.getAnswer());
+		final Label answer = new Label(new PreciseDecimal(calculation.getAnswer()).toString());
 		
 		expression.addValueChangeListener(new ValueChangeListener() {
 			private static final long serialVersionUID = 2419103747934191053L;
