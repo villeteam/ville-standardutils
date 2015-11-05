@@ -18,20 +18,17 @@ public class ExpressionGenerator implements Serializable {
 	/**
 	 * Generates an expression with the given options using the given generator. <br/>
 	 * The generator is given two seconds to finish. If no expression is generated in this time,
-	 * the generator is forcefully terminated and 0+0 is returned.
+	 * the generator is forcefully terminated and 1+1 is returned.
 	 * 
 	 * @param options The options to use when generating the expression
-	 * @param generator The generator to use when generating the expression. If null, a default implementation will be used.
+	 * @param generators An array of generators to use when generating the expression. If null or empty, default implementations will be used.
 	 * @return An ArrayList containing each element in the expression in its own index; i.e. [11,+,4.21,*,3]
 	 */
-	public static ArrayList<String> generateExpression(GeneratorData options, Generator generator){
+	public static ArrayList<String> generateExpression(GeneratorData options, Generator... generators){
 		ArrayList<String> result = null;
 		
-		Generator[] generators;
-		if(generator == null){
+		if(generators == null || generators.length == 0){
 			generators = getSuitableGenerators(options);
-		}else{
-			generators = new Generator[]{generator};
 		}
 		
 		for(Generator gen : generators){
@@ -54,12 +51,16 @@ public class ExpressionGenerator implements Serializable {
 				e1.printStackTrace();
 			}
 			
-			if(result != null && !result.isEmpty())
+			if(result != null && MathHelper.evaluate(concatList(result)) != null){
 				return result;
+			}
 		}
 		//FALLBACK
 		if(result == null)
 			result = new ArrayList<>();
+		else if(MathHelper.evaluate(concatList(result)) == null)
+			result.clear();
+		
 		result.add("1");
 		result.add("+");
 		result.add("1");
@@ -67,6 +68,16 @@ public class ExpressionGenerator implements Serializable {
 		return result; 
 	}
 	
+	private static String concatList(ArrayList<String> result) {
+		StringBuilder sb = new StringBuilder();
+		
+		for(int i=0; i< result.size(); i++){
+			sb.append(result.get(i));
+		}
+		
+		return sb.toString();
+	}
+
 	/**
 	 * Generates an expression with the given options using a default generator.
 	 * @param options The options to use when generating the expression
