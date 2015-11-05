@@ -294,3 +294,7 @@
 @key:MAX WIDTH
 @fi:Maksimi leveys
 @en:max width
+
+@key:GENERATOR_RANGES_INVALID
+@fi:Virheellinen lukuväli
+@en:Invalid range

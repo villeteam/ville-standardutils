@@ -1066,6 +1066,12 @@ public class GeneratorView implements Serializable {
 
 		if(!options.areRangesValid()){
 			Notification.show(localizer
+					.getUIText(GeneratorUIConstants.GENERATOR_RANGES_INVALID));
+			return false;
+		}
+		
+		if(!options.forcedMultiplierOK()){
+			Notification.show(localizer
 					.getUIText(GeneratorUIConstants.GENERATOR_MULTIPLIER_TOO_HIGH));
 			return false;
 		}

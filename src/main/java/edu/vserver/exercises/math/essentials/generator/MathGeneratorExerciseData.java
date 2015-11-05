@@ -648,10 +648,10 @@ public class MathGeneratorExerciseData implements Serializable, GeneratorData {
 
 	public boolean areRangesValid() {
 		for(int i=0; i<getNumberOfTerms(); i++){
-			if(getForcedMultiplier(i) > getMaxValueForTerm(i).doubleValue()){
+			if(getMinValueForTerm(i).doubleValue() > getMaxValueForTerm(i).doubleValue()){
 				return false;
 			}
-		}
+		}		
 		return true;
 	}
 
@@ -679,5 +679,16 @@ public class MathGeneratorExerciseData implements Serializable, GeneratorData {
 		return new PreciseDecimal[]{
 				new PreciseDecimal(range.min,range.allowedDecimals),
 				new PreciseDecimal(range.max,range.allowedDecimals)};
+	}
+
+	public boolean forcedMultiplierOK() {
+		for(int i=0; i<getNumberOfTerms(); i++){
+			double absMin = Math.abs(getMinValueForTerm(i).doubleValue());
+			double absMax = Math.abs(getMaxValueForTerm(i).doubleValue());		
+			if(getForcedMultiplier(i) > Math.max(absMax, absMin)){
+				return false;
+			}
+		}
+		return true;
 	}
 }
