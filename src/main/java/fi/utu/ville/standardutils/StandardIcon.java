@@ -522,7 +522,7 @@ public class StandardIcon {
 				RawIcon.columns), LOG_OUT(RawIcon.sign_out), SETTINGS(
 				RawIcon.cog), NAVIGATOR_ARROW_LEFT(RawIcon.chevron_left), NAVIGATOR_ARROW_RIGHT(
 				RawIcon.chevron_right), ERROR(RawIcon.times_circle_o), EXIT(
-				RawIcon.times), SUBMIT(RawIcon.upload), RESET(RawIcon.refresh), WINDOW_MINIMIZE(
+				RawIcon.arrow_circle_left), SUBMIT(RawIcon.upload), RESET(RawIcon.refresh), WINDOW_MINIMIZE(
 				RawIcon.compress), WINDOW_MAXIMIZE(RawIcon.expand), WINDOW(
 				RawIcon.external_link), COURSE(RawIcon.book), ROUND(
 				RawIcon.th_list), OK(RawIcon.check), STARTED(RawIcon.circle_o), NOT_STARTED(
@@ -621,7 +621,7 @@ public class StandardIcon {
 				RawIcon.arrow_circle_left), IS_ROAD(RawIcon.road), LOOP(
 				RawIcon.refresh), IF(RawIcon.question_circle), IFELSE(
 				RawIcon.random), INFO_CIRCLE(RawIcon.info_circle), TAKE_PHOTO(RawIcon.camera),
-				PH_MEASUREMENT(RawIcon.balance_scale);
+				PH_MEASUREMENT(RawIcon.balance_scale), INCORRECT(RawIcon.close);
 
 		private final RawIcon rawIcon;
 
