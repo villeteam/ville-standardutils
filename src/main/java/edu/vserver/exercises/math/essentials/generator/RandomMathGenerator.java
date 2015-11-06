@@ -66,26 +66,7 @@ class RandomMathGenerator implements Generator{
 			
 			if(a == null || a.isInfinite() || a.isNaN())
 				ok = false;
-			
-			if(!ok) continue;
-			
-			if(!options.getAllowParenthesis()){
-				for(String s : result){
-					if(s.contains("(") || s.contains(")"))
-						ok = false;
-				}
-			}else if(options.getForceParenthesis()){
-				boolean foundParenthesis = false;
-				for(String s : result){
-					if(s.contains("(") || s.contains(")"))
-						foundParenthesis = true;
-				}
 				
-				ok = foundParenthesis;
-			}
-						
-			if(!ok) continue;
-			
 			PreciseDecimal answer = new PreciseDecimal(a);
 			if(answer.doubleValue() >= options.getRangeForSolution()[0] && 
 					answer.doubleValue() <= options.getRangeForSolution()[1] &&
@@ -97,44 +78,76 @@ class RandomMathGenerator implements Generator{
 		
 		return result;
 	}
-
+	
 	private ArrayList<String> generateExpressionByTerms(
 			GeneratorData generatorData) throws GeneratorException {
-				
-		if(!(generatorData instanceof MathGeneratorExerciseData))
+			
+		if (!(generatorData instanceof MathGeneratorExerciseData))
 			throw new GeneratorException();
-		
-		if(Thread.interrupted()){
+			
+		if (Thread.interrupted()) {
 			System.out.println("interr");
 			return null;
 		}
 		
 		MathGeneratorExerciseData options = (MathGeneratorExerciseData) generatorData;
 		
-		Node head = populateOperators(options);
-		
-		ArrayList<Node> terms = head.findTerms();
-		
-		for(int i=0; i<terms.size(); i++){
-			terms.get(i).setIntermediateResult(options.getRandomTerm(i));
+		ArrayList<String> result = null;
+		int counter = 0;
+		while (result == null && counter < MAX_ATTEMPTS) {
+			Node head = populateOperators(options);
+			
+			ArrayList<Node> terms = head.findTerms();
+			
+			for (int i = 0; i < terms.size(); i++) {
+				terms.get(i).setIntermediateResult(options.getRandomTerm(i));
+			}
+			
+			result = head.toInFixExpression();
+			if (!options.getAllowParenthesis())
+				for (int i = 0; i < result.size(); i++) {
+					if (result.size() > i + 2 && result.get(i).equals("(") && !result.get(i + 2).equals(")")) {
+						result.remove(i);
+						i--;
+					}
+					if (i - 2 >= 0 && result.get(i).equals(")") && !result.get(i - 2).equals("(")) {
+						result.remove(i);
+						i--;
+					}
+				}
+			else if (options.getForceParenthesis()) {
+				boolean foundParenthesis = false;
+				for (int i = 0; i < result.size(); i++) {
+					if (result.size() > i + 2 && result.get(i).equals("(") && !result.get(i + 2).equals(")")) {
+						foundParenthesis = true;
+					}
+				}
+				
+				if (!foundParenthesis) {
+					counter++;
+					continue;
+				}
+			}
+			counter++;
 		}
 		
-		ArrayList<String> result = head.toInFixExpression();
-		
-		for(int i=0, term=0; i< result.size(); i++){
+		if (result == null)
+			throw new GeneratorException();
+			
+		for (int i = 0; i < result.size(); i++) {
 			Double d = null;;
-			try{
+			try {
 				d = Double.parseDouble(result.get(i));
-			}catch(NumberFormatException e){
+			} catch (NumberFormatException e) {
 				continue;
 			}
 		}
 		return result;
 	}
 	
-	private String combineList(ArrayList<String> list){
+	private String combineList(ArrayList<String> list) {
 		StringBuilder sb = new StringBuilder();
-		for(String s : list)
+		for (String s : list)
 			sb.append(s);
 		return sb.toString();
 	}

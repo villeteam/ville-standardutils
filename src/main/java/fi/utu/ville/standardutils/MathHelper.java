@@ -654,9 +654,9 @@ public class MathHelper {
 			return "älytöntä";
 
 	}
-
-	public static double evaluateVector(Vector<String> vector) {
-
+	
+	public static Double evaluateVector(Vector<String> vector) {
+		
 		StringBuilder builder = new StringBuilder();
 
 		for (int i = 0; i < vector.size(); i++) {

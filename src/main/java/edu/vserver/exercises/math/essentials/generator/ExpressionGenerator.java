@@ -51,14 +51,27 @@ public class ExpressionGenerator implements Serializable {
 				e1.printStackTrace();
 			}
 			
-			if(result != null && MathHelper.evaluate(concatList(result)) != null){
+			PreciseDecimal pd = null;
+			try {
+				pd = new PreciseDecimal(MathHelper.evaluate(concatList(result)));
+			} catch (NumberFormatException e) {
+				//ignore
+			}
+			if (result != null && pd != null) {
 				return result;
 			}
 		}
 		//FALLBACK
-		if(result == null)
+		if (result == null)
 			result = new ArrayList<>();
-		else if(MathHelper.evaluate(concatList(result)) == null)
+			
+		PreciseDecimal pd = null;
+		try {
+			pd = new PreciseDecimal(MathHelper.evaluate(concatList(result)));
+		} catch (NumberFormatException e) {
+			//ignore
+		}
+		if (pd == null)
 			result.clear();
 		
 		result.add("1");
