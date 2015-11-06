@@ -452,6 +452,9 @@ public class MathGeneratorExerciseData implements Serializable, GeneratorData {
 			result *= termRange.get(index).forcedMultiplier;			
 		}
 
+		if( (max-min) < 0)
+			result *= -1;
+		
 		return new PreciseDecimal(result, termRange.get(index).allowedDecimals);
 	}
 	
