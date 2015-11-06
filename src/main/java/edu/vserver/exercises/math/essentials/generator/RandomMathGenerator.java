@@ -10,18 +10,18 @@ import fi.utu.ville.standardutils.MathHelper;
 import fi.utu.ville.standardutils.PreciseDecimal;
 
 /**
- * This generator generates expressions haphazardly in hopes of stumbling across a suitable one. 
- * Unlikely to find an expression if bound by something else than TERMS. 
+ * This generator generates expressions haphazardly in hopes of stumbling across a suitable one. Unlikely to find an expression if bound by something else than
+ * TERMS.
  */
-class RandomMathGenerator implements Generator{
-
+class RandomMathGenerator implements Generator {
+	
 	private final static int MAX_ATTEMPTS = 1000;
 	private final static Random r = new Random();
 	
 	@Override
-	public ArrayList<String> generateExpression (GeneratorData options) throws GeneratorException{
+	public ArrayList<String> generateExpression(GeneratorData options) throws GeneratorException {
 		
-		switch(options.getBoundingType()){
+		switch (options.getBoundingType()) {
 		case TERMS:
 			return generateExpressionByTerms(options);
 		case SOLUTION:
@@ -29,48 +29,52 @@ class RandomMathGenerator implements Generator{
 		case BOTH:
 			return generateExpressionBySolutionAndTerms(options);
 		default:
-			throw new GeneratorException();		
+			throw new GeneratorException();
 		}
 	}
-
+	
 	private ArrayList<String> generateExpressionBySolutionAndTerms(
 			GeneratorData generatorData) throws GeneratorException {
-		
+			
 		return generateExpressionBySolution(generatorData);
 	}
-
+	
 	private ArrayList<String> generateExpressionBySolution(
 			GeneratorData generatorData) throws GeneratorException {
-		
-		if(!(generatorData instanceof MathGeneratorExerciseData))
+			
+		if (!(generatorData instanceof MathGeneratorExerciseData))
 			throw new GeneratorException();
-		
-		
+			
 		MathGeneratorExerciseData options = (MathGeneratorExerciseData) generatorData;
 		
 		ArrayList<String> result = null;
 		
-		for(int i=0; i<MAX_ATTEMPTS;i++){
+		for (int i = 0; i < MAX_ATTEMPTS; i++) {
 			
-			if(i==MAX_ATTEMPTS-1)
+			if (i == MAX_ATTEMPTS - 1)
 				throw new GeneratorException();
-			
+				
 			result = generateExpressionByTerms(options);
-			if(result == null)
+			if (result == null)
 				continue;
-			
+				
 			Vector<String> vector = new Vector<String>();
 			vector.addAll(result);
 			Double a = MathHelper.evaluateVector(vector);
-			boolean ok = true;
 			
-			if(a == null || a.isInfinite() || a.isNaN())
-				ok = false;
+			if (a == null || a.isInfinite() || a.isNaN())
+				continue;
 				
-			PreciseDecimal answer = new PreciseDecimal(a);
-			if(answer.doubleValue() >= options.getRangeForSolution()[0] && 
+			PreciseDecimal answer = null;
+			try{
+				answer = new PreciseDecimal(a);
+			}catch (NumberFormatException e){
+				result = null;
+				continue;
+			}
+			if (answer.doubleValue() >= options.getRangeForSolution()[0] &&
 					answer.doubleValue() <= options.getRangeForSolution()[1] &&
-					answer.getNumDecimals() == options.getNumberOfDecimalsInSolution()){
+					answer.getNumDecimals() == options.getNumberOfDecimalsInSolution()) {
 				return result;
 			}
 			result = null;
@@ -125,6 +129,7 @@ class RandomMathGenerator implements Generator{
 				
 				if (!foundParenthesis) {
 					counter++;
+					result = null;
 					continue;
 				}
 			}
@@ -157,22 +162,22 @@ class RandomMathGenerator implements Generator{
 	 * 
 	 * @param options
 	 * @return the head node for the expression tree
-	 * @throws GeneratorException 
+	 * @throws GeneratorException
 	 */
 	private Node populateOperators(MathGeneratorExerciseData options) throws GeneratorException {
 		Operator randomOperator;
 		int attempts = 0;
-		do{
+		do {
 			randomOperator = options.getRandomAllowedOperator();
-			if(attempts++ > 30){
+			if (attempts++ > 30) {
 				throw new GeneratorException();
 			}
-		}while(randomOperator.getSymbol().equals("/"));		
+		} while (randomOperator.getSymbol().equals("/"));
 		
 		ArrayList<Node> emptyNodes = new ArrayList<>();
-
+		
 		Node head = new Node(randomOperator);
-
+		
 		Node currentNode = head;
 		emptyNodes.add(head);
 		int terms = 1;
@@ -187,8 +192,8 @@ class RandomMathGenerator implements Generator{
 		} while (terms < options.getNumberOfTerms());
 		
 		return head;
-	}	
-
+	}
+	
 	private <T> T getRandomElementFromList(ArrayList<T> list) {
 		return list.get(r.nextInt(list.size()));
 	}

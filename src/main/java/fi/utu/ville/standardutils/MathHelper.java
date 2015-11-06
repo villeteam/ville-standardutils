@@ -92,34 +92,33 @@ public class MathHelper {
 					stack.addLast(Double.toString(ans));
 				}
 			}
-		} catch (IndexOutOfBoundsException | NumberFormatException e) { 
+		} catch (IndexOutOfBoundsException | NumberFormatException e) {
 			// something went wrong; most likely a nonsense calculation. e.g.
 			// 2.6.4+-4-.6 or 5+g3
 			//			e.printStackTrace();
 			return null;
 		}
-
+		
 		return ans;
 	}
 	
 	/**
 	 * Parse the given value with ',' replaced with '.'
+	 * 
 	 * @param input
-	 * @return
-	 * 			Double value of given string
+	 * @return Double value of given string
 	 */
 	private static double getDoubleFromString(String input) {
-		double ans = Double.parseDouble(input.replace(',',  '.'));
+		double ans = Double.parseDouble(input.replace(',', '.'));
 		return ans;
 	}
 	
 	/**
-	 * Preprocesses an input string, removing various calculation signs
-	 * ('×', '⋅' and ':')
+	 * Preprocesses an input string, removing various calculation signs ('×', '⋅' and ':')
+	 * 
 	 * @param input
-	 * 			Input string
-	 * @return
-	 * 			Processed output string
+	 *            Input string
+	 * @return Processed output string
 	 */
 	private static String preprocessInput(String input) {
 		String s = input;
@@ -129,7 +128,7 @@ public class MathHelper {
 		
 		return s;
 	}
-
+	
 	/**
 	 * Return ArrayList with step by step solutions on arithmetic calculations
 	 * 
@@ -138,24 +137,24 @@ public class MathHelper {
 	 */
 	public static ArrayList<Double> stepBySolution(String s) {
 		ArrayList<Double> solution = new ArrayList<Double>();
-
+		
 		s = preprocessInput(s);
 		Vector<String> v = infixToPostfix(s);
-
+		
 		double ans = 0;
 		LinkedList<String> stack = new LinkedList<String>();
-
+		
 		try {
 			for (int i = 0; i < v.size(); i++) {
-
+				
 				if (!(v.get(i).equals("+") || v.get(i).equals("-")
 						|| v.get(i).equals("*") || v.get(i).equals("/"))) {
-
+						
 					stack.add(v.get(i));
 				} else {
-					double	op1 = getDoubleFromString(stack.remove(stack.size() - 2)),
+					double op1 = getDoubleFromString(stack.remove(stack.size() - 2)),
 							op2 = getDoubleFromString(stack.remove(stack.size() - 1));
-					
+							
 					switch (v.get(i)) {
 					case "*":
 						ans = op1 * op2;
@@ -179,16 +178,17 @@ public class MathHelper {
 			// to solve it.
 			return new ArrayList<Double>();
 		}
-
+		
 		return solution;
 	}
-
+	
 	/**
 	 * Translates the given infix expression to postfix.
+	 * 
 	 * @param infixExpression
 	 * @return A vector containing the expression in postfix notation
 	 */
-	public static Vector<String> infixToPostfix(Vector<String> infixExpression){
+	public static Vector<String> infixToPostfix(Vector<String> infixExpression) {
 		Vector<String> supportedOperators = new Vector<String>();
 		supportedOperators.add("/");
 		supportedOperators.add("*");
@@ -197,28 +197,28 @@ public class MathHelper {
 		
 		Vector<String> result = new Vector<>();
 		Stack<String> operators = new Stack<String>();
-		for(int i=0; i< infixExpression.size(); i++){
-			if(infixExpression.get(i).equals("(")){
+		for (int i = 0; i < infixExpression.size(); i++) {
+			if (infixExpression.get(i).equals("(")) {
 				continue;
 			}
 			
-			if(supportedOperators.contains(infixExpression.get(i))){
+			if (supportedOperators.contains(infixExpression.get(i))) {
 				operators.add(infixExpression.get(i));
 				continue;
 			}
 			
-			if(infixExpression.get(i).equals(")")){
-				if(!operators.isEmpty())
+			if (infixExpression.get(i).equals(")")) {
+				if (!operators.isEmpty())
 					result.add(operators.pop());
-				if(!operators.isEmpty())
-					result.add(operators.pop());				
+				if (!operators.isEmpty())
+					result.add(operators.pop());
 				continue;
 			}
 			
 			result.add(infixExpression.get(i));
 		}
 		
-		for(int i=operators.size()-1; i>=0; i--){
+		for (int i = operators.size() - 1; i >= 0; i--) {
 			result.add(operators.get(i));
 		}
 		
@@ -226,10 +226,8 @@ public class MathHelper {
 	}
 	
 	/**
-	 * Translates the infix expression to a postfix expression, eliminating the
-	 * parenthesis. This way the expression can be easily evaluated in the
-	 * ProgramTranslator class. Does not handle cases where negative terms are without parenthesis
-	 * such as 4 + -2. However, 4 + (-2) will work.
+	 * Translates the infix expression to a postfix expression, eliminating the parenthesis. This way the expression can be easily evaluated in the
+	 * ProgramTranslator class. Does not handle cases where negative terms are without parenthesis such as 4 + -2. However, 4 + (-2) will work.
 	 * 
 	 * @param s
 	 *            a string containing the infix expression
@@ -239,7 +237,7 @@ public class MathHelper {
 		Vector<String> post = new Vector<String>();
 		Vector<String> v = split(s);
 		Stack<String> stack = new Stack<String>();
-
+		
 		for (String c : v) {
 			String bl = c;
 			if (bl.equals("(")) {
@@ -262,7 +260,7 @@ public class MathHelper {
 				if (stack.empty()) {
 					stack.push(c);
 				} else {
-
+					
 					String speek = stack.peek();
 					int o1 = 0, o2 = 0;
 					if (speek.equals("*") || speek.equals("/")
@@ -282,7 +280,7 @@ public class MathHelper {
 							|| speek.equals("&&") || speek.equals("||")) {
 						o2 = 4;
 					}
-
+					
 					if (bl.equals("*") || bl.equals("/") || bl.equals("%")) {
 						o1 = 1;
 					}
@@ -298,19 +296,19 @@ public class MathHelper {
 							|| bl.equals("||")) {
 						o1 = 4;
 					}
-
+					
 					if (speek.equals("(") || speek.equals(")")) {
 						o2 = 5;
 					}
 					if (bl.equals("(") || bl.equals(")")) {
 						o1 = 5;
 					}
-
+					
 					if (o1 < o2) {
 						stack.push(c);
 					} else {
 						while (o1 >= o2 && !stack.empty()) {
-
+							
 							post.add(stack.pop());
 							if (!stack.empty()) {
 								speek = stack.peek();
@@ -332,7 +330,7 @@ public class MathHelper {
 									|| speek.equals("&&") || speek.equals("||")) {
 								o2 = 4;
 							}
-
+							
 							if (bl.equals("*") || bl.equals("/")
 									|| bl.equals("%")) {
 								o1 = 1;
@@ -349,14 +347,14 @@ public class MathHelper {
 									|| bl.equals("&&") || bl.equals("||")) {
 								o1 = 4;
 							}
-
+							
 							if (speek.equals("(") || speek.equals(")")) {
 								o2 = 5;
 							}
 							if (bl.equals("(") || bl.equals(")")) {
 								o1 = 5;
 							}
-
+							
 						}
 						stack.push(c);
 					}
@@ -364,29 +362,27 @@ public class MathHelper {
 			} else {
 				post.add(c);
 			}
-
+			
 		}
 		// Rest of the elements from the stack
 		while (!stack.empty()) {
 			post.add(stack.pop());
 		}
-
+		
 		return post;
 	}
-
+	
 	/**
-	 * Split operators, operands and method calls from a string. Splitting is
-	 * not done inside quotes. Splitting delimiters are in this.splitOperators.
-	 * Spaces outside quotes are stripped.
+	 * Split operators, operands and method calls from a string. Splitting is not done inside quotes. Splitting delimiters are in this.splitOperators. Spaces
+	 * outside quotes are stripped.
 	 * 
 	 * @param s
 	 *            a String object to be splitted
-	 * @return new vector where each element is an operator, operand or method
-	 *         call from string
+	 * @return new vector where each element is an operator, operand or method call from string
 	 */
-	public static Vector<String> split(String s) {		
+	public static Vector<String> split(String s) {
 		s = preprocessInput(s);
-
+		
 		// not used
 		// int o = 0;
 		if (s.trim().startsWith("-") && !s.trim().startsWith("--")) {
@@ -429,12 +425,12 @@ public class MathHelper {
 				// Test if array cell variable
 				String param = solveBlock(s.substring(ind), "[");
 				param = "[" + param + "]";
-
+				
 				String intDec = s.substring(param.length() + 1).trim();
 				if (intDec.startsWith("++") || intDec.startsWith("--")) {
 					param += intDec.substring(0, 2);
 				}
-
+				
 				// First : if 2d array
 				int ind2 = ind + param.length();
 				String ss = s.substring(ind2);
@@ -452,19 +448,19 @@ public class MathHelper {
 						param += "--";
 					}
 				}
-
+				
 				block += param;
 				ch = "";
 				v.add(new String(block.trim()));
 				block = "";
 				ind += param.length() - 1; // ++ in the end of the loop
 			}
-
+			
 			if (!ch.equals("") && !quotaOpen) {
 				for (String operator : splitOperators) {
 					if (ch.equals(operator) && !quotaOpen) {
 						
-						if(ind < s.length() - 1){
+						if (ind < s.length() - 1) {
 							if (ch.equals("+") && s.charAt(ind + 1) == '+') {
 								block += "+"; // add first, second added at the end
 												// of the loop
@@ -494,7 +490,7 @@ public class MathHelper {
 								operator = "||";
 								ind++;
 							}
-	
+							
 							// Test <= and >=
 							if (ch.equals("<") && s.charAt(ind + 1) == '=') {
 								operator = "<=";
@@ -514,26 +510,26 @@ public class MathHelper {
 								ind++;
 							}
 						}
-
+						
 						String sss = s.substring(0, ind).trim();
-
+						
 						if (ch.equals("-") && !v.isEmpty() && sss.endsWith("(")) {
 							break;
 						}
-
+						
 						String lastComponent = "";
 						if (v.size() > 0) {
 							lastComponent = v.lastElement();
 						}
-
+						
 						if (ch.equals("-")
 								&& (lastComponent.equals("<") // Check for e.g.
-																// a < -2
+										// a < -2
 										|| lastComponent.equals(">")
 										|| lastComponent.equals("==")
 										|| lastComponent.equals(">=")
 										|| lastComponent.equals("<=") || lastComponent
-											.equals("!="))) {
+												.equals("!="))) {
 							break;
 						}
 						v.add(new String(block.trim()));
@@ -541,7 +537,7 @@ public class MathHelper {
 						block = "";
 						ch = "";
 						break;
-
+						
 					}
 				}
 			}
@@ -558,7 +554,7 @@ public class MathHelper {
 		}
 		return v;
 	}
-
+	
 	public static String solveBlock(String s, String alkumerkki) {
 		String loppumerkki = "";
 		boolean quoteOpen = false;
@@ -568,7 +564,7 @@ public class MathHelper {
 			}
 		}
 		int alkuindeksi = s.indexOf(alkumerkki);
-
+		
 		if (alkuindeksi == -1) {
 			return null;
 		}
@@ -593,19 +589,19 @@ public class MathHelper {
 		}
 		return s.substring(alkuindeksi + 1, indeksi); // sulut pois
 	}
-
+	
 	public static double calculateFraction(int[] fraction) {
 		return fraction[0] + (fraction[1] / (double) fraction[2]);
 	}
-
+	
 	public static String evaluateUsingDifferentOperators(String equation,
 			double ans) {
-
+			
 		Vector<String> vector = split(equation);
 		String original = "";
 		for (int i = 0; i < vector.size(); i++) {
 			String str = vector.get(i);
-
+			
 			if (str.equals("+") || str.equals("-") || str.equals("*")
 					|| str.equals("/")) {
 				original = operatorToSpeak(str);
@@ -613,32 +609,32 @@ public class MathHelper {
 				if (evaluateVector(vector) == ans) {
 					return "Taisit sekoittaa " + original + "n ja yhteenlaskun";
 				}
-
+				
 				vector.set(i, "-");
 				if (evaluateVector(vector) == ans) {
 					return "Taisit sekoittaa " + original
 							+ "n ja vähennyslaskun";
 				}
-
+				
 				vector.set(i, "*");
 				if (evaluateVector(vector) == ans) {
 					return "Taisit sekoittaa " + original + "n ja kertolaskun";
 				}
-
+				
 				vector.set(i, "/");
 				if (evaluateVector(vector) == ans) {
 					return "Taisit sekoittaa " + original + "n ja jakolaskun";
 				}
-
+				
 				return "fail";
-
+				
 			}
-
+			
 		}
-
+		
 		return "fail";
 	}
-
+	
 	public static String operatorToSpeak(String str) {
 		if (str.equals("-")) {
 			return "vähennyslasku";
@@ -649,23 +645,23 @@ public class MathHelper {
 		} else if (str.equals("/")) {
 			return "jakolasku";
 		}
-
+		
 		else
 			return "älytöntä";
-
+			
 	}
 	
 	public static Double evaluateVector(Vector<String> vector) {
 		
 		StringBuilder builder = new StringBuilder();
-
+		
 		for (int i = 0; i < vector.size(); i++) {
 			builder.append(vector.get(i));
 		}
-
+		
 		return evaluate(builder.toString());
 	}
-
+	
 	public static boolean isParsableToInt(String i) {
 		try {
 			Integer.parseInt(i);
@@ -674,7 +670,7 @@ public class MathHelper {
 			return false;
 		}
 	}
-
+	
 	/**
 	 * Checks if the given string is parsable to a double
 	 * 
@@ -689,30 +685,30 @@ public class MathHelper {
 			return false;
 		}
 	}
-
+	
 	public static Label getEqualsSign() {
 		Label eq = new Label("=");
 		eq.addStyleName("math-text-large");
-
+		
 		return eq;
 	}
-
+	
 	public static VerticalLayout getSadFace() {
 		VerticalLayout sf = new VerticalLayout();
 		sf.setWidth("128px");
 		sf.setHeight("128px");
 		sf.setMargin(true);
-
+		
 		ThemeResource sad = new ThemeResource("../vexer-math/icons/sadface.png");
 		Embedded e = new Embedded(null, sad);
 		e.setWidth("128px");
 		e.setHeight("128px");
-
+		
 		sf.addComponent(e);
-
+		
 		return sf;
 	}
-
+	
 	public static boolean hasSmallerThanZero(String equation) {
 		ArrayList<Double> solution = stepBySolution(equation);
 		for (int i = 0; i < solution.size(); i++) {
@@ -722,27 +718,27 @@ public class MathHelper {
 		}
 		return false;
 	}
-
+	
 	public static String getRandomAddition() {
 		Random rnd = new Random();
 		return addition[rnd.nextInt(addition.length)];
 	}
-
+	
 	public static String getRandomSubtraction() {
 		Random rnd = new Random();
 		return subtraction[rnd.nextInt(subtraction.length)];
 	}
-
+	
 	public static String getRandomDivision() {
 		Random rnd = new Random();
 		return division[rnd.nextInt(division.length)];
 	}
-
+	
 	public static String getRandomMultiplication() {
 		Random rnd = new Random();
 		return multiplication[rnd.nextInt(multiplication.length)];
 	}
-
+	
 	public static ArrayList<String> getOperatorStrings() {
 		ArrayList<String> opers = new ArrayList<String>();
 		opers.add("+");
@@ -750,14 +746,13 @@ public class MathHelper {
 		opers.add("*");
 		opers.add("/");
 		opers.add(":");
-
+		
 		return opers;
 	}
-
+	
 	/**
-	 * Separates all digits in the given string to an array so that the least
-	 * significant digit is at the last index. Does not ensure that the given
-	 * string is actually a number
+	 * Separates all digits in the given string to an array so that the least significant digit is at the last index. Does not ensure that the given string is
+	 * actually a number
 	 * 
 	 * @param number
 	 *            The string to turn into an array
@@ -765,18 +760,17 @@ public class MathHelper {
 	 */
 	public static int[] splitDigits(String number) {
 		int[] result = new int[number.length()];
-
+		
 		for (int i = 0; i < number.length(); i++) {
 			result[number.length() - 1 - i] = Integer.valueOf(number.charAt(i)
 					+ "");
 		}
-
+		
 		return result;
 	}
-
+	
 	/**
-	 * Separates all digits in the given integer to an array so that units are
-	 * at index 0, tens at index 1 hundreds at index 2 etc.
+	 * Separates all digits in the given integer to an array so that units are at index 0, tens at index 1 hundreds at index 2 etc.
 	 * 
 	 * @param number
 	 *            the integer to turn into an array
@@ -785,28 +779,28 @@ public class MathHelper {
 	public static int[] splitDigits(int number) {
 		return splitDigits(Integer.toString(number));
 	}
-
+	
 	//
 	// class used to represent intermediate expressions on the stack.
 	//
 	private static class Intermediate {
 		public String expr; // subexpression string
 		public String oper; // the operator used to create this expression
-
+		
 		public Intermediate(String expr, String oper) {
 			this.expr = expr;
 			this.oper = oper;
 		}
 	}
-
+	
 	//
 	// PostfixToInfix
 	//
 	public static String postfixToInfix(Vector<String> postfixTokens) {
-
+		
 		// Create stack for holding intermediate infix expressions
 		Stack<Intermediate> stack = new Stack<Intermediate>();
-
+		
 		for (String token : postfixTokens) {
 			if (token == "+" || token == "-") {
 				// Get the left and right operands from the stack.
@@ -814,25 +808,25 @@ public class MathHelper {
 				// we do not have to add any parentheses to the operands.
 				Intermediate rightIntermediate = stack.pop();
 				Intermediate leftIntermediate = stack.pop();
-
+				
 				// construct the new intermediate expression by combining the
 				// left and right
 				// expressions using the operator (token).
 				String newExpr = leftIntermediate.expr + token
 						+ rightIntermediate.expr;
-
+						
 				// Push the new intermediate expression on the stack
 				stack.push(new Intermediate(newExpr, token));
 			} else if (token == "*" || token == "/") {
 				String leftExpr, rightExpr;
-
+				
 				// Get the intermediate expressions from the stack.
 				// If an intermediate expression was constructed using a lower
 				// precedent
 				// operator (+ or -), we must place parentheses around it to
 				// ensure
 				// the proper order of evaluation.
-
+				
 				Intermediate rightIntermediate = stack.pop();
 				if (rightIntermediate.oper == "+"
 						|| rightIntermediate.oper == "-") {
@@ -840,7 +834,7 @@ public class MathHelper {
 				} else {
 					rightExpr = rightIntermediate.expr;
 				}
-
+				
 				Intermediate leftIntermediate = stack.pop();
 				if (leftIntermediate.oper == "+"
 						|| leftIntermediate.oper == "-") {
@@ -848,12 +842,12 @@ public class MathHelper {
 				} else {
 					leftExpr = leftIntermediate.expr;
 				}
-
+				
 				// construct the new intermediate expression by combining the
 				// left and right
 				// using the operator (token).
 				String newExpr = leftExpr + token + rightExpr;
-
+				
 				// Push the new intermediate expression on the stack
 				stack.push(new Intermediate(newExpr, token));
 			} else {
@@ -861,19 +855,17 @@ public class MathHelper {
 				stack.push(new Intermediate(token, ""));
 			}
 		}
-
+		
 		// The loop above leaves the final expression on the top of the stack.
 		return stack.peek().expr;
 	}
-
+	
 	/**
-	 * Simplifies the given fraction. The fraction must be given as a pure
-	 * fraction, i.e. 20/5; no units
+	 * Simplifies the given fraction. The fraction must be given as a pure fraction, i.e. 20/5; no units
 	 * 
 	 * @param fraction
 	 *            The fraction to simplify
-	 * @return The simplified fraction as a two or three-element array:
-	 *         [numerator, denominator], or [units, numerator, denominator].
+	 * @return The simplified fraction as a two or three-element array: [numerator, denominator], or [units, numerator, denominator].
 	 */
 	public static int[] simplify(int[] fraction) {
 		int numeratorIndex = 0;
@@ -891,13 +883,13 @@ public class MathHelper {
 		fraction[numeratorIndex + 1] /= gcd;
 		return fraction;
 	}
-
+	
 	/**
 	 * Calculates the greatest common divisor of the given numbers.
 	 * 
 	 * @param a
 	 * @param b
-	 * @return the greatest common divisor 
+	 * @return the greatest common divisor
 	 */
 	public static long gcd(long a, long b) {
 		while (b != 0) {
@@ -907,7 +899,7 @@ public class MathHelper {
 		}
 		return a;
 	}
-
+	
 	public static int[] tryToChangeDenominator(int[] fraction,
 			int newDenominator) {
 		int[] newFraction = simplify(fraction.clone());
@@ -920,7 +912,7 @@ public class MathHelper {
 		newFraction[1] *= multiplier;
 		return newFraction;
 	}
-
+	
 	/**
 	 * Returns only the operands (numbers) of the given equation.
 	 * 
@@ -929,7 +921,7 @@ public class MathHelper {
 	 */
 	public static Vector<String> getOperands(String equation) {
 		Vector<String> operands = new Vector<>();
-
+		
 		Pattern p = Pattern.compile("\\d+((\\.|,)\\d+)?");
 		Matcher m = p.matcher(equation);
 		while (m.find()) {
@@ -937,10 +929,10 @@ public class MathHelper {
 		}
 		return operands;
 	}
-
+	
 	public static Vector<String> getOperators(String eq) {
 		Vector<String> operators = new Vector<>();
-
+		
 		for (int i = 0; i < eq.length(); i++) {
 			switch (eq.charAt(i)) {
 			case '+':
@@ -950,9 +942,9 @@ public class MathHelper {
 				operators.add(eq.charAt(i) + "");
 				break;
 			}
-
+			
 		}
-
+		
 		return operators;
 	}
 }

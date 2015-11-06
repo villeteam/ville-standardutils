@@ -89,7 +89,7 @@ public class GeneratorTest {
 	}
 
 	@Test
-	public void parenthesisAppearEvenIfNotAllowed() {
+	public void testParenthesisDoNotAppearWhenNotAllowed() {
 		
 		final int SOLUTION_MIN = 4;
 		final int SOLUTION_MAX = 5;
@@ -115,10 +115,15 @@ public class GeneratorTest {
 		ArrayList<String> result = ExpressionGenerator.generateExpression(options);
 
 		if(!options.getAllowParenthesis()){
-			for (String s : result) {
-				if(s.contains("(") || s.contains(")")){
-					fail("Expression contained parenthesis even if parenthesis were not allowed! "+result);
+			boolean foundParenthesis = false;
+			for (int i = 0; i < result.size(); i++) {
+				if (result.size() > i + 2 && result.get(i).equals("(") && !result.get(i + 2).equals(")")) {
+					foundParenthesis = true;
 				}
+			}
+			
+			if (foundParenthesis) {
+				fail("Expression contained parenthesis even if parenthesis were not allowed! "+result);
 			}
 		}	
 	}	

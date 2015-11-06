@@ -54,7 +54,7 @@ public class ExpressionGenerator implements Serializable {
 			PreciseDecimal pd = null;
 			try {
 				pd = new PreciseDecimal(MathHelper.evaluate(concatList(result)));
-			} catch (NumberFormatException e) {
+			} catch (NumberFormatException | NullPointerException e) {
 				//ignore
 			}
 			if (result != null && pd != null) {
