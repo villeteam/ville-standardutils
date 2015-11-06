@@ -449,6 +449,7 @@ public class GeneratorView implements Serializable {
 				newView.getTermNumberLayout(),
 				newView.getBoundSelectionComponent(BoundingType.BOTH,BoundingType.SOLUTION,BoundingType.TERMS),
 				newView.getOperatorTypeSelector(operatorsShown),
+				newView.getAllowParenthesisLayout(),
 				saveButton);
 		
 		return result;
