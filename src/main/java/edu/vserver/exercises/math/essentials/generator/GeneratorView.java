@@ -40,8 +40,8 @@ import fi.utu.ville.standardutils.ui.FieldParameter;
 import fi.utu.ville.standardutils.ui.IntegerField;
 
 public class GeneratorView implements Serializable {
-
-	public enum ViewComponent{
+	
+	public enum ViewComponent {
 		TERM_RANGE_SELECTOR,
 		SOLUTION_RANGE_SELECTOR,
 		TERM_AND_SOLUTION_SELECTOR,
@@ -53,65 +53,60 @@ public class GeneratorView implements Serializable {
 	
 	private static final long serialVersionUID = 5611161972887417441L;
 	private static final int MIN_TERM_VALUE = -1000000000;
-	private static final int MAX_TERM_VALUE =  1000000000;
+	private static final int MAX_TERM_VALUE = 1000000000;
 	
 	private final MathGeneratorExerciseData options;
 	private final Localizer localizer;
-
+	
 	private final VerticalLayout termLayout = new VerticalLayout();
 	private final VerticalLayout boundSelectionLayout = StandardUIFactory.getVerticalGrayContentLayout(PanelStyle.DEFAULT);
 	private final CheckBox individualTermRangesCheckBox;
 	private final CheckBox[] operatorCheckBoxes;
 	private final ArrayList<Component> loadedComponents;
 	private static final String FORM_PANEL_TITLE_WIDTH = "200px";
-
+	
 	private transient boolean[] operatorsShown;
 	private boolean allowDecimals = true;
 	private static int TEXTFIELDWIDTH = 50;
-
+	
 	public GeneratorView(Localizer localizer) {
 		this(localizer, new MathGeneratorExerciseData(2));
 	}
-
+	
 	public GeneratorView(Localizer localizer, MathGeneratorExerciseData oldData) {
-		if (oldData == null){
+		if (oldData == null) {
 			oldData = new MathGeneratorExerciseData(2);
 		}
-		if(oldData.getManualCalculations() == null)
+		if (oldData.getManualCalculations() == null) {
 			oldData.setManualCalculations("");
+		}
 		
 		this.localizer = localizer;
 		options = oldData;
 		
-		operatorsShown = new boolean[]{true,true,true,true};
+		operatorsShown = new boolean[] { true, true, true, true };
 		individualTermRangesCheckBox = new CheckBox(
 				localizer.getUIText(UIConstants.Separate_Term_Ranges),
 				options.getSeparateTermRangesFlag());
-		operatorCheckBoxes = new CheckBox[] {
-				createSelectOperatorCheckBox(localizer.getUIText("Sum"),
-						Operator.SUM, options.additionAllowed()),
-				createSelectOperatorCheckBox(
+		operatorCheckBoxes = new CheckBox[] { createSelectOperatorCheckBox(localizer.getUIText("Sum"),
+				Operator.SUM, options.additionAllowed()), createSelectOperatorCheckBox(
 						localizer.getUIText("Subtraction"), Operator.SUBTRACT,
-						options.subtractionAllowed()),
-				createSelectOperatorCheckBox(
-						localizer.getUIText("Multiplication"),
-						Operator.MULTIPLICATION,
-						options.multiplicationAllowed()),
-				createSelectOperatorCheckBox(localizer.getUIText("Division"),
-						Operator.DIVISION, options.divisionAllowed()) };
-		loadedComponents= new ArrayList<Component>();
+						options.subtractionAllowed()), createSelectOperatorCheckBox(
+								localizer.getUIText("Multiplication"),
+								Operator.MULTIPLICATION,
+								options.multiplicationAllowed()), createSelectOperatorCheckBox(localizer.getUIText("Division"),
+										Operator.DIVISION, options.divisionAllowed()) };
+		loadedComponents = new ArrayList<Component>();
 	}
-
+	
 	/**
-	 * Returns a layout for setting the range for the solution. The method does
-	 * not set the bounding mode; it must be set manually with the
-	 * {@link MathGeneratorExerciseData#setBoundingType(BoundingType type)}
-	 * method.
+	 * Returns a layout for setting the range for the solution. The method does not set the bounding mode; it must be set manually with the
+	 * {@link MathGeneratorExerciseData#setBoundingType(BoundingType type)} method.
 	 * 
 	 * @return A layout with all the required components to set the solution range
 	 */
 	public VerticalLayout getSolutionRangeLayout() {
-
+		
 		final DecimalField minSolution = new DecimalField("Min");
 		minSolution.setValue(options.getMinValueForSolution().intValue());
 		final DecimalField maxSolution = new DecimalField("Max");
@@ -119,100 +114,102 @@ public class GeneratorView implements Serializable {
 		minSolution.setRange(MIN_TERM_VALUE, MAX_TERM_VALUE);
 		maxSolution.setRange(MIN_TERM_VALUE, MAX_TERM_VALUE);
 		ValueChangeListener listener = new ValueChangeListener() {
-
+			
 			private static final long serialVersionUID = 1L;
-
+			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				if (minSolution.getDouble() > maxSolution.getDouble())
+				if (minSolution.getDouble() > maxSolution.getDouble()) {
 					maxSolution.setValue(minSolution.getValue());
-				if (maxSolution.getDouble() < minSolution.getDouble())
+				}
+				if (maxSolution.getDouble() < minSolution.getDouble()) {
 					minSolution.setValue(maxSolution.getValue());
-
+				}
+				
 				options.setSolutionRange(minSolution.getDouble(),
 						maxSolution.getDouble());
 			}
 		};
-
+		
 		minSolution.setWidth(TEXTFIELDWIDTH, Unit.PIXELS);
 		minSolution.addValueChangeListener(listener);
-
+		
 		maxSolution.setWidth(TEXTFIELDWIDTH, Unit.PIXELS);
 		maxSolution.addValueChangeListener(listener);
-
+		
 		final IntegerField solutionDecimals = new IntegerField(
 				localizer.getUIText("Decimal numbers"), FieldParameter.NONNEGATIVE_ONLY);
 		solutionDecimals.setValue(options.getNumberOfDecimalsInSolution() + "");
 		solutionDecimals.setWidth(TEXTFIELDWIDTH, Unit.PIXELS);
 		solutionDecimals.setRange(0, 5);
 		solutionDecimals.addValueChangeListener(new ValueChangeListener() {
-
+			
 			private static final long serialVersionUID = 1L;
-
+			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				options.setNumberOfDecimalsInSolution(solutionDecimals
 						.getInteger());
 			}
 		});
-
+		
 		VerticalLayout result;
-		if(allowDecimals)
+		if (allowDecimals) {
 			result = StandardUIFactory.getFormPanel(
-				localizer.getUIText(GeneratorUIConstants.RANGEFORSOLUTION),
-				Icon.RESULT, FORM_PANEL_TITLE_WIDTH, minSolution, maxSolution,
-				solutionDecimals);
-		else
+					localizer.getUIText(GeneratorUIConstants.RANGEFORSOLUTION),
+					Icon.RESULT, FORM_PANEL_TITLE_WIDTH, minSolution, maxSolution,
+					solutionDecimals);
+		} else {
 			result = StandardUIFactory.getFormPanel(
-				localizer.getUIText(GeneratorUIConstants.RANGEFORSOLUTION),
-				Icon.RESULT, FORM_PANEL_TITLE_WIDTH, minSolution, maxSolution);
+					localizer.getUIText(GeneratorUIConstants.RANGEFORSOLUTION),
+					Icon.RESULT, FORM_PANEL_TITLE_WIDTH, minSolution, maxSolution);
+		}
 		
 		loadedComponents.add(result);
 		
 		return result;
 	}
-
+	
 	/**
-	 * Gets a VerticalLayout containing the selector for the bounding mode and
-	 * the appropriate components to modify the selected bounds.
+	 * Gets a VerticalLayout containing the selector for the bounding mode and the appropriate components to modify the selected bounds.
 	 * 
 	 * @param boundingTypes
-	 *            The allowed bounding types for this selector. If no parameters
-	 *            are given, all bounding types are allowed.
-	 * @return A VerticalLayout containing everything necessary to set the
-	 *         bounds for the generator.
+	 *            The allowed bounding types for this selector. If no parameters are given, all bounding types are allowed.
+	 * @return A VerticalLayout containing everything necessary to set the bounds for the generator.
 	 */
 	public VerticalLayout getBoundSelectionComponent(
 			BoundingType... boundingTypes) {
-		
+			
 		// allow the whole enum if nothing is passed
 		final BoundingType[] allowedTypes;
-		if (boundingTypes == null || boundingTypes.length == 0)
+		if (boundingTypes == null || boundingTypes.length == 0) {
 			allowedTypes = BoundingType.values();
-		else
+		} else {
 			allowedTypes = boundingTypes;
-
+		}
+		
 		// localize the native select options
 		boundSelectionLayout.setCaption(localizer
 				.getUIText(GeneratorUIConstants.EXPRESSIONBOUNDS));
-		
+				
 		// add the localized native selections to the NativeSelect
 		final NativeSelect boundSelector = StandardUIFactory.getSelect(GeneratorUIConstants.BOUNDEDBY, localizer,
 				allowedTypes);
 		boundSelector.setNullSelectionAllowed(false);
-
+		
 		boundSelector.addValueChangeListener(new ValueChangeListener() {
-
+			
 			private static final long serialVersionUID = 7579214773526006640L;
-
+			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				boundSelectionLayout.removeAllComponents();
-				if (allowedTypes.length > 1)
+				if (allowedTypes.length > 1) {
 					boundSelectionLayout.addComponent(boundSelector);
-
+				}
+				
 				options.setBoundingType((BoundingType) boundSelector.getValue());
-
+				
 				showComponents(true);
 				
 				switch (options.getBoundingType()) {
@@ -235,19 +232,21 @@ public class GeneratorView implements Serializable {
 				}
 			}
 		});
-
+		
 		boundSelector.select(options.getBoundingType());
-
+		
 		return boundSelectionLayout;
 	}
-
-	private void showComponents(boolean show){
-		for(Component c : loadedComponents)
+	
+	private void showComponents(boolean show) {
+		for (Component c : loadedComponents) {
 			c.setVisible(show);
+		}
 	}
 	
 	/**
 	 * Returns a layout for inputting calculations manually. Each calculation is entered on its own row.
+	 * 
 	 * @return a layout that contains a everything necessary for inputting calculations manually.
 	 */
 	public Component getManualInputLayout() {
@@ -259,13 +258,14 @@ public class GeneratorView implements Serializable {
 		
 		result.addComponent(content);
 		
-		if(options.getManualCalculations() == null)
+		if (options.getManualCalculations() == null) {
 			options.setManualCalculations("");
+		}
 		
 		final VerticalLayout manualCalculationFields = new VerticalLayout();
 		final ManualCalculationSet calculations = options.getManualCalculations();
 		addManualInputFields(manualCalculationFields, calculations);
-
+		
 		final HorizontalLayout calculationEntryFields = new HorizontalLayout();
 		final CleanTextField expression = new CleanTextField(localizer.getUIText(UIConstants.GENERATOR_EXPRESSION));
 		final CleanTextField answer = new CleanTextField(localizer.getUIText(UIConstants.ANSWER));
@@ -273,23 +273,24 @@ public class GeneratorView implements Serializable {
 		
 		expression.addValueChangeListener(new ValueChangeListener() {
 			private static final long serialVersionUID = -6546328205853830702L;
-
+			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-								
+				
 				String expressionValue = expression.getValue().replaceAll(" ", "");
 				
-				if(expressionValue.isEmpty())
+				if (expressionValue.isEmpty()) {
 					return;
+				}
 				
-				if(!isValidExpression(expressionValue)){
-					Notification.show(localizer.getUIText(UIConstants.INVALID_EXPRESSION)+": "+
+				if (!isValidExpression(expressionValue)) {
+					Notification.show(localizer.getUIText(UIConstants.INVALID_EXPRESSION) + ": " +
 							expressionValue, Notification.Type.WARNING_MESSAGE);
 					return;
 				}
 				
 				String answerString = new PreciseDecimal(MathHelper.evaluate(expressionValue.replace(',', '.'))).toString();
-				calculations.addCalculation(expressionValue+"="+answerString);
+				calculations.addCalculation(expressionValue + "=" + answerString);
 				addManualInputFields(manualCalculationFields, calculations);
 				expression.setValue("");
 				answer.setValue("");
@@ -305,8 +306,9 @@ public class GeneratorView implements Serializable {
 		panelLayout.addComponent(manualCalculationFields);
 		HorizontalLayout settingsLayout = new HorizontalLayout();
 		ManualCalculationSet questionset = options.getManualCalculations();
-		if(questionset == null)
+		if (questionset == null) {
 			questionset = new ManualCalculationSet();
+		}
 		
 		settingsLayout.addComponent(getGenerateCalculationsButton(manualCalculationFields, questionset));
 		settingsLayout.addComponent(getShuffleButton(manualCalculationFields, questionset));
@@ -323,7 +325,7 @@ public class GeneratorView implements Serializable {
 		b.addClickListener(new ClickListener() {
 			
 			private static final long serialVersionUID = 6710876523688235560L;
-
+			
 			@Override
 			public void buttonClick(ClickEvent event) {
 				manualCalculationSet.shuffleQuestionset();
@@ -332,11 +334,11 @@ public class GeneratorView implements Serializable {
 		});
 		return b;
 	}
-
-	private Component getImportManualCalculationsButton(final Layout manualCalculationFields, final ManualCalculationSet manualCalculationSet){
+	
+	private Component getImportManualCalculationsButton(final Layout manualCalculationFields, final ManualCalculationSet manualCalculationSet) {
 		final VerticalLayout layout = new VerticalLayout();
 		final CleanTextArea field = new CleanTextArea();
-				
+		
 		field.setHeight("500px");
 		Button result = StandardUIFactory.getButton(localizer.getUIText(UIConstants.IMPORT), Icon.ATTACH);
 		Button savebutton = StandardUIFactory.getButton(localizer.getUIText(UIConstants.SAVE), Icon.SAVE);
@@ -347,32 +349,32 @@ public class GeneratorView implements Serializable {
 		result.addClickListener(new ClickListener() {
 			
 			private static final long serialVersionUID = 1L;
-
+			
 			@Override
-			public void buttonClick(ClickEvent event) {				
+			public void buttonClick(ClickEvent event) {
 				UI.getCurrent().addWindow(win);
 			}
 		});
 		
 		savebutton.addClickListener(new ClickListener() {
-	
+			
 			private static final long serialVersionUID = 3133418786180355572L;
-
+			
 			@Override
 			public void buttonClick(ClickEvent event) {
 				String[] expressions = field.getValue().split("\n");
-				for(int i=0; i<expressions.length; i++){
-					if(!isValidExpression(expressions[i])){
-						Notification.show(localizer.getUIText(UIConstants.INVALID_EXPRESSION)+": "+
+				for (int i = 0; i < expressions.length; i++) {
+					if (!isValidExpression(expressions[i])) {
+						Notification.show(localizer.getUIText(UIConstants.INVALID_EXPRESSION) + ": " +
 								expressions[i], Notification.Type.WARNING_MESSAGE);
 						return;
 					}
 				}
-				try{
+				try {
 					manualCalculationSet.importCalculations(field.getValue());
-				}catch(IllegalArgumentException e){
-					Notification.show(localizer.getUIText(UIConstants.CHECK)+": "+
-							localizer.getUIText(UIConstants.NUMBER_OF_QUESTIONS),Notification.Type.WARNING_MESSAGE);
+				} catch (IllegalArgumentException e) {
+					Notification.show(localizer.getUIText(UIConstants.CHECK) + ": " +
+							localizer.getUIText(UIConstants.NUMBER_OF_QUESTIONS), Notification.Type.WARNING_MESSAGE);
 					win.close();
 					return;
 				}
@@ -391,9 +393,9 @@ public class GeneratorView implements Serializable {
 		Button result = StandardUIFactory.getButton(localizer.getUIText(UIConstants.CLEAR), Icon.DELETE);
 		
 		result.addClickListener(new ClickListener() {
-
+			
 			private static final long serialVersionUID = 4380401102973703014L;
-
+			
 			@Override
 			public void buttonClick(ClickEvent event) {
 				manualCalculationSet.clear();
@@ -402,9 +404,9 @@ public class GeneratorView implements Serializable {
 		});
 		
 		return result;
-
+		
 	}
-
+	
 	private Component getGenerateCalculationsButton(final Layout manualFieldsLayout, final ManualCalculationSet calculationSet) {
 		final VerticalLayout windowLayout = new VerticalLayout();
 		final Window win = StandardUIFactory.getModalWindow("60%", localizer.getUIText(UIConstants.GENERATE));
@@ -413,7 +415,7 @@ public class GeneratorView implements Serializable {
 		result.addClickListener(new ClickListener() {
 			
 			private static final long serialVersionUID = 1L;
-
+			
 			@Override
 			public void buttonClick(ClickEvent event) {
 				UI.getCurrent().addWindow(win);
@@ -421,21 +423,21 @@ public class GeneratorView implements Serializable {
 		});
 		
 		final GeneratorView newView = new GeneratorView(localizer);
-		final Slider numberOfQuestions = new Slider(localizer.getUIText(UIConstants.NUMBER_OF_EXERCISES),0,ManualCalculationSet.CALCULATION_LIMIT);
+		final Slider numberOfQuestions = new Slider(localizer.getUIText(UIConstants.NUMBER_OF_EXERCISES), 0, ManualCalculationSet.CALCULATION_LIMIT);
 		numberOfQuestions.setWidth("200px");
 		Button saveButton = StandardUIFactory.getButton(localizer.getUIText(UIConstants.SAVE), Icon.SAVE);
 		
 		saveButton.addClickListener(new ClickListener() {
 			private static final long serialVersionUID = 1164633510100836603L;
-
+			
 			@Override
 			public void buttonClick(ClickEvent event) {
-				if(!newView.isDataValid()){
+				if (!newView.isDataValid()) {
 					win.close();
 					return;
 				}
 				
-				for(int i=0; i<numberOfQuestions.getValue(); i++){
+				for (int i = 0; i < numberOfQuestions.getValue(); i++) {
 					calculationSet.addCalculation(ExpressionGenerator.generateExpressionWithAnswer(newView.getOptions(), true));
 				}
 				addManualInputFields(manualFieldsLayout, calculationSet);
@@ -447,35 +449,36 @@ public class GeneratorView implements Serializable {
 		windowLayout.addComponents(
 				numberOfQuestions,
 				newView.getTermNumberLayout(),
-				newView.getBoundSelectionComponent(BoundingType.BOTH,BoundingType.SOLUTION,BoundingType.TERMS),
+				newView.getBoundSelectionComponent(BoundingType.BOTH, BoundingType.SOLUTION, BoundingType.TERMS),
 				newView.getOperatorTypeSelector(operatorsShown),
 				newView.getAllowParenthesisLayout(),
 				saveButton);
-		
+				
 		return result;
 	}
-
-	private boolean isValidExpression(String expression){
-		if(expression.isEmpty()){
+	
+	private boolean isValidExpression(String expression) {
+		if (expression.isEmpty()) {
 			System.out.println("expression was empty");
 			return false;
 		}
 		
-		 
-		if(!expression.matches("(\\(*\\d+(,|\\.)?\\d*\\)*[+\\-*/])*(\\d+(,|\\.)?\\d*)\\)*")){
+		if (!expression.matches("(\\(*\\d+(,|\\.)?\\d*\\)*[+\\-*/])*(\\d+(,|\\.)?\\d*)\\)*")) {
 			System.out.println("expression was invalid");
 			return false;
 		}
 		//check equal number of parenthesis
 		int openingParenthesis = 0;
 		int closingParenthesis = 0;
-		for(int i=0; i<expression.length();i++){
-			if(expression.charAt(i) == '(')
+		for (int i = 0; i < expression.length(); i++) {
+			if (expression.charAt(i) == '(') {
 				openingParenthesis++;
-			if(expression.charAt(i) == ')')
+			}
+			if (expression.charAt(i) == ')') {
 				closingParenthesis++;
+			}
 		}
-		if(openingParenthesis != closingParenthesis){
+		if (openingParenthesis != closingParenthesis) {
 			System.out.println("expression had invalid number of parenthesis");
 			return false;
 		}
@@ -484,28 +487,32 @@ public class GeneratorView implements Serializable {
 	
 	/**
 	 * Adds the given calculations to a layout, if there is anything to add
-	 * @param layout The layout to add the calculations to. Will be emptied before adding anything.
-	 * @param calculations The calculations to add. If null, nothing is added.
+	 * 
+	 * @param layout
+	 *            The layout to add the calculations to. Will be emptied before adding anything.
+	 * @param calculations
+	 *            The calculations to add. If null, nothing is added.
 	 */
-	private void addManualInputFields(final Layout layout, final ManualCalculationSet calculations){
+	private void addManualInputFields(final Layout layout, final ManualCalculationSet calculations) {
 		layout.removeAllComponents();
-		if(calculations == null)
+		if (calculations == null) {
 			return;
+		}
 		
-		for(int i=0;i<calculations.size();i++){
+		for (int i = 0; i < calculations.size(); i++) {
 			final ManualCalculation calculation = calculations.get(i);
 			HorizontalLayout horizontalLayout = new HorizontalLayout();
 			horizontalLayout.setSizeFull();
 			Button deleteButton = StandardUIFactory.getIconOnlyButton(Icon.DELETE);
 			deleteButton.addClickListener(new ClickListener() {
 				private static final long serialVersionUID = 4335765911260233275L;
-
+				
 				@Override
 				public void buttonClick(ClickEvent event) {
 					calculations.remove(calculation);
 					addManualInputFields(layout, calculations);
 				}
-			});			
+			});
 			
 			horizontalLayout.addComponent(addOneManualCalculationField(calculation));
 			horizontalLayout.addComponent(deleteButton);
@@ -514,19 +521,19 @@ public class GeneratorView implements Serializable {
 		}
 	}
 	
-	private Layout addOneManualCalculationField(final ManualCalculation calculation){
+	private Layout addOneManualCalculationField(final ManualCalculation calculation) {
 		final HorizontalLayout layout = new HorizontalLayout();
 		final CleanTextField expression = new CleanTextField(null, calculation.getExpression());
 		final Label answer = new Label(new PreciseDecimal(calculation.getAnswer()).toString());
 		
 		expression.addValueChangeListener(new ValueChangeListener() {
 			private static final long serialVersionUID = 2419103747934191053L;
-
+			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				String expressionValue = expression.getValue();
 				
-				if(!isValidExpression(expressionValue)){
+				if (!isValidExpression(expressionValue)) {
 					Notification.show("Invalid expression", Notification.Type.WARNING_MESSAGE);
 					return;
 				}
@@ -543,37 +550,36 @@ public class GeneratorView implements Serializable {
 		});
 		
 		answer.addValueChangeListener(new ValueChangeListener() {
-
+			
 			private static final long serialVersionUID = -3075492735739688530L;
-
+			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				if(MathHelper.isParsableToDouble(answer.getValue()));
+				if (MathHelper.isParsableToDouble(answer.getValue())) {
+					;
+				}
 			}
 		});
 		expression.addStyleName("expressiongenerator-manual-calc");
 		answer.addStyleName("expressiongenerator-manual-calc");
 		
-		layout.addComponents(expression,new Label("="), answer);
+		layout.addComponents(expression, new Label("="), answer);
 		
 		return layout;
 	}
 	
 	/**
-	 * Returns a VerticalLayout that contains everything necessary to set the
-	 * term ranges. The method does not set the bounding mode; it must be set
-	 * manually with the
-	 * {@link MathGeneratorExerciseData#setBoundingType(BoundingType type)}
-	 * method.
+	 * Returns a VerticalLayout that contains everything necessary to set the term ranges. The method does not set the bounding mode; it must be set manually
+	 * with the {@link MathGeneratorExerciseData#setBoundingType(BoundingType type)} method.
 	 * 
 	 * @return A Layout with all the required components to set the term range
 	 */
 	public Layout getTermRangeLayout() {
 		individualTermRangesCheckBox
 				.addValueChangeListener(new ValueChangeListener() {
-
+					
 					private static final long serialVersionUID = 1L;
-
+					
 					@Override
 					public void valueChange(ValueChangeEvent event) {
 						options.setSeparateTermsFlag(individualTermRangesCheckBox.getValue());
@@ -590,7 +596,7 @@ public class GeneratorView implements Serializable {
 						}
 					}
 				});
-
+				
 		VerticalLayout container = StandardUIFactory.getFormPanel(
 				localizer.getUIText(localizer
 						.getUIText(UIConstants.RANGE_FOR_TERMS)),
@@ -599,15 +605,14 @@ public class GeneratorView implements Serializable {
 				new VerticalLayout(individualTermRangesCheckBox),
 				createTermTextFields(options.getSeparateTermRangesFlag(),
 						termLayout));
-		
+						
 		loadedComponents.add(container);
 		
 		return container;
 	}
-
+	
 	/**
-	 * Returns a VerticalLayout that contains checkboxes for all the specified
-	 * oprators.
+	 * Returns a VerticalLayout that contains checkboxes for all the specified oprators.
 	 * 
 	 * @param sum
 	 *            Show the sum operator
@@ -621,15 +626,15 @@ public class GeneratorView implements Serializable {
 	 */
 	public Layout getOperatorTypeSelector(boolean sum,
 			boolean subtract, boolean multiplication, boolean division) {
-		operatorsShown = new boolean[] { sum, subtract,
-				multiplication, division };
-
+		operatorsShown = new boolean[] { sum, subtract, multiplication, division };
+		
 		int allowed = 0;
 		for (boolean b : operatorsShown) {
-			if (b)
+			if (b) {
 				allowed++;
+			}
 		}
-
+		
 		CheckBox[] cboxes = new CheckBox[allowed];
 		for (int i = 0; i < allowed; i++) {
 			if (operatorsShown[i]) {
@@ -640,36 +645,36 @@ public class GeneratorView implements Serializable {
 		VerticalLayout result = StandardUIFactory.getFormPanel(
 				localizer.getUIText(UIConstants.OPERATORS), Icon.OPERATORS,
 				FORM_PANEL_TITLE_WIDTH, cboxes);
-		
+				
 		loadedComponents.add(result);
 		
 		return result;
 	}
-
+	
 	private Layout getOperatorTypeSelector(boolean[] operators) {
-		return getOperatorTypeSelector(operators[0],operators[1],operators[2],operators[3]);
+		return getOperatorTypeSelector(operators[0], operators[1], operators[2], operators[3]);
 	}
 	
 	/**
-	 * Returns everything needed to set whether to allow or force parenthesis 
-	 * in the equation or not.
+	 * Returns everything needed to set whether to allow or force parenthesis in the equation or not.
+	 * 
 	 * @return a Layout for setting parenthesis options.
 	 */
-	public Layout getAllowParenthesisLayout(){
+	public Layout getAllowParenthesisLayout() {
 		
 		final CheckBox allowParenthesis = new CheckBox(
-				localizer.getUIText(UIConstants.ALLOW_PARENTHESIS), 
+				localizer.getUIText(UIConstants.ALLOW_PARENTHESIS),
 				options.getAllowParenthesis());
 		final CheckBox forceParenthesis = new CheckBox(
-				localizer.getUIText(UIConstants.FORCE_PARENTHESIS), 
+				localizer.getUIText(UIConstants.FORCE_PARENTHESIS),
 				options.getForceParenthesis());
-		
+				
 		forceParenthesis.setEnabled(options.getAllowParenthesis());
 		
 		forceParenthesis.addValueChangeListener(new ValueChangeListener() {
 			
 			private static final long serialVersionUID = 6193618982108693002L;
-
+			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				options.setForceParenthesis(forceParenthesis.getValue());
@@ -677,47 +682,46 @@ public class GeneratorView implements Serializable {
 		});
 		
 		allowParenthesis.addValueChangeListener(new ValueChangeListener() {
-
+			
 			private static final long serialVersionUID = -2386497123263722619L;
-
+			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				boolean value = allowParenthesis.getValue();
 				options.setAllowParenthesis(value);
 				forceParenthesis.setEnabled(value);
-				if(!value){
+				if (!value) {
 					forceParenthesis.setValue(false);
 					options.setForceParenthesis(false);
 				}
 			}
-		});	
+		});
 		
 		VerticalLayout result = StandardUIFactory.getFormPanel(
 				localizer.getUIText(UIConstants.PARENTHESIS), Icon.OPERATORS,
 				FORM_PANEL_TITLE_WIDTH, allowParenthesis, forceParenthesis);
-		
+				
 		loadedComponents.add(result);
 		return result;
 	}
 	
 	/**
-	 * Returns a layout for selecting how many terms the generated equations
-	 * have.
+	 * Returns a layout for selecting how many terms the generated equations have.
 	 */
 	public VerticalLayout getTermNumberLayout() {
 		HorizontalLayout container = new HorizontalLayout();
 		container.setSpacing(true);
 		container.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-
+		
 		final Label label = new Label(options.getNumberOfTerms() + "");
 		label.addStyleName("math-text-small");
 		VerticalLayout layout = new VerticalLayout();
 		final Button addTermButton = StandardUIFactory
 				.getIconOnlyButton(Icon.INCREASE);
 		addTermButton.addClickListener(new Button.ClickListener() {
-
+			
 			private static final long serialVersionUID = 1L;
-
+			
 			@Override
 			public void buttonClick(ClickEvent event) {
 				options.addTerm();
@@ -726,12 +730,12 @@ public class GeneratorView implements Serializable {
 						termLayout);
 			}
 		});
-
+		
 		Button decreaseTermButton = StandardUIFactory.getIconOnlyButton(Icon.DECREASE);
 		decreaseTermButton.addClickListener(new Button.ClickListener() {
-
+			
 			private static final long serialVersionUID = 1L;
-
+			
 			@Override
 			public void buttonClick(ClickEvent event) {
 				options.decreaseTerm();
@@ -740,92 +744,88 @@ public class GeneratorView implements Serializable {
 						termLayout);
 			}
 		});
-
+		
 		container.addComponent(label);
 		layout.addComponent(addTermButton);
 		layout.addComponent(decreaseTermButton);
 		container.addComponent(layout);
-
+		
 		VerticalLayout wrapper = StandardUIFactory.getFormPanel(
 				localizer.getUIText(UIConstants.NUMBEROFTERMS),
 				Icon.AMOUNT, FORM_PANEL_TITLE_WIDTH, container);
-
+				
 		loadedComponents.add(wrapper);
 		
 		return wrapper;
 	}
-
+	
 	/**
-	 * Adds the required controls to modify the forced multiplier of the terms
-	 * in the expression. For example, if the forced multiplier is 2, all terms
-	 * in the equation will be even.
+	 * Adds the required controls to modify the forced multiplier of the terms in the expression. For example, if the forced multiplier is 2, all terms in the
+	 * equation will be even.
 	 * 
 	 * @param container
-	 *            The container that will contain the controls for the forced
-	 *            multiplier.
+	 *            The container that will contain the controls for the forced multiplier.
 	 */
 	private AbstractOrderedLayout getForcedMultiplierComponent(
 			final int termIndex) {
 		VerticalLayout result = new VerticalLayout();
-
-		if (options.getBoundingType() != BoundingType.TERMS)
+		
+		if (options.getBoundingType() != BoundingType.TERMS) {
 			// I never could figure out how to force the multiplier when also
 			// bound by either solution or both the solution and the terms
 			return result;
-
+		}
+		
 		final CheckBox enabled = new CheckBox(
 				localizer.getUIText("FORCEDIVISIBILITY"), options.getForcedMultiplier(termIndex) != 0.0);
 		final DecimalField multiplier = new DecimalField();
 		multiplier.setValue(options.getForcedMultiplier(termIndex) + "");
 		multiplier.setRange(MIN_TERM_VALUE, MAX_TERM_VALUE);
 		enabled.addValueChangeListener(new ValueChangeListener() {
-
+			
 			private static final long serialVersionUID = 1L;
-
+			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				multiplier.setEnabled(enabled.getValue());
-				if (!enabled.getValue())
+				if (!enabled.getValue()) {
 					options.setForcedMultiplier(termIndex, 0);
-				else {
+				} else {
 					if (!options.getSeparateTermRangesFlag()) {
-						options.setGlobalForcedMultiplier(Double
-								.valueOf(multiplier.getValue().replace(",", ".")));
+						options.setGlobalForcedMultiplier(multiplier.getDouble());
 					} else {
-						options.setForcedMultiplier(termIndex,
-								Double.valueOf(multiplier.getValue().replace(",", ".")));
+						options.setForcedMultiplier(termIndex, multiplier.getDouble());
 					}
 				}
 			}
 		});
-
+		
 		multiplier.setWidth(TEXTFIELDWIDTH, Unit.PIXELS);
 		multiplier.addValueChangeListener(new ValueChangeListener() {
-
+			
 			private static final long serialVersionUID = 1L;
-
+			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				String value = multiplier.getValue();
 				value = value.replaceAll("[^\\d+((\\.|,)\\d+)?]?", "");
-				options.setForcedMultiplier(termIndex,
-						Double.valueOf(value.replaceAll(",", ".")));
+				options.setForcedMultiplier(termIndex, multiplier.getDouble());
 				// System.out.println("set forced multiplier"
 				// + Double.valueOf(value.replaceAll(",", "."))
 				// + " for term " + termIndex);
 				multiplier.setValue(value);
 			}
 		});
-
+		
 		multiplier.setImmediate(true);
 		multiplier.setEnabled(enabled.getValue());
-
+		
 		result.addComponent(enabled);
 		result.addComponent(multiplier);
-
+		
 		return result;
 	}
-
+	
 	/**
 	 * Creates one checkbox for setting an allowed operator
 	 * 
@@ -841,9 +841,9 @@ public class GeneratorView implements Serializable {
 			final Operator operator, boolean initialValue) {
 		final CheckBox checkbox = new CheckBox(caption, initialValue);
 		checkbox.addValueChangeListener(new ValueChangeListener() {
-
+			
 			private static final long serialVersionUID = 1L;
-
+			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				try {
@@ -857,7 +857,7 @@ public class GeneratorView implements Serializable {
 		});
 		return checkbox;
 	}
-
+	
 	/**
 	 * Creates TextFields for both the min and max term ranges.
 	 * 
@@ -865,15 +865,14 @@ public class GeneratorView implements Serializable {
 	 *            a boolean to determine wether all term ranges should be shown
 	 * @param oldLayout
 	 *            the layout where to add the textfields.
-	 * @return a layout that contains term ranges for setting the min and max
-	 *         ranges for terms.
+	 * @return a layout that contains term ranges for setting the min and max ranges for terms.
 	 */
 	private AbstractOrderedLayout createTermTextFields(
 			boolean showIndividualTerms, AbstractOrderedLayout oldLayout) {
 		HorizontalLayout hLayout = new HorizontalLayout();
 		oldLayout.removeAllComponents();
 		oldLayout.setSizeUndefined();
-
+		
 		if (showIndividualTerms) {
 			for (int i = 0; i < options.getNumberOfTerms(); i++) {
 				final int index = i;
@@ -882,13 +881,14 @@ public class GeneratorView implements Serializable {
 						options.getMinValueForTerm(i).intValue());
 				DecimalField maxTermRange = createMaxTermRangeTextField(i,
 						options.getMaxValueForTerm(i).intValue());
-
+						
 				linkTextFields(minTermRange, maxTermRange, index);
-
+				
 				hLayout.addComponent(minTermRange);
 				hLayout.addComponent(maxTermRange);
-				if(allowDecimals)
+				if (allowDecimals) {
 					hLayout.addComponent(getDecimalTextField(index));
+				}
 				hLayout.addComponent(getForcedMultiplierComponent(index));
 				oldLayout.addComponent(hLayout);
 			}
@@ -897,32 +897,34 @@ public class GeneratorView implements Serializable {
 					.getMinValueForTerms().intValue());
 			DecimalField maxTermRange = createMaxTermRangeTextField(0, options
 					.getMaxValueForTerms().intValue());
-
+					
 			linkTextFields(minTermRange, maxTermRange, 0);
-
+			
 			hLayout.addComponent(minTermRange);
 			hLayout.addComponent(maxTermRange);
-			if(allowDecimals)
+			if (allowDecimals) {
 				hLayout.addComponent(getDecimalTextField(0));
+			}
 			hLayout.addComponent(getForcedMultiplierComponent(0));
 			oldLayout.addComponent(hLayout);
 		}
-
+		
 		return oldLayout;
 	}
-
+	
 	/**
-	 * Links textfields such that the value of the smaller textfield is always
-	 * lesser than or equal to that of the larger textfield and vice versa.
+	 * Links textfields such that the value of the smaller textfield is always lesser than or equal to that of the larger textfield and vice versa.
 	 * 
-	 * @param smaller the smaller number
-	 * @param larger the greater number
+	 * @param smaller
+	 *            the smaller number
+	 * @param larger
+	 *            the greater number
 	 */
 	private void linkTextFields(final DecimalField smaller,
 			final DecimalField larger, final int index) {
 		smaller.addValueChangeListener(new ValueChangeListener() {
 			private static final long serialVersionUID = 1L;
-
+			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				if (smaller.getDouble() > larger.getDouble()) {
@@ -934,10 +936,10 @@ public class GeneratorView implements Serializable {
 				}
 			}
 		});
-
+		
 		larger.addValueChangeListener(new ValueChangeListener() {
 			private static final long serialVersionUID = 1L;
-
+			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				if (larger.getDouble() < smaller.getDouble()) {
@@ -949,9 +951,9 @@ public class GeneratorView implements Serializable {
 				}
 			}
 		});
-
+		
 	}
-
+	
 	private CleanTextField getDecimalTextField(final int termIndex) {
 		final IntegerField decimals = new IntegerField(
 				localizer.getUIText("Decimal numbers"), 1, FieldParameter.NONNEGATIVE_ONLY);
@@ -961,9 +963,9 @@ public class GeneratorView implements Serializable {
 		decimals.setNullRepresentation("0");
 		decimals.setRange(0, 5);
 		decimals.addValueChangeListener(new ValueChangeListener() {
-
+			
 			private static final long serialVersionUID = 1L;
-
+			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				decimals.setValue(decimals.getValue().replaceAll("\\D", ""));
@@ -982,7 +984,7 @@ public class GeneratorView implements Serializable {
 		});
 		return decimals;
 	}
-
+	
 	/**
 	 * Creates a textfield for the min term range
 	 * 
@@ -1002,9 +1004,9 @@ public class GeneratorView implements Serializable {
 		minValue.setNullRepresentation("0");
 		minValue.setRange(MIN_TERM_VALUE, MAX_TERM_VALUE);
 		minValue.addValueChangeListener(new ValueChangeListener() {
-
+			
 			private static final long serialVersionUID = 1L;
-
+			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				if (options.getSeparateTermRangesFlag()) {
@@ -1014,10 +1016,10 @@ public class GeneratorView implements Serializable {
 				}
 			}
 		});
-
+		
 		return minValue;
 	}
-
+	
 	/**
 	 * Creates a textfield for the max term range
 	 * 
@@ -1037,18 +1039,19 @@ public class GeneratorView implements Serializable {
 		maxValue.setRange(MIN_TERM_VALUE, MAX_TERM_VALUE);
 		maxValue.setWidth(TEXTFIELDWIDTH, Unit.PIXELS);
 		maxValue.addValueChangeListener(new ValueChangeListener() {
-
+			
 			private static final long serialVersionUID = 1L;
-
+			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				if (options.getSeparateTermRangesFlag())
+				if (options.getSeparateTermRangesFlag()) {
 					options.setMaxValueForTerm(maxValue.getDouble(), index);
-				else
+				} else {
 					options.setGlobalMaxTermRange(maxValue.getDouble());
+				}
 			}
 		});
-
+		
 		return maxValue;
 	}
 	
@@ -1058,86 +1061,86 @@ public class GeneratorView implements Serializable {
 	 * @return true if all data is valid.
 	 */
 	public boolean isDataValid() {
-
+		
 		if (!options.atLeastOneOperatorChosen()) {
 			Notification.show(localizer
 					.getUIText(GeneratorUIConstants.GENERATOR_ATLEAST_ONE_OPERATOR));
 			return false;
 		}
-
-		if(!options.areRangesValid()){
+		
+		if (!options.areRangesValid()) {
 			Notification.show(localizer
 					.getUIText(GeneratorUIConstants.GENERATOR_RANGES_INVALID));
 			return false;
 		}
 		
-		if(!options.forcedMultiplierOK()){
+		if (!options.forcedMultiplierOK()) {
 			Notification.show(localizer
 					.getUIText(GeneratorUIConstants.GENERATOR_MULTIPLIER_TOO_HIGH));
 			return false;
 		}
 		
 		ManualCalculationSet calculations = options.getManualCalculations();
-		if(options.getBoundingType()==BoundingType.MANUAL && (calculations == null || calculations.size() == 0)){
+		if (options.getBoundingType() == BoundingType.MANUAL && (calculations == null || calculations.size() == 0)) {
 			Notification.show(localizer.getUIText(GeneratorUIConstants.GENERATOR_NO_MANUAL_CALCULATIONS));
 			return false;
 		}
 		
 		return true;
 	}
-
+	
 	public int getNumberOfTerms() {
 		return options.getNumberOfTerms();
 	}
-
+	
 	public int getNumberOfDecimals() {
 		return options.getNumberOfDecimalsInSolution();
 	}
-
+	
 	public boolean isAdditionAllowed() {
 		return options.additionAllowed();
 	}
-
+	
 	public boolean isSubtractionAllowed() {
 		return options.subtractionAllowed();
 	}
-
+	
 	public boolean isMultiplicationAllowed() {
 		return options.multiplicationAllowed();
 	}
-
+	
 	public boolean isDivisionAllowed() {
 		return options.divisionAllowed();
 	}
-
+	
 	public double getSolutionMax() {
 		return options.getMaxValueForSolution().doubleValue();
 	}
-
+	
 	public double getSolutionMin() {
 		return options.getMinValueForSolution().doubleValue();
 	}
-
+	
 	public int getMinValueForTerm(int i) {
 		return options.getMinValueForTerm(i).intValue();
 	}
-
+	
 	public int getMaxValueForTerm(int i) {
 		return options.getMaxValueForTerm(i).intValue();
 	}
-
+	
 	public int numberOfDecimals() {
 		return options.getNumberOfDecimalsInSolution();
 	}
-
+	
 	public int[] getNumberOfDecimalsInTerms() {
 		return options.getNumberOfDecimalsInTerms();
 	}
-
+	
 	public double getForcedMultiplier(int term) {
 		return options.getForcedMultiplier(term);
 	}
-
+	
 	public double[] getForcedMultipliers() {
 		return options.getForcedMultipliers();
 	}
@@ -1145,15 +1148,15 @@ public class GeneratorView implements Serializable {
 	public MathGeneratorExerciseData getOptions() {
 		return options;
 	}
-
+	
 	/**
-	 * Controls whether the user is given the choice of selecting the number of decimals for exercises.
-	 * The decimal fields are shown by default.
+	 * Controls whether the user is given the choice of selecting the number of decimals for exercises. The decimal fields are shown by default.
 	 * 
-	 * @param b should the decimal fields be shown to the user.
+	 * @param b
+	 *            should the decimal fields be shown to the user.
 	 */
 	public void allowCreatingDecimalCalculations(boolean b) {
 		allowDecimals = b;
 	}
-
+	
 }
