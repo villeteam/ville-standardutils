@@ -9,7 +9,7 @@ import edu.vserver.exercises.math.essentials.generator.MathGeneratorExerciseData
 
 class OldExpressionGenerator implements Generator{
 
-	static final int MAXATTEMPTS = 100;
+	static final int MAXATTEMPTS = 1000;
 	static Random random = new Random();
 
 	/**
@@ -120,7 +120,7 @@ class OldExpressionGenerator implements Generator{
 	 * @return True if term population was successful, false otherwise.
 	 */
 	private static boolean populateTerms(Node head,
-			MathGeneratorExerciseData options) {
+			MathGeneratorExerciseData options) throws GeneratorException{
 		if (options.getBoundingType() == BoundingType.TERMS) {
 			populateTermsWhenBoundByTerms(head, options);
 		} else {
@@ -131,10 +131,11 @@ class OldExpressionGenerator implements Generator{
 			} while (!head.populateTermsRecursively(options)
 					&& counter < MAXATTEMPTS);
 
-			if (counter == MAXATTEMPTS) {
+			if (counter == MAXATTEMPTS) {				
+				throw new GeneratorException();
 				// we didn't find an expression that fits the bounds, so we just
 				// ignore the bounds
-				populateTermsWhenBoundByTerms(head, options);
+				//populateTermsWhenBoundByTerms(head, options);
 			} else {
 				// we succeeded, so all that needs to be done is set the correct
 				// number of decimals

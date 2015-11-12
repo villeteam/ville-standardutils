@@ -74,9 +74,13 @@ public class ExpressionGenerator implements Serializable {
 		if (pd == null)
 			result.clear();
 		
-		result.add("1");
-		result.add("+");
-		result.add("1");
+		//fallback, print to console for unit tests and logging how often it happens in production
+		System.out.println("Generator used fallback");
+		String randomOperator = options.getRandomOperator();
+		String last = randomOperator.equals("+") || randomOperator.equals("-") ? "0" : "1"; 
+		result.add(options.getRandomSolution().toString(options.getNumberOfDecimalsInSolution()));
+		result.add(randomOperator);
+		result.add(last);
 		
 		return result; 
 	}

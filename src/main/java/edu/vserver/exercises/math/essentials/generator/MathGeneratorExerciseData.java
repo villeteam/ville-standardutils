@@ -457,7 +457,7 @@ public class MathGeneratorExerciseData implements Serializable, GeneratorData {
 		
 		return new PreciseDecimal(result, termRange.get(index).allowedDecimals);
 	}
-	
+		
 	public Term getRandomSolution() {
 		Term result = Term.getRandomTerm(answerRange.min, answerRange.max,
 				getNumberOfDecimalsInSolution());
@@ -608,6 +608,11 @@ public class MathGeneratorExerciseData implements Serializable, GeneratorData {
 
 	}
 
+	@Override
+	public String getRandomOperator(){
+		return getRandomAllowedOperator().getSymbol();
+	}
+	
 	public Operator getRandomAllowedOperator() {
 		return allowedOperators.get(gen.nextInt(allowedOperators.size()));
 	}

@@ -10,8 +10,7 @@ import fi.utu.ville.standardutils.MathHelper;
 import fi.utu.ville.standardutils.PreciseDecimal;
 
 /**
- * This generator generates expressions haphazardly in hopes of stumbling across a suitable one. Unlikely to find an expression if bound by something else than
- * TERMS.
+ * This generator generates expressions haphazardly in hopes of stumbling across a suitable one.
  */
 class RandomMathGenerator implements Generator {
 	

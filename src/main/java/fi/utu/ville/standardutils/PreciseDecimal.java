@@ -304,7 +304,7 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 	 *            the number of decimals in the generated decimal
 	 * @return a random decimal
 	 */
-	public static PreciseDecimal getRandomDecimal(PreciseDecimal minValue, PreciseDecimal maxValue, int decimals) {
+	public static PreciseDecimal getRandomDecimal(Number minValue, Number maxValue, int decimals) {
 		double random = RandomProvider.getRandom().nextDouble() * (maxValue.doubleValue() - minValue.doubleValue()) + minValue.doubleValue();
 		return new PreciseDecimal(random, decimals);
 	}
