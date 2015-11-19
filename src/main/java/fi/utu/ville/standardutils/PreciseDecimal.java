@@ -417,7 +417,10 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 			//double precision stuff; no student given answer should ever contain 6 decimals of 9s or 0s
 			if ((value + "").matches(".*9999.")) {
 				value /= 10;
-				value++;
+				if(value<0)
+					value--;
+				else
+					value++;
 				decPoint--;
 			} else if ((value + "").matches(".*0000.")) {
 				value /= 10;
