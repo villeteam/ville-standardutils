@@ -9,12 +9,10 @@ import com.vaadin.data.Property.ReadOnlyException;
 
 import fi.utu.ville.standardutils.ui.NumericValueProvider;
 
-// TODO: implement Comparable<Number>, since PreciseDecimal is a number.
-
 // The value of this class is immutable.
 @SuppressWarnings("unused")
 public class PreciseDecimal extends Number implements NumericValueProvider,
-		Comparable<PreciseDecimal>, Serializable {
+		Comparable<Number>, Serializable {
 		
 	private static final long serialVersionUID = 5481020391938646615L;
 	
@@ -412,12 +410,11 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 	}
 	
 	private static long[] optimizePresentation(long value, int decPoint) {
-		
 		if (decPoint > 5) {
 			//double precision stuff; no student given answer should ever contain 6 decimals of 9s or 0s
 			if ((value + "").matches(".*9999.")) {
 				value /= 10;
-				if(value<0)
+				if (value < 0)
 					value--;
 				else
 					value++;
@@ -481,16 +478,8 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 	}
 	
 	@Override
-	public int compareTo(PreciseDecimal other) {
-		long tvalue = this.value;
-		long ovalue = other.value;
-		if (this.decPoint > other.decPoint) {
-			ovalue *= Math.pow(10, this.decPoint - other.decPoint);
-		}
-		if (this.decPoint < other.decPoint) {
-			tvalue *= Math.pow(10, other.decPoint - this.decPoint);
-		}
-		return (int) Math.signum((double) tvalue - (double) ovalue);
+	public int compareTo(Number other) {
+		return (int) Math.signum(doubleValue() - other.doubleValue());
 		// silly conversion ensures long overflow doesn't occur
 	}
 	
@@ -591,5 +580,9 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 			return "";
 		else
 			return number.substring(0, nextIndex);
+	}
+	
+	public PreciseDecimal roundToDecimals(int decimals) {
+		return new PreciseDecimal(toString(decimals));
 	}
 }
