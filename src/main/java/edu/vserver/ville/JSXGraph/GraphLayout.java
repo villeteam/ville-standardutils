@@ -10,6 +10,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 
 import edu.vserver.ville.MathJax.VilleMathJax;
+import fi.utu.ville.standardutils.CodeHighlight.CodeHighlight;
 
 public class GraphLayout extends VerticalLayout {
 
@@ -17,10 +18,13 @@ public class GraphLayout extends VerticalLayout {
 
 	private VilleMathJax mjax = null;
 	private String value;
+	
+	private static CodeHighlight codeHighlight = new CodeHighlight();
 
 	@SuppressWarnings("unused")
 	private GraphLayout() {
 		setValue("");
+		
 	}
 
 	public GraphLayout(String input) {
