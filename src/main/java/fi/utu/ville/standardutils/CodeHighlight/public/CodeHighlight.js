@@ -34,7 +34,7 @@ CodeHighlight.prototype.initialize = function(place, config, callback) {
 		else meta.attr('data-code-highlight', 'on');
 		this.config.active = true;
 		
-		this.place.on('DOMSubtreeModified.' + this.config.id, function(e) {
+		this.place.on('DOMSubtreeModified.' + this.config.id + ' propertychange.'+ this.config.id, function(e) {
 			
 			/*
 			 * Avoid recursion errors with own code, jQuery and highlight.js,
@@ -66,6 +66,7 @@ CodeHighlight.prototype.destroy = function(callback) {
 	
 	if (this.config.active === true) {
 		this.place.off('DOMSubtreeModified.' + this.config.id);
+		this.place.off('propertychange.' + this.config.id);
 		this.config.active = false;
 		var head = place.parents('html').find('head');
 		var meta = head.find('meta[data-code-highlight]');
