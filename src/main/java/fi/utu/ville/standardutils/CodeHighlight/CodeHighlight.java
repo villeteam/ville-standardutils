@@ -2,7 +2,7 @@ package fi.utu.ville.standardutils.CodeHighlight;
 
 import edu.vserver.mathutils.jsexertype.AbstractVilleJSComponent;
 
-@com.vaadin.annotations.JavaScript({ "public/CodeHighlight.js",	"public/init.js" })
+@com.vaadin.annotations.JavaScript({ "public/CodeHighlight.js",	"public/codeHighlightInit.js" })
 @com.vaadin.annotations.StyleSheet({ "public/styles/github.css" })
 public class CodeHighlight extends AbstractVilleJSComponent {
 
