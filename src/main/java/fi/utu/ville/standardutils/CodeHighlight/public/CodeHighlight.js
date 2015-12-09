@@ -72,6 +72,7 @@ CodeHighlight.prototype.destroy = function(callback) {
 	
 	if (this.config.active === true) {
 		this.place.off('DOMSubtreeModified.' + this.config.id);
+		this.place.off('propertychange.' + this.config.id);
 		this.config.active = false;
 		var head = place.parents('html').find('head');
 		var meta = head.find('meta[data-code-highlight]');
