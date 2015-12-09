@@ -4,7 +4,8 @@ function CodeHighlight(place, config, callback) {
 	this.config = {
 		// Nothing for now.
 		id: 'codeHighliht-' + (Math.random() * 1000000 | 0),
-		active: false
+		active: false,
+		domCheckerInterval: -1
 	};
 	
 	this.initialize(place, config, callback);
@@ -34,7 +35,7 @@ CodeHighlight.prototype.initialize = function(place, config, callback) {
 		else meta.attr('data-code-highlight', 'on');
 		this.config.active = true;
 		
-		this.place.on('DOMSubtreeModified.' + this.config.id, function(e) {
+		var __actOnDOMChange = function(e) {
 			
 			/*
 			 * Avoid recursion errors with own code, jQuery and highlight.js,
@@ -46,7 +47,12 @@ CodeHighlight.prototype.initialize = function(place, config, callback) {
 				if (newCodeBlocks.length > 0) self.codeHighlight(newCodeBlocks);
 				processing = false;
 			}
-		});
+		}
+		
+		this.config.hasMutationEvents = ("MutationEvent" in window);
+		
+		if (hasMutationEvents) this.place.on('DOMSubtreeModified.' + this.config.id, __actOnDOMChange);
+		else this.config.domCheckerInterval = setInterval(function() { __actOnDOMChange({ target: self.place[0] }); }, 1000);
 		
 		setInterval(function(ev) {
 			if (self.place.parents('html').length === 0) {
@@ -71,6 +77,8 @@ CodeHighlight.prototype.destroy = function(callback) {
 		var meta = head.find('meta[data-code-highlight]');
 		meta.attr('data-code-highlight', 'off');
 		//meta.remove();
+		if (this.config.domCheckerInterval >= 0) clearInterval(this.config.domCheckerInterval);
+		
 		if (typeof(callback) == 'function') callback({type: 'destroyDone'});
 	}
 	else if (typeof(callback) == 'function') callback({type: 'destroyDone'});
