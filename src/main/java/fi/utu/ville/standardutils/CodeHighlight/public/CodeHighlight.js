@@ -1,17 +1,19 @@
 function CodeHighlight(place, config, callback) {
-	
 	this.place = null;
 	this.config = {
 		// Nothing for now.
 		id: 'codeHighliht-' + (Math.random() * 1000000 | 0),
 		active: false,
-		domCheckerInterval: -1
+		domCheckerInterval: -1,
+		debug: false
 	};
+	if (this.config.debug === true) console.log('CodeHiglight constructor', place, config, callback);
 	
 	this.initialize(place, config, callback);
 }
 
 CodeHighlight.prototype.initialize = function(place, config, callback) {
+	if (this.config.debug === true) console.log('CodeHiglight.initialize()', place, config, callback);
 	var self = this;
 	
 	this.place = place;
@@ -49,10 +51,19 @@ CodeHighlight.prototype.initialize = function(place, config, callback) {
 			}
 		}
 		
-		this.config.hasMutationEvents = ("MutationEvent" in window);
+		/*
+		 * The usage of mutatation events are disabled until I figure out how to reliably
+		 * circumvent problems with all versions with Internet Explorer.
+		 * 
+		 * IE11 "supports" mutation events but hangs the system. Earlier versions do not
+		 * support MutationObservers. Modernizr doesn't catch the lack of DOMSubtreeModified
+		 * yet. This could probably be done using browser sniffing, but that has some very
+		 * serious shortcomings in itself.
+		 */
+		this.config.hasMutationEvents = false; // ("MutationEvent" in window);
 		
-		if (hasMutationEvents) this.place.on('DOMSubtreeModified.' + this.config.id, __actOnDOMChange);
-		else this.config.domCheckerInterval = setInterval(function() { __actOnDOMChange({ target: self.place[0] }); }, 1000);
+		if (this.config.hasMutationEvents) this.place.on('DOMSubtreeModified.' + this.config.id, __actOnDOMChange);
+		else this.config.domCheckerInterval = setInterval(function() { __actOnDOMChange({ target: self.place[0] }); }, 333);
 		
 		setInterval(function(ev) {
 			if (self.place.parents('html').length === 0) {
@@ -63,12 +74,13 @@ CodeHighlight.prototype.initialize = function(place, config, callback) {
 		
 		// On initialize,  highlight all existing code blocks.
 		this.codeHighlight($('pre code:not(.codeHighlight)'));
-	
+		if (this.config.debug === true) console.log('intialized a code highligher element')
 		if (typeof(callback) == 'function') callback({type: 'initDone', active: this.config.active});
 	}
 }
 
 CodeHighlight.prototype.destroy = function(callback) {
+	if (this.config.debug === true) console.log('CodeHiglight.destroy()', place, config, callback);
 	
 	if (this.config.active === true) {
 		this.place.off('DOMSubtreeModified.' + this.config.id);
@@ -91,6 +103,7 @@ CodeHighlight.prototype.destroy = function(callback) {
  * @param codeBlocks	jQuery DOM elements with code in them.
  */
 CodeHighlight.prototype.codeHighlight = function(codeBlocks) {
+	if (this.config.debug === true) console.log('CodeHiglight.codeHighlight()', codeBlocks);
 	if (codeBlocks.length > 0) {
 		codeBlocks.each(function(i, block) {
 			hljs.highlightBlock(block);
