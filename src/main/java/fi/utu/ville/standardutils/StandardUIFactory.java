@@ -24,16 +24,15 @@ import fi.utu.ville.standardutils.ui.AbstractEditorLayout;
  * <p>
  * Class for creating all elements in ViLLE 7 UI.
  * <p>
- * Please note, that all elements in new UI should be received from this class.
- * If you need something that's not found, add it to UIFactory instead of
- * creating local elements.
+ * Please note, that all elements in new UI should be received from this class. If you need something that's not found, add it to UIFactory instead of creating
+ * local elements.
  * </p>
  * 
  * @author temira,ertaka
- * 
+ * 		
  */
 public class StandardUIFactory {
-
+	
 	/**
 	 * <p>
 	 * Enum for border styles; if used outside UIFactory, use something like
@@ -42,51 +41,56 @@ public class StandardUIFactory {
 	 * 
 	 */
 	public enum Border {
-		TOP("panel-border-top"), RIGHT("panel-border-right"), BOTTOM(
-				"panel-border-bottom"), LEFT("panel-border-left"), ALL(
-				"panel-border-all"), NONE("panel-border-none");
-
+		TOP("panel-border-top"),
+		RIGHT("panel-border-right"),
+		BOTTOM("panel-border-bottom"),
+		LEFT("panel-border-left"),
+		ALL("panel-border-all"),
+		NONE("panel-border-none");
+		
 		private final String value;
-
+		
 		Border(String value) {
 			this.value = value;
 		}
-
+		
 		public String getValue() {
 			return value;
 		}
 	}
-
+	
 	/**
 	 * Style for panels; SMALL has less padding and smaller font size.
 	 * 
 	 */
 	public enum PanelStyle {
-		SMALL, DEFAULT, NONE;
+		SMALL,
+		DEFAULT,
+		NONE;
 	}
-
+	
 	/**
-	 * Align for text in components; if used outside UIFactory, use something
-	 * like
+	 * Align for text in components; if used outside UIFactory, use something like
 	 * <p>
 	 * <tt>component.addStyleName(TextAlign.LEFT.getValue());</tt>
 	 * 
 	 */
 	public enum TextAlign {
-		LEFT("text-align-left"), CENTER("text-align-center"), RIGHT(
-				"text-align-right");
-
+		LEFT("text-align-left"),
+		CENTER("text-align-center"),
+		RIGHT("text-align-right");
+		
 		private final String value;
-
+		
 		TextAlign(String value) {
 			this.value = value;
 		}
-
+		
 		public String getValue() {
 			return value;
 		}
 	}
-
+	
 	/**
 	 * Return a small icon
 	 * 
@@ -98,7 +102,7 @@ public class StandardUIFactory {
 		return new Label(icon.getIcon().variant(IconVariant.BLACK),
 				ContentMode.HTML);
 	}
-
+	
 	/**
 	 * Return a default sized icon
 	 * 
@@ -110,7 +114,7 @@ public class StandardUIFactory {
 		return new Label(icon.getIcon().variant(IconVariant.BLUE,
 				IconVariant.SIZE_LARGE), ContentMode.HTML);
 	}
-
+	
 	/**
 	 * Return a double sized icon
 	 * 
@@ -122,7 +126,7 @@ public class StandardUIFactory {
 		return new Label(icon.getIcon().variant(IconVariant.BLUE,
 				IconVariant.SIZE_2X), ContentMode.HTML);
 	}
-
+	
 	/**
 	 * Return a medium (3x) sized icon
 	 * 
@@ -134,7 +138,7 @@ public class StandardUIFactory {
 		return new Label(icon.getIcon().variant(IconVariant.BLUE,
 				IconVariant.SIZE_3X), ContentMode.HTML);
 	}
-
+	
 	/**
 	 * Return a small icon
 	 * 
@@ -146,29 +150,29 @@ public class StandardUIFactory {
 		return new Label(icon.getIcon().variant(IconVariant.BLUE),
 				ContentMode.HTML);
 	}
-
+	
 	public static VerticalLayout getBubbleWihtCaption(String caption,
 			Icon icon, Component component) {
 		VerticalLayout layout = new VerticalLayout();
 		layout.setSpacing(true);
 		layout.setWidth("100%");
-
+		
 		Label label = getFormTitleLabel(caption, icon);
 		layout.addComponent(label);
 		layout.setExpandRatio(label, 0f);
-
+		
 		CssLayout bubble = new CssLayout();
 		bubble.addComponent(component);
 		bubble.addStyleName("bubble-layout-gray");
-
+		
 		// component.setWidth("100%");
 		layout.addStyleName("margin-bottom-15");
 		layout.addComponent(bubble);
 		layout.setExpandRatio(bubble, 1f);
-
+		
 		return layout;
 	}
-
+	
 	/**
 	 * Get default button with a blue icon
 	 * 
@@ -181,7 +185,7 @@ public class StandardUIFactory {
 	public static Button getButton(String caption, Icon icon) {
 		return getButton(caption, icon, IconVariant.BLUE);
 	}
-
+	
 	/**
 	 * Get default button with specified IconVariant
 	 * 
@@ -195,20 +199,20 @@ public class StandardUIFactory {
 	 */
 	public static Button getButton(String caption, Icon icon,
 			IconVariant iconVariant) {
-
+			
 		if (icon == null) {
 			final Button button = new Button(caption);
 			button.setHtmlContentAllowed(false);
 			return button;
 		}
-
+		
 		final Button button = new Button(icon.getIcon().variant(iconVariant,
 				IconVariant.SIZE_LARGE)
 				+ "&nbsp;&nbsp;&nbsp;" + caption);
 		button.setHtmlContentAllowed(true);
 		return button;
 	}
-
+	
 	/**
 	 * Get button caption only for situations when the button already exists.
 	 * 
@@ -222,7 +226,7 @@ public class StandardUIFactory {
 		return icon.getIcon().variant(IconVariant.BLUE, IconVariant.SIZE_LARGE)
 				+ "&nbsp;&nbsp;&nbsp;" + caption;
 	}
-
+	
 	/**
 	 * Returns a panel for UI buttons
 	 * 
@@ -235,7 +239,7 @@ public class StandardUIFactory {
 		HorizontalLayout buttonLayout = new HorizontalLayout();
 		buttonLayout.setStyleName("button-container-gray");
 		buttonLayout.setWidth("100%");
-
+		
 		HorizontalLayout layout = new HorizontalLayout();
 		layout.setSpacing(true);
 		for (Component button : buttons) {
@@ -245,7 +249,7 @@ public class StandardUIFactory {
 		buttonLayout.setComponentAlignment(layout, alignment);
 		return buttonLayout;
 	}
-
+	
 	/**
 	 * Returns a panel for UI buttons
 	 * 
@@ -257,7 +261,7 @@ public class StandardUIFactory {
 		HorizontalLayout buttonLayout = new HorizontalLayout();
 		buttonLayout.setStyleName("button-container-gray");
 		buttonLayout.setWidth("100%");
-
+		
 		HorizontalLayout layout = new HorizontalLayout();
 		layout.setSpacing(true);
 		for (Component button : buttons) {
@@ -266,7 +270,7 @@ public class StandardUIFactory {
 		buttonLayout.addComponent(layout);
 		return buttonLayout;
 	}
-
+	
 	/**
 	 * Returns a panel for selecting level in exercise editor
 	 * 
@@ -275,12 +279,12 @@ public class StandardUIFactory {
 	 * @return Math level selection bar
 	 */
 	public static HorizontalLayout getButtonPanelForLevels(Component... buttons) {
-
+		
 		HorizontalLayout buttonLayout = new HorizontalLayout();
 		buttonLayout.addStyleName("button-container-gray");
 		buttonLayout.addStyleName("math-levels-bar");
 		buttonLayout.setWidth("100%");
-
+		
 		HorizontalLayout layout = new HorizontalLayout();
 		layout.setSpacing(true);
 		// layout.setWidth("100%");
@@ -288,16 +292,15 @@ public class StandardUIFactory {
 			layout.addComponent(button);
 			layout.setComponentAlignment(button, Alignment.MIDDLE_CENTER);
 		}
-
+		
 		buttonLayout.addComponent(layout);
 		buttonLayout.setComponentAlignment(layout, Alignment.MIDDLE_CENTER);
 		return buttonLayout;
-
+		
 	}
-
+	
 	/**
-	 * Returns a panel for MathLayout to show Check-button, Next-button and
-	 * progressbar
+	 * Returns a panel for MathLayout to show Check-button, Next-button and progressbar
 	 * 
 	 * @param buttons
 	 *            buttons to be inserted into panel
@@ -305,12 +308,12 @@ public class StandardUIFactory {
 	 */
 	public static HorizontalLayout getButtonPanelForMathControls(
 			Component... buttons) {
-
+			
 		HorizontalLayout buttonLayout = new HorizontalLayout();
 		buttonLayout.addStyleName("button-container-gray");
 		buttonLayout.addStyleName("math-nav-bar");
 		buttonLayout.setWidth("100%");
-
+		
 		HorizontalLayout layout = new HorizontalLayout();
 		layout.setSpacing(true);
 		// layout.setWidth("100%");
@@ -318,17 +321,17 @@ public class StandardUIFactory {
 			layout.addComponent(button);
 			layout.setComponentAlignment(button, Alignment.MIDDLE_CENTER);
 		}
-
+		
 		layout.getComponent(2).addStyleName("math-progress-margin");
-
+		
 		// Component c = layout.getComponent(layout.getComponentCount() - 1);
 		// layout.setComponentAlignment(c, Alignment.MIDDLE_RIGHT);
 		buttonLayout.addComponent(layout);
 		buttonLayout.setComponentAlignment(layout, Alignment.MIDDLE_CENTER);
 		return buttonLayout;
-
+		
 	}
-
+	
 	/**
 	 * Returns default cancel button
 	 * 
@@ -340,7 +343,7 @@ public class StandardUIFactory {
 		return getButton(localizer.getUIText(StandardUIConstants.CANCEL),
 				Icon.CANCEL);
 	}
-
+	
 	/**
 	 * Returns a caption with icon left
 	 * 
@@ -354,7 +357,7 @@ public class StandardUIFactory {
 		return icon.getIcon().variant(IconVariant.BLUE, IconVariant.SIZE_LARGE)
 				+ "&nbsp;&nbsp;&nbsp;" + caption;
 	}
-
+	
 	/**
 	 * Returns a caption with icon right
 	 * 
@@ -370,7 +373,7 @@ public class StandardUIFactory {
 				+ icon.getIcon().variant(IconVariant.BLUE,
 						IconVariant.SIZE_LARGE);
 	}
-
+	
 	/**
 	 * Returns default close button
 	 * 
@@ -382,14 +385,13 @@ public class StandardUIFactory {
 		return getButton(localizer.getUIText(StandardUIConstants.CLOSE),
 				Icon.CLOSE);
 	}
-
+	
 	public static Label getComponentTitle(String title) {
 		return new Label("<strong>" + title + "</strong>", ContentMode.HTML);
 	}
-
+	
 	/**
-	 * Returns a button panel to use in a dialog. The buttons are centered in
-	 * the panel.
+	 * Returns a button panel to use in a dialog. The buttons are centered in the panel.
 	 * 
 	 * @param buttonsToAdd
 	 *            buttons to be added into this panel.
@@ -399,20 +401,20 @@ public class StandardUIFactory {
 			Component... buttonsToAdd) {
 		final HorizontalLayout panel = new HorizontalLayout();
 		panel.setWidth("100%");
-
+		
 		final HorizontalLayout wrapper = new HorizontalLayout();
 		wrapper.setSpacing(true);
 		for (Component b : buttonsToAdd) {
 			wrapper.addComponent(b);
 		}
-
+		
 		panel.addComponent(wrapper);
 		panel.setComponentAlignment(wrapper,
 				new Alignment(Bits.ALIGNMENT_RIGHT));
-
+				
 		return panel;
 	}
-
+	
 	public static Panel getExpandablePanel() {
 		Panel p = new Panel();
 		VerticalLayout vl = new VerticalLayout();
@@ -422,7 +424,7 @@ public class StandardUIFactory {
 		p.addStyleName("panel-nostyle");
 		return p;
 	}
-
+	
 	public static Panel getExpandablePanelNoContent() {
 		Panel p = new Panel();
 		VerticalLayout vl = new VerticalLayout();
@@ -432,10 +434,9 @@ public class StandardUIFactory {
 		p.addStyleName("panel-nostyle");
 		return p;
 	}
-
+	
 	/**
-	 * Returns a panel with given width. A VerticalLayout is added as default
-	 * content.
+	 * Returns a panel with given width. A VerticalLayout is added as default content.
 	 * 
 	 * @param width
 	 *            the width of the panel
@@ -444,16 +445,16 @@ public class StandardUIFactory {
 	public static Panel getFixedWidthPanel(String width) {
 		Panel p = new Panel();
 		p.setWidth(width);
-
+		
 		VerticalLayout vl = new VerticalLayout();
 		p.setContent(vl);
-
+		
 		vl.setSpacing(true);
 		vl.setMargin(true);
-
+		
 		return p;
 	}
-
+	
 	/**
 	 * Returns a panel for form components
 	 * 
@@ -462,19 +463,18 @@ public class StandardUIFactory {
 	 * @param icon
 	 *            icon for the form
 	 * @param titleWidth
-	 *            the width of the component captions; this should be long
-	 *            enough to fit all components in this form in all languagesa.
+	 *            the width of the component captions; this should be long enough to fit all components in this form in all languagesa.
 	 * @param components
 	 *            all form components
 	 * @return a form panel
 	 */
 	public static VerticalLayout getFormPanel(String caption, Icon icon,
 			String titleWidth, Component... components) {
-
+			
 		VerticalLayout layout = new VerticalLayout();
 		layout.setSpacing(true);
 		layout.setWidth("100%");
-
+		
 		if (caption != null) {
 			Label label = getFormTitleLabel(caption, icon);
 			layout.addComponent(label);
@@ -482,7 +482,7 @@ public class StandardUIFactory {
 		VerticalLayout content = getVerticalGrayContentLayout(PanelStyle.DEFAULT);
 		content.setSpacing(true);
 		layout.addComponent(content);
-
+		
 		for (Component component : components) {
 			HorizontalLayout rowLayout = new HorizontalLayout();
 			rowLayout.setSpacing(true);
@@ -497,16 +497,16 @@ public class StandardUIFactory {
 			component.setCaption(null);
 			rowLayout.addComponent(titleLayout);
 			rowLayout.addComponent(component);
-			rowLayout.setComponentAlignment(titleLayout, Alignment.TOP_RIGHT);
+			rowLayout.setComponentAlignment(titleLayout, Alignment.MIDDLE_RIGHT);
 			rowLayout.setComponentAlignment(component, Alignment.MIDDLE_LEFT);
 			rowLayout.setExpandRatio(component, 1);
-
+			
 			content.addComponent(rowLayout);
 		}
-
+		
 		return layout;
 	}
-
+	
 	/**
 	 * Returns a label used as a form title / header
 	 * 
@@ -522,7 +522,7 @@ public class StandardUIFactory {
 		label.addStyleName("panel-title");
 		return label;
 	}
-
+	
 	/**
 	 * Get default button with a green icon
 	 * 
@@ -535,7 +535,7 @@ public class StandardUIFactory {
 	public static Button getGreenButton(String caption, Icon icon) {
 		return getButton(caption, icon, IconVariant.GREEN);
 	}
-
+	
 	/**
 	 * Return a default sized icon
 	 * 
@@ -547,7 +547,7 @@ public class StandardUIFactory {
 		return new Label(icon.getIcon().variant(IconVariant.GREEN,
 				IconVariant.SIZE_LARGE), ContentMode.HTML);
 	}
-
+	
 	/**
 	 * Return a double sized icon
 	 * 
@@ -559,7 +559,7 @@ public class StandardUIFactory {
 		return new Label(icon.getIcon().variant(IconVariant.GREEN,
 				IconVariant.SIZE_2X), ContentMode.HTML);
 	}
-
+	
 	/**
 	 * Return a medium (3x) sized icon
 	 * 
@@ -571,7 +571,7 @@ public class StandardUIFactory {
 		return new Label(icon.getIcon().variant(IconVariant.GREEN,
 				IconVariant.SIZE_3X), ContentMode.HTML);
 	}
-
+	
 	/**
 	 * Return a small icon
 	 * 
@@ -583,7 +583,7 @@ public class StandardUIFactory {
 		return new Label(icon.getIcon().variant(IconVariant.GREEN),
 				ContentMode.HTML);
 	}
-
+	
 	/**
 	 * Return a black header bar, used as a caption for some panels
 	 * 
@@ -597,7 +597,7 @@ public class StandardUIFactory {
 		bar.setWidth("100%");
 		return bar;
 	}
-
+	
 	/**
 	 * Returns a blue "sub" header bar
 	 * 
@@ -611,7 +611,7 @@ public class StandardUIFactory {
 		bar.setWidth("100%");
 		return bar;
 	}
-
+	
 	/**
 	 * Returns a green "main" header bar
 	 * 
@@ -625,29 +625,29 @@ public class StandardUIFactory {
 		bar.setWidth("100%");
 		return bar;
 	}
-
+	
 	public static VerticalLayout getIconCaptionPanel(String caption, Icon icon,
 			Component... components) {
 		VerticalLayout layout = new VerticalLayout();
 		layout.setSpacing(true);
 		layout.setWidth("100%");
-
+		
 		Label label = getFormTitleLabel(caption, icon);
 		layout.addComponent(label);
-
+		
 		VerticalLayout content = getVerticalGrayContentLayout(PanelStyle.DEFAULT);
 		content.setSpacing(true);
 		content.setSizeFull();
 		layout.addComponent(content);
 		layout.setExpandRatio(content, 1);
-
+		
 		for (Component component : components) {
 			content.addComponent(component);
 		}
-
+		
 		return layout;
 	}
-
+	
 	/**
 	 * Return a button that contains only an icon
 	 * 
@@ -662,7 +662,7 @@ public class StandardUIFactory {
 		button.setHtmlContentAllowed(true);
 		return button;
 	}
-
+	
 	/**
 	 * Returns an info panel for laying out components without borders or such;
 	 * 
@@ -675,10 +675,9 @@ public class StandardUIFactory {
 		layout.setStyleName("info-container");
 		return layout;
 	}
-
+	
 	/**
-	 * Returns a panel that can be used to display an information message to
-	 * user in dialogs or in UI.
+	 * Returns a panel that can be used to display an information message to user in dialogs or in UI.
 	 * 
 	 * @param message
 	 *            the message displayed
@@ -691,18 +690,18 @@ public class StandardUIFactory {
 		HorizontalLayout layout = new HorizontalLayout();
 		layout.setWidth("100%");
 		layout.setStyleName("information-panel");
-
+		
 		Label iconLabel = StandardUIFactory.getWhiteIconMedium(Icon.INFO);
 		iconLabel.setWidth("40px");
 		layout.addComponent(iconLabel);
-
+		
 		Label content = StandardUIFactory.getPanelTitle(message);
-
+		
 		layout.addComponent(content);
 		layout.setExpandRatio(content, 1);
 		return layout;
 	}
-
+	
 	/**
 	 * Return a large panel button
 	 * 
@@ -719,31 +718,31 @@ public class StandardUIFactory {
 		HorizontalLayout layout = new HorizontalLayout();
 		layout.setWidth("250px");
 		layout.setStyleName("large-panel-button");
-
+		
 		Label iconLabel = StandardUIFactory.getBlueIcon2X(icon);
 		iconLabel.setWidth("40px");
 		layout.addComponent(iconLabel);
-
+		
 		VerticalLayout titleLayout = new VerticalLayout();
 		titleLayout.addComponent(StandardUIFactory.getPanelTitle(title));
 		titleLayout
 				.addComponent(StandardUIFactory.getPanelContent(description));
-
+				
 		layout.addComponent(titleLayout);
 		layout.setExpandRatio(titleLayout, 1);
 		return layout;
 	}
-
+	
 	public static Button getLinkButton(String caption, Icon icon) {
-		if(icon == null) {
+		if (icon == null) {
 			return getLinkButton(caption);
 		}
-
+		
 		return getLinkButton(icon.getIcon().variant(
 				IconVariant.BLUE)
 				+ "&nbsp;" + caption);
 	}
-
+	
 	public static Button getLinkButton(String caption) {
 		final Button button = new Button(caption);
 		button.setStyleName(BaseTheme.BUTTON_LINK);
@@ -757,7 +756,7 @@ public class StandardUIFactory {
 		window.setWidth(width);
 		return window;
 	}
-
+	
 	/**
 	 * Retruns progressbar used in coding exercises.
 	 * 
@@ -770,7 +769,7 @@ public class StandardUIFactory {
 		ProgressBar res = new ProgressBar(initValue);
 		return res;
 	}
-
+	
 	/**
 	 * Returns default save button
 	 * 
@@ -781,7 +780,7 @@ public class StandardUIFactory {
 	public static Button getOKButton(Localizer localizer) {
 		return getButton(localizer.getUIText(StandardUIConstants.OK), Icon.OK);
 	}
-
+	
 	/**
 	 * Return a default sized icon
 	 * 
@@ -793,7 +792,7 @@ public class StandardUIFactory {
 		return new Label(icon.getIcon().variant(IconVariant.ORANGE,
 				IconVariant.SIZE_LARGE), ContentMode.HTML);
 	}
-
+	
 	/**
 	 * Return a double sized icon
 	 * 
@@ -805,7 +804,7 @@ public class StandardUIFactory {
 		return new Label(icon.getIcon().variant(IconVariant.ORANGE,
 				IconVariant.SIZE_2X), ContentMode.HTML);
 	}
-
+	
 	/**
 	 * Return a medium (3x) sized icon
 	 * 
@@ -817,7 +816,7 @@ public class StandardUIFactory {
 		return new Label(icon.getIcon().variant(IconVariant.ORANGE,
 				IconVariant.SIZE_3X), ContentMode.HTML);
 	}
-
+	
 	/**
 	 * Return a small icon
 	 * 
@@ -829,7 +828,7 @@ public class StandardUIFactory {
 		return new Label(icon.getIcon().variant(IconVariant.ORANGE),
 				ContentMode.HTML);
 	}
-
+	
 	/**
 	 * Returns a label to be used as a panel content
 	 * 
@@ -842,7 +841,7 @@ public class StandardUIFactory {
 		label.setStyleName("panel-content");
 		return label;
 	}
-
+	
 	/**
 	 * Returns a title component to be used inside panels
 	 * 
@@ -855,7 +854,7 @@ public class StandardUIFactory {
 		label.setStyleName("panel-title");
 		return label;
 	}
-
+	
 	/**
 	 * Returns a blue title component to be used inside panels
 	 * 
@@ -869,7 +868,7 @@ public class StandardUIFactory {
 		label.addStyleName("color-blue");
 		return label;
 	}
-
+	
 	/**
 	 * Retruns default preview/test button used in exercise editors.
 	 * 
@@ -881,7 +880,7 @@ public class StandardUIFactory {
 		return getButton(localizer.getUIText(StandardUIConstants.PREVIEW),
 				Icon.PREVIEW);
 	}
-
+	
 	/**
 	 * Return a default sized icon
 	 * 
@@ -893,7 +892,7 @@ public class StandardUIFactory {
 		return new Label(icon.getIcon().variant(IconVariant.RED,
 				IconVariant.SIZE_LARGE), ContentMode.HTML);
 	}
-
+	
 	/**
 	 * Return a double sized icon
 	 * 
@@ -905,7 +904,7 @@ public class StandardUIFactory {
 		return new Label(icon.getIcon().variant(IconVariant.RED,
 				IconVariant.SIZE_2X), ContentMode.HTML);
 	}
-
+	
 	/**
 	 * Return a medium (3x) sized icon
 	 * 
@@ -917,7 +916,7 @@ public class StandardUIFactory {
 		return new Label(icon.getIcon().variant(IconVariant.RED,
 				IconVariant.SIZE_3X), ContentMode.HTML);
 	}
-
+	
 	/**
 	 * Return a small icon
 	 * 
@@ -931,15 +930,15 @@ public class StandardUIFactory {
 	}
 	
 	public static Button getRoundButton(Icon icon) {
-
+		
 		final Button button = new Button(icon.getIcon().variant(
 				IconVariant.BLUE, IconVariant.SIZE_LARGE));
 		button.setHtmlContentAllowed(true);
 		button.addStyleName("button-big-round");
 		return button;
-
+		
 	}
-
+	
 	/**
 	 * Returns default save button
 	 * 
@@ -951,7 +950,7 @@ public class StandardUIFactory {
 		return getButton(localizer.getUIText(StandardUIConstants.SAVE),
 				Icon.SAVE);
 	}
-
+	
 	/**
 	 * Returns a new select element
 	 * 
@@ -967,14 +966,14 @@ public class StandardUIFactory {
 		for (String item : items) {
 			box.addItem(item);
 		}
-
+		
 		if (items.length > 0) {
 			box.select(items[0]);
 		}
-
+		
 		return box;
 	}
-
+	
 	/**
 	 * Return a select element from a localizable enum with all items localized.
 	 * 
@@ -989,42 +988,44 @@ public class StandardUIFactory {
 			Localizer localizer, LocalizableEnum... enumeration) {
 		NativeSelect select = new NativeSelect(localizer.getUIText(caption));
 		
-		if(enumeration == null || enumeration.length == 0)
+		if (enumeration == null || enumeration.length == 0) {
 			return select;
+		}
 		
 		select.setNullSelectionAllowed(false);
 		for (LocalizableEnum kv : enumeration) {
-			if(kv.getLocalizerString().equals(LocalizableEnum.HIDDEN))
+			if (kv.getLocalizerString().equals(LocalizableEnum.HIDDEN)) {
 				continue;
-						
+			}
+			
 			select.addItem(kv);
 			
-			if(kv.getLocalizerString().equals(LocalizableEnum.UNLOCALIZED))
+			if (kv.getLocalizerString().equals(LocalizableEnum.UNLOCALIZED)) {
 				continue;
+			}
 			
 			select.setItemCaption(kv, localizer.getUIText(kv.getLocalizerString()));
 		}
-
+		
 		return select;
 	}
 	
 	/**
-	 * Returns a label to be used as a separator between components in panels
-	 * and such
+	 * Returns a label to be used as a separator between components in panels and such
 	 * 
 	 * @return content separator
 	 */
 	public static Label getSeparator() {
 		return new Label("<hr>", ContentMode.HTML);
 	}
-
+	
 	public static Button getSmallButton(String caption) {
 		final Button button = new Button(caption);
 		button.setStyleName("only-icon");
 		button.setHtmlContentAllowed(true);
 		return button;
 	}
-
+	
 	/**
 	 * Returns smaller button with icon only
 	 * 
@@ -1039,7 +1040,7 @@ public class StandardUIFactory {
 		button.setHtmlContentAllowed(true);
 		return button;
 	}
-
+	
 	/**
 	 * Returns smaller button with icon only
 	 * 
@@ -1054,43 +1055,43 @@ public class StandardUIFactory {
 		button.setHtmlContentAllowed(true);
 		return button;
 	}
-
+	
 	public static VerticalLayout getStylishCaptionContainer(String caption,
 			Icon icon, Component component) {
 		VerticalLayout layout = new VerticalLayout();
 		layout.setSpacing(true);
 		layout.setWidth("100%");
-
+		
 		Label label = getFormTitleLabel(caption, icon);
 		layout.addComponent(label);
-
+		
 		// component.setCaption(null);
 		component.setWidth("100%");
 		component.setSizeFull();
 		component.addStyleName("margin-bottom-15");
 		layout.addComponent(component);
 		layout.setExpandRatio(component, 1.0f);
-
+		
 		return layout;
 	}
-
+	
 	public static VerticalLayout getStylishCaptionContainerNoMargin(
 			String caption, Icon icon, Component component) {
 		VerticalLayout layout = new VerticalLayout();
 		layout.setSpacing(false);
 		layout.setWidth("100%");
-
+		
 		Label label = getFormTitleLabel(caption, icon);
 		layout.addComponent(label);
-
+		
 		// component.setCaption(null);
 		component.setWidth("100%");
 		layout.addComponent(component);
 		layout.setExpandRatio(component, 1.0f);
-
+		
 		return layout;
 	}
-
+	
 	/**
 	 * Returns a table with given caption
 	 * 
@@ -1104,7 +1105,7 @@ public class StandardUIFactory {
 		table.addStyleName("normal-table");
 		return table;
 	}
-
+	
 	/**
 	 * Returns default test button
 	 * 
@@ -1116,7 +1117,7 @@ public class StandardUIFactory {
 		return getButton(localizer.getUIText(StandardUIConstants.TEST),
 				Icon.TEST);
 	}
-
+	
 	/**
 	 * Returns a larger view title.
 	 * 
@@ -1129,7 +1130,7 @@ public class StandardUIFactory {
 		label.setStyleName("title");
 		return label;
 	}
-
+	
 	/**
 	 * Returns a label that contains a title and a value
 	 * 
@@ -1145,7 +1146,7 @@ public class StandardUIFactory {
 				ContentMode.HTML);
 		return label;
 	}
-
+	
 	/**
 	 * Returns a two column view used in editors. Left hand side is narrower.
 	 * 
@@ -1154,7 +1155,7 @@ public class StandardUIFactory {
 	public static AbstractEditorLayout getTwoColumnView() {
 		return new AbstractEditorLayout();
 	}
-
+	
 	/**
 	 * Returns a gray content layout for laying out component vertically
 	 * 
@@ -1165,7 +1166,7 @@ public class StandardUIFactory {
 	public static VerticalLayout getVerticalGrayContentLayout(PanelStyle style,
 			Border... borders) {
 		VerticalLayout layout = new VerticalLayout();
-
+		
 		if (style == PanelStyle.SMALL) {
 			layout.setStyleName("container-gray-small");
 		} else if (style == PanelStyle.NONE) {
@@ -1173,17 +1174,16 @@ public class StandardUIFactory {
 		} else {
 			layout.setStyleName("container-gray");
 		}
-
+		
 		layout.setWidth("100%");
 		for (Border border : borders) {
 			layout.addStyleName(border.getValue());
 		}
 		return layout;
 	}
-
+	
 	/**
-	 * Returns a panel that can be used to display a warning to user in dialogs
-	 * or in UI.
+	 * Returns a panel that can be used to display a warning to user in dialogs or in UI.
 	 * 
 	 * @param message
 	 *            the message displayed
@@ -1196,18 +1196,18 @@ public class StandardUIFactory {
 		HorizontalLayout layout = new HorizontalLayout();
 		layout.setWidth("100%");
 		layout.setStyleName("warning-panel");
-
+		
 		Label iconLabel = StandardUIFactory.getWhiteIconMedium(Icon.WARNING);
 		iconLabel.setWidth("40px");
 		layout.addComponent(iconLabel);
-
+		
 		Label content = StandardUIFactory.getPanelTitle(message);
-
+		
 		layout.addComponent(content);
 		layout.setExpandRatio(content, 1);
 		return layout;
 	}
-
+	
 	/**
 	 * Return a default sized icon
 	 * 
@@ -1219,7 +1219,7 @@ public class StandardUIFactory {
 		return new Label(icon.getIcon().variant(IconVariant.WHITE,
 				IconVariant.SIZE_LARGE), ContentMode.HTML);
 	}
-
+	
 	/**
 	 * Return a double sized icon
 	 * 
@@ -1231,7 +1231,7 @@ public class StandardUIFactory {
 		return new Label(icon.getIcon().variant(IconVariant.WHITE,
 				IconVariant.SIZE_2X), ContentMode.HTML);
 	}
-
+	
 	/**
 	 * Return a medium (3x) sized icon
 	 * 
@@ -1243,7 +1243,7 @@ public class StandardUIFactory {
 		return new Label(icon.getIcon().variant(IconVariant.WHITE,
 				IconVariant.SIZE_3X), ContentMode.HTML);
 	}
-
+	
 	/**
 	 * Return a small icon
 	 * 
@@ -1255,7 +1255,7 @@ public class StandardUIFactory {
 		return new Label(icon.getIcon().variant(IconVariant.WHITE),
 				ContentMode.HTML);
 	}
-
+	
 	/**
 	 * Returns a button used for window headers and other header bars
 	 * 

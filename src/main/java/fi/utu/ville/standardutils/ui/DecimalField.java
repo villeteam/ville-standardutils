@@ -4,7 +4,7 @@ import fi.utu.ville.standardutils.PreciseDecimal;
 import fi.utu.ville.standardutils.ui.MinMaxFieldValidator.ModifyPreference;
 
 public class DecimalField extends RegexField implements ControlWithNumericValue {
-
+	
 	private static final long serialVersionUID = -802077291284418987L;
 	
 	private static String REGEX_ANY_DIGIT = "[0-9]";
@@ -17,13 +17,13 @@ public class DecimalField extends RegexField implements ControlWithNumericValue 
 	
 	public DecimalField(String caption, Integer numIntegers, Integer numDecimals, FieldParameter... parameters) {
 		super(caption, getRegexFromParameters(numIntegers, numDecimals, parameters));
-		this.setMaxLength(18);
+		setMaxLength(18);
 	}
 	
 	public DecimalField(String caption, FieldParameter... parameters) {
 		this(caption, null, null, parameters);
 	}
-
+	
 	public DecimalField(FieldParameter... parameters) {
 		this(null, null, null, parameters);
 	}
@@ -34,66 +34,62 @@ public class DecimalField extends RegexField implements ControlWithNumericValue 
 	
 	// TODO: numIntegers does not work
 	public static String getRegexFromParameters(Integer numIntegers, Integer numDecimals, FieldParameter... parameters) {
-		if(numIntegers == null && numDecimals == null && parameters.length == 0) {
+		if (numIntegers == null && numDecimals == null && parameters.length == 0) {
 			return REGEX_DEFAULT_DECIMAL;
 		}
 		String prefix = "";
 		String integers = "";
 		String decimals = "";
 		boolean signRestriction = false;
-		for(FieldParameter param : parameters) {
-			switch(param) {
-			case NEGATIVE_ONLY: 
+		for (FieldParameter param : parameters) {
+			switch (param) {
+			case NEGATIVE_ONLY:
 				prefix = REGEX_DASH_PREFIX;
 				signRestriction = true;
 				break;
 			case NONNEGATIVE_ONLY:
 				signRestriction = true;
 				break;
-			case POSITIVE_ONLY: 
+			case POSITIVE_ONLY:
 				signRestriction = true;
 				integers += REGEX_NONZERO_DIGIT;
-				if(numIntegers != null) {
+				if (numIntegers != null) {
 					numIntegers -= 1;
 				}
 				break;
 			case NONZERO_FIRST_DIGIT:
 				integers += REGEX_NONZERO_DIGIT + "?";
-				if(numIntegers != null) {
+				if (numIntegers != null) {
 					numIntegers -= 1;
 				}
 				break;
 			}
 			
 		}
-		if(!signRestriction) {
+		if (!signRestriction) {
 			prefix = REGEX_DASH_PREFIX + "?";
 		}
 		String regex = prefix;
 		
-
-		if(numIntegers == null) {
+		if (numIntegers == null) {
 			integers += REGEX_ANY_DIGIT + "*";
-		}
-		else if(numIntegers > 0) {
+		} else if (numIntegers > 0) {
 			integers += REGEX_ANY_DIGIT + "{0," + numIntegers + "}";
-		}
-		else if(numIntegers.equals(0)){
-			if(integers.equals("")) {
+		} else if (numIntegers.equals(0)) {
+			if (integers.equals("")) {
 				integers = "0?";
 			}
 		}
 		regex += integers;
-		if(numDecimals == null) {
+		if (numDecimals == null) {
 			decimals = REGEX_ANY_DIGIT + "*";
-		}
-		else {
+		} else {
 			decimals = REGEX_ANY_DIGIT + "{0," + numDecimals + "}";
 		}
-		if(numDecimals == null || !numDecimals.equals(0)) {
+		if (numDecimals == null || !numDecimals.equals(0)) {
 			regex += REGEX_DEC_SEPARATOR;
 		}
-
+		
 		regex += decimals;
 		return regex;
 	}
@@ -113,7 +109,7 @@ public class DecimalField extends RegexField implements ControlWithNumericValue 
 	public void setRange(double minValue, double maxValue) {
 		setRange(new PreciseDecimal(minValue), new PreciseDecimal(maxValue));
 	}
-
+	
 	@Override
 	public boolean isValid() {
 		return super.isValid(); /*&& (minMaxValidator == null || minMaxValidator.isValid()); */
@@ -125,10 +121,9 @@ public class DecimalField extends RegexField implements ControlWithNumericValue 
 	}
 	
 	public PreciseDecimal getPreciseDecimalOrDefault(final PreciseDecimal defaultValue) {
-		if(isValid()) {
-			return new PreciseDecimal(this.getValue());
-		}
-		else {
+		if (isValid()) {
+			return new PreciseDecimal(getValue());
+		} else {
 			return defaultValue;
 		}
 	}
@@ -143,22 +138,22 @@ public class DecimalField extends RegexField implements ControlWithNumericValue 
 	}
 	
 	public double getDoubleOrDefault(double defaultValue) {
-		if(!super.getValue().equals("") && isValid()) {
+		if (!super.getValue().equals("") && isValid()) {
 			return PreciseDecimal.parseDoubleFromString(super.getValue());
 		}
 		return defaultValue;
 	}
-
+	
 	@Override
 	public void setValue(NumericValueProvider preciseDecimal) {
 		this.setValue(preciseDecimal.toString());
 	}
-
+	
 	@Override
 	public boolean isMutable() {
 		return true;
 	}
-
+	
 	@Override
 	public boolean canChangeValueTo(double newValue) {
 		boolean isValid = super.getRegexFieldExtender().isValid(new PreciseDecimal(newValue).toString());
