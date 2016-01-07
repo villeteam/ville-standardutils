@@ -1009,6 +1009,430 @@ public class StandardUIFactory {
 		return button;
 	}
 	
+	/**************************** UGLY HACK ****************************/
+	/* Duplicate methods of all methods with a fontIcon parameter since vexer exercises can't handle these due to some black dependency magic
+	 * at work
+	 */
+	
+	/**
+	 * Returns a panel for form components
+	 * 
+	 * @deprecated Ugly hack to make stub exercises work
+	 * 			
+	 * @param caption
+	 *            the caption of the form
+	 * @param icon
+	 *            icon for the form
+	 * @param titleWidth
+	 *            the width of the component captions; this should be long enough to fit all components in this form in all languagesa.
+	 * @param components
+	 *            all form components
+	 * @return a form panel
+	 */
+	@Deprecated
+	public static VerticalLayout getFormPanel(String caption, Icon icon,
+			String titleWidth, Component... components) {
+			
+		VerticalLayout layout = new VerticalLayout();
+		layout.setSpacing(true);
+		layout.setWidth("100%");
+		
+		if (caption != null) {
+			Label label = getFormTitleLabel(caption, icon);
+			layout.addComponent(label);
+		}
+		VerticalLayout content = getVerticalGrayContentLayout(PanelStyle.DEFAULT);
+		content.setSpacing(true);
+		layout.addComponent(content);
+		
+		for (Component component : components) {
+			HorizontalLayout rowLayout = new HorizontalLayout();
+			rowLayout.setSpacing(true);
+			rowLayout.setWidth("100%");
+			Label titleLabel = new Label(component.getCaption());
+			titleLabel.setSizeUndefined();
+			HorizontalLayout titleLayout = new HorizontalLayout();
+			titleLayout.setWidth(titleWidth);
+			titleLayout.addComponent(titleLabel);
+			titleLayout.setComponentAlignment(titleLabel,
+					Alignment.MIDDLE_RIGHT);
+			component.setCaption(null);
+			rowLayout.addComponent(titleLayout);
+			rowLayout.addComponent(component);
+			rowLayout.setComponentAlignment(titleLayout, Alignment.MIDDLE_RIGHT);
+			rowLayout.setComponentAlignment(component, Alignment.MIDDLE_LEFT);
+			rowLayout.setExpandRatio(component, 1);
+			
+			content.addComponent(rowLayout);
+		}
+		
+		return layout;
+	}
+	
+	/**
+	 * @deprecated Ugly hack to make stub exercises work
+	 */
+	@Deprecated
+	public static String getModifiedIconHtml(Icon icon, IconVariant... variants) {
+		return getModifiedIconHtml(icon, Optional.empty(), variants);
+	}
+	
+	/**
+	 * @deprecated Ugly hack to make stub exercises work
+	 */
+	@Deprecated
+	public static String getModifiedIconHtml(Icon icon, Optional<Color> color, IconVariant... iconVariants) {
+		return StandardIcon.getModifiedIconHtml(icon, color, Optional.of(""), iconVariants);
+	}
+	
+	/**
+	 * @deprecated Ugly hack to make stub exercises work
+	 */
+	@Deprecated
+	public static Label getModifiedIcon(Icon icon, IconVariant... variants) {
+		return getModifiedIcon(icon, Optional.empty(), variants);
+	}
+	
+	/**
+	 * @deprecated Ugly hack to make stub exercises work
+	 */
+	@Deprecated
+	public static Label getModifiedIcon(Icon icon, Optional<Color> color, IconVariant... iconVariants) {
+		return new Label(getModifiedIconHtml(icon, color, iconVariants), ContentMode.HTML);
+	}
+	
+	/**
+	 * @deprecated Ugly hack to make stub exercises work
+	 */
+	@Deprecated
+	public static VerticalLayout getBubbleWihtCaption(String caption,
+			Icon icon, Component component) {
+		VerticalLayout layout = new VerticalLayout();
+		layout.setSpacing(true);
+		layout.setWidth("100%");
+		
+		Label label = getFormTitleLabel(caption, icon);
+		layout.addComponent(label);
+		layout.setExpandRatio(label, 0f);
+		
+		CssLayout bubble = new CssLayout();
+		bubble.addComponent(component);
+		bubble.addStyleName("bubble-layout-gray");
+		
+		// component.setWidth("100%");
+		layout.addStyleName("margin-bottom-15");
+		layout.addComponent(bubble);
+		layout.setExpandRatio(bubble, 1f);
+		
+		return layout;
+	}
+	
+	/**
+	 * Get default button with a blue icon
+	 * 
+	 * @deprecated Ugly hack to make stub exercises work
+	 * 			
+	 * @param caption
+	 *            button caption
+	 * @param icon
+	 *            icon shown in button; @see {@link IconFactory}
+	 * @return new button
+	 */
+	@Deprecated
+	public static Button getButton(String caption, Icon icon) {
+		return getButton(caption, icon, IconVariant.BLUE);
+	}
+	
+	/**
+	 * Get default button with specified IconVariant
+	 * 
+	 * @deprecated Ugly hack to make stub exercises work
+	 * 			
+	 * @param caption
+	 *            button caption
+	 * @param icon
+	 *            icon shown in button; @see {@link IconFactory}
+	 * @param iconVariant
+	 *            IconVariant used for icon.
+	 * @return new button
+	 */
+	@Deprecated
+	public static Button getButton(String caption, Icon icon,
+			IconVariant... iconVariants) {
+		if (icon != null) {
+			String iconHtml = StandardIcon.getModifiedIconHtml(icon, Optional.empty(), Optional.empty(),
+					ArrayUtils.addAll(iconVariants, IconVariant.SIZE_LARGE));
+			final Button button = new Button(iconHtml + "&nbsp;&nbsp;&nbsp;" + caption);
+			button.setHtmlContentAllowed(true);
+			return button;
+		} else {
+			final Button button = new Button(caption);
+			button.setHtmlContentAllowed(false);
+			return button;
+		}
+	}
+	
+	/**
+	 * Get button caption only for situations when the button already exists.
+	 * 
+	 * @deprecated Ugly hack to make stub exercises work
+	 * 			
+	 * @param caption
+	 *            button caption
+	 * @param icon
+	 *            icon shown in button; @see {@link IconFactory}
+	 * @return button caption
+	 */
+	@Deprecated
+	public static String getButtonCaption(String caption, Icon icon) {
+		return getCaptionIconLeft(caption, icon);
+	}
+	
+	/**
+	 * Returns a caption with icon left
+	 * 
+	 * @deprecated Ugly hack to make stub exercises work
+	 * 			
+	 * @param caption
+	 *            visible text
+	 * @param icon
+	 *            icon displayed on the left side of the icon
+	 * @return caption with icon
+	 */
+	@Deprecated
+	public static String getCaptionIconLeft(String caption, Icon icon, IconVariant... iconVariants) {
+		return getModifiedIconHtml(icon, ArrayUtils.addAll(iconVariants, IconVariant.BLUE, IconVariant.SIZE_LARGE)) + "&nbsp;&nbsp;&nbsp;" + caption;
+	}
+	
+	/**
+	 * Returns a caption with icon right
+	 * 
+	 * @deprecated Ugly hack to make stub exercises work
+	 * 			
+	 * @param caption
+	 *            visible text
+	 * @param icon
+	 *            icon displayed on the right side of the icon
+	 * @return caption with icon
+	 */
+	@Deprecated
+	public static String getCaptionIconRight(String caption, Icon icon, IconVariant... iconVariants) {
+		return caption + "&nbsp;&nbsp;&nbsp;" + getModifiedIconHtml(icon, ArrayUtils.addAll(iconVariants, IconVariant.BLUE, IconVariant.SIZE_LARGE));
+	}
+	
+	/**
+	 * Returns a label used as a form title / header
+	 * 
+	 * @deprecated Ugly hack to make stub exercises work
+	 * 			
+	 * @param caption
+	 *            form title
+	 * @param icon
+	 *            icon displayed besides the title
+	 * @return form title
+	 */
+	@Deprecated
+	public static Label getFormTitleLabel(String caption, Icon icon) {
+		Label label = new Label(getCaptionIconLeft(caption, icon, IconVariant.GREEN), ContentMode.HTML);
+		label.addStyleName("panel-title");
+		return label;
+	}
+	
+	/**
+	 * @deprecated Ugly hack to make stub exercises work
+	 */
+	@Deprecated
+	public static VerticalLayout getIconCaptionPanel(String caption, Icon icon,
+			Component... components) {
+		VerticalLayout layout = new VerticalLayout();
+		layout.setSpacing(true);
+		layout.setWidth("100%");
+		
+		Label label = getFormTitleLabel(caption, icon);
+		layout.addComponent(label);
+		
+		VerticalLayout content = getVerticalGrayContentLayout(PanelStyle.DEFAULT);
+		content.setSpacing(true);
+		content.setSizeFull();
+		layout.addComponent(content);
+		layout.setExpandRatio(content, 1);
+		
+		for (Component component : components) {
+			content.addComponent(component);
+		}
+		
+		return layout;
+	}
+	
+	/**
+	 * Return a button that contains only an icon
+	 * 
+	 * @deprecated Ugly hack to make stub exercises work
+	 * 			
+	 * @param icon
+	 *            icon for button
+	 * @return button without caption
+	 */
+	@Deprecated
+	public static Button getIconOnlyButton(Icon icon, IconVariant... iconVariants) {
+		final Button button = new Button(getModifiedIconHtml(icon, ArrayUtils.addAll(iconVariants, IconVariant.BLUE, IconVariant.SIZE_LARGE)));
+		button.addStyleName("only-icon");
+		button.setHtmlContentAllowed(true);
+		return button;
+	}
+	
+	/**
+	 * Return a large panel button
+	 * 
+	 * @deprecated Ugly hack to make stub exercises work
+	 * 			
+	 * @param title
+	 *            button caption
+	 * @param description
+	 *            button description, displayed below the title
+	 * @param icon
+	 *            icon displayed in button
+	 * @return a large panel button
+	 */
+	@Deprecated
+	public static HorizontalLayout getLargePanelButton(String title,
+			String description, Icon icon) {
+		HorizontalLayout layout = new HorizontalLayout();
+		layout.setWidth("250px");
+		layout.setStyleName("large-panel-button");
+		
+		Label iconLabel = getModifiedIcon(icon, IconVariant.BLUE, IconVariant.SIZE_2X);
+		iconLabel.setWidth("40px");
+		layout.addComponent(iconLabel);
+		
+		VerticalLayout titleLayout = new VerticalLayout();
+		titleLayout.addComponent(StandardUIFactory.getPanelTitle(title));
+		titleLayout
+				.addComponent(StandardUIFactory.getPanelContent(description));
+				
+		layout.addComponent(titleLayout);
+		layout.setExpandRatio(titleLayout, 1);
+		return layout;
+	}
+	
+	/**
+	 * @deprecated Ugly hack to make stub exercises work
+	 */
+	@Deprecated
+	public static Button getLinkButton(String caption, Icon icon) {
+		if (icon == null) {
+			return getLinkButton(caption);
+		}
+		
+		return getLinkButton(getModifiedIconHtml(icon, IconVariant.BLUE)
+				+ "&nbsp;" + caption);
+	}
+	
+	/**
+	 * @deprecated Ugly hack to make stub exercises work
+	 */
+	@Deprecated
+	public static Button getRoundButton(Icon icon) {
+		
+		final Button button = getIconOnlyButton(icon, IconVariant.BLUE, IconVariant.SIZE_LARGE);
+		button.setHtmlContentAllowed(true);
+		button.addStyleName("button-big-round");
+		return button;
+		
+	}
+	
+	/**
+	 * Returns smaller button with icon only
+	 * 
+	 * @deprecated Ugly hack to make stub exercises work
+	 * 			
+	 * @param icon
+	 *            icon for button
+	 * @return button without caption
+	 */
+	@Deprecated
+	public static Button getSmallIconOnlyButton(Icon icon) {
+		return getSmallIconOnlyButton(icon, IconVariant.BLUE);
+	}
+	
+	/**
+	 * Returns smaller button with icon only
+	 * 
+	 * @deprecated Ugly hack to make stub exercises work
+	 * 			
+	 * @param icon
+	 *            icon for button
+	 * @return button without caption
+	 */
+	@Deprecated
+	public static Button getSmallIconOnlyButton(Icon icon,
+			IconVariant... variants) {
+		final Button button = new Button(getModifiedIconHtml(icon, variants));
+		button.setStyleName("only-icon");
+		button.setHtmlContentAllowed(true);
+		return button;
+	}
+	
+	/**
+	 * @deprecated Ugly hack to make stub exercises work
+	 */
+	@Deprecated
+	public static VerticalLayout getStylishCaptionContainer(String caption,
+			Icon icon, Component component) {
+		VerticalLayout layout = new VerticalLayout();
+		layout.setSpacing(true);
+		layout.setWidth("100%");
+		
+		Label label = getFormTitleLabel(caption, icon);
+		layout.addComponent(label);
+		
+		component.setWidth("100%");
+		component.setSizeFull();
+		component.addStyleName("margin-bottom-15");
+		layout.addComponent(component);
+		layout.setExpandRatio(component, 1.0f);
+		
+		return layout;
+	}
+	
+	/**
+	 * @deprecated Ugly hack to make stub exercises work
+	 */
+	@Deprecated
+	public static VerticalLayout getStylishCaptionContainerNoMargin(
+			String caption, Icon icon, Component component) {
+		VerticalLayout layout = new VerticalLayout();
+		layout.setSpacing(false);
+		layout.setWidth("100%");
+		
+		Label label = getFormTitleLabel(caption, icon);
+		layout.addComponent(label);
+		
+		// component.setCaption(null);
+		component.setWidth("100%");
+		layout.addComponent(component);
+		layout.setExpandRatio(component, 1.0f);
+		
+		return layout;
+	}
+	
+	/**
+	 * Returns a button used for window headers and other header bars
+	 * 
+	 * @deprecated Ugly hack to make stub exercises work
+	 * 			
+	 * @param icon
+	 *            icon displayed in button
+	 * @return button for header controls
+	 */
+	@Deprecated
+	public static Button getWindowControlButton(Icon icon) {
+		final Button button = new Button(getModifiedIconHtml(icon, IconVariant.WHITE));
+		button.setStyleName("window-control");
+		button.setHtmlContentAllowed(true);
+		return button;
+	}
+	
 	/**
 	 * Return a small icon
 	 * 
@@ -1018,7 +1442,7 @@ public class StandardUIFactory {
 	 * @return a small icon
 	 */
 	@Deprecated
-	public static Label getBlackIconSmall(FontIcon icon) {
+	public static Label getBlackIconSmall(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.BLACK);
 	}
 	
@@ -1031,7 +1455,7 @@ public class StandardUIFactory {
 	 * @return a small icon
 	 */
 	@Deprecated
-	public static Label getBlueIconSmall(FontIcon icon) {
+	public static Label getBlueIconSmall(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.BLUE);
 	}
 	
@@ -1044,7 +1468,7 @@ public class StandardUIFactory {
 	 * @return a small icon
 	 */
 	@Deprecated
-	public static Label getBlueIcon(FontIcon icon) {
+	public static Label getBlueIcon(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.BLUE, IconVariant.SIZE_LARGE);
 	}
 	
@@ -1057,7 +1481,7 @@ public class StandardUIFactory {
 	 * @return a small icon
 	 */
 	@Deprecated
-	public static Label getBlueIcon2X(FontIcon icon) {
+	public static Label getBlueIcon2X(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.BLUE, IconVariant.SIZE_2X);
 	}
 	
@@ -1070,7 +1494,7 @@ public class StandardUIFactory {
 	 * @return a small icon
 	 */
 	@Deprecated
-	public static Label getBlueIconMedium(FontIcon icon) {
+	public static Label getBlueIconMedium(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.BLUE, IconVariant.SIZE_3X);
 	}
 	
@@ -1085,7 +1509,7 @@ public class StandardUIFactory {
 	 * @return new button
 	 */
 	@Deprecated
-	public static Button getGreenButton(String caption, FontIcon icon) {
+	public static Button getGreenButton(String caption, Icon icon) {
 		return getButton(caption, icon, IconVariant.GREEN);
 	}
 	
@@ -1099,7 +1523,7 @@ public class StandardUIFactory {
 	 * @return a small icon
 	 */
 	@Deprecated
-	public static Label getGreenIcon(FontIcon icon) {
+	public static Label getGreenIcon(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.GREEN, IconVariant.SIZE_LARGE);
 	}
 	
@@ -1113,7 +1537,7 @@ public class StandardUIFactory {
 	 * @return a small icon
 	 */
 	@Deprecated
-	public static Label getGreenIcon2X(FontIcon icon) {
+	public static Label getGreenIcon2X(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.GREEN, IconVariant.SIZE_2X);
 	}
 	
@@ -1127,7 +1551,7 @@ public class StandardUIFactory {
 	 * @return a small icon
 	 */
 	@Deprecated
-	public static Label getGreenIconMedium(FontIcon icon) {
+	public static Label getGreenIconMedium(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.GREEN, IconVariant.SIZE_3X);
 	}
 	
@@ -1141,7 +1565,7 @@ public class StandardUIFactory {
 	 * @return a small icon
 	 */
 	@Deprecated
-	public static Label getGreenIconSmall(FontIcon icon) {
+	public static Label getGreenIconSmall(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.GREEN);
 	}
 	
@@ -1155,7 +1579,7 @@ public class StandardUIFactory {
 	 * @return a small icon
 	 */
 	@Deprecated
-	public static Label getOrangeIcon(FontIcon icon) {
+	public static Label getOrangeIcon(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.ORANGE, IconVariant.SIZE_LARGE);
 	}
 	
@@ -1169,7 +1593,7 @@ public class StandardUIFactory {
 	 * @return a small icon
 	 */
 	@Deprecated
-	public static Label getOrangeIcon2X(FontIcon icon) {
+	public static Label getOrangeIcon2X(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.ORANGE, IconVariant.SIZE_2X);
 	}
 	
@@ -1183,7 +1607,7 @@ public class StandardUIFactory {
 	 * @return a small icon
 	 */
 	@Deprecated
-	public static Label getOrangeIconMedium(FontIcon icon) {
+	public static Label getOrangeIconMedium(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.ORANGE, IconVariant.SIZE_3X);
 	}
 	
@@ -1197,7 +1621,7 @@ public class StandardUIFactory {
 	 * @return a small icon
 	 */
 	@Deprecated
-	public static Label getOrangeIconSmall(FontIcon icon) {
+	public static Label getOrangeIconSmall(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.ORANGE);
 	}
 	
@@ -1211,7 +1635,7 @@ public class StandardUIFactory {
 	 * @return a small icon
 	 */
 	@Deprecated
-	public static Label getWhiteIcon(FontIcon icon) {
+	public static Label getWhiteIcon(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.WHITE, IconVariant.SIZE_LARGE);
 	}
 	
@@ -1225,7 +1649,7 @@ public class StandardUIFactory {
 	 * @return a small icon
 	 */
 	@Deprecated
-	public static Label getWhiteIcon2X(FontIcon icon) {
+	public static Label getWhiteIcon2X(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.WHITE, IconVariant.SIZE_2X);
 	}
 	
@@ -1239,7 +1663,7 @@ public class StandardUIFactory {
 	 * @return a small icon
 	 */
 	@Deprecated
-	public static Label getWhiteIconMedium(FontIcon icon) {
+	public static Label getWhiteIconMedium(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.WHITE, IconVariant.SIZE_3X);
 	}
 	
@@ -1253,7 +1677,7 @@ public class StandardUIFactory {
 	 * @return a small icon
 	 */
 	@Deprecated
-	public static Label getWhiteIconSmall(FontIcon icon) {
+	public static Label getWhiteIconSmall(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.WHITE);
 	}
 	
@@ -1267,7 +1691,7 @@ public class StandardUIFactory {
 	 * @return a small icon
 	 */
 	@Deprecated
-	public static Label getRedIcon(FontIcon icon) {
+	public static Label getRedIcon(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.RED, IconVariant.SIZE_LARGE);
 	}
 	
@@ -1281,7 +1705,7 @@ public class StandardUIFactory {
 	 * @return a small icon
 	 */
 	@Deprecated
-	public static Label getRedIcon2X(FontIcon icon) {
+	public static Label getRedIcon2X(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.RED, IconVariant.SIZE_2X);
 	}
 	
@@ -1295,7 +1719,7 @@ public class StandardUIFactory {
 	 * @return a small icon
 	 */
 	@Deprecated
-	public static Label getRedIconMedium(FontIcon icon) {
+	public static Label getRedIconMedium(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.RED, IconVariant.SIZE_3X);
 	}
 	
@@ -1309,7 +1733,8 @@ public class StandardUIFactory {
 	 * @return a small icon
 	 */
 	@Deprecated
-	public static Label getRedIconSmall(FontIcon icon) {
+	public static Label getRedIconSmall(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.RED);
 	}
+	
 }
