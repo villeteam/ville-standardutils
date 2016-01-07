@@ -35,7 +35,7 @@ import fi.utu.ville.standardutils.ui.AbstractEditorLayout;
  * </p>
  * 
  * @author temira,ertaka
- * 
+ * 		
  */
 public class StandardUIFactory {
 	
@@ -162,7 +162,8 @@ public class StandardUIFactory {
 	public static Button getButton(String caption, FontIcon icon,
 			IconVariant... iconVariants) {
 		if (icon != null) {
-			String iconHtml = StandardIcon.getModifiedIconHtml(icon, Optional.empty(), Optional.empty(), iconVariants);
+			String iconHtml = StandardIcon.getModifiedIconHtml(icon, Optional.empty(), Optional.empty(),
+					ArrayUtils.addAll(iconVariants, IconVariant.SIZE_LARGE));
 			final Button button = new Button(iconHtml + "&nbsp;&nbsp;&nbsp;" + caption);
 			button.setHtmlContentAllowed(true);
 			return button;
@@ -1092,7 +1093,7 @@ public class StandardUIFactory {
 	 * Return a default sized icon
 	 * 
 	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 			
+	 * 
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
@@ -1106,7 +1107,7 @@ public class StandardUIFactory {
 	 * Return a double sized icon
 	 * 
 	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 			
+	 * 
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
@@ -1120,7 +1121,7 @@ public class StandardUIFactory {
 	 * Return a medium (3x) sized icon
 	 * 
 	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 			
+	 * 
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
@@ -1134,7 +1135,7 @@ public class StandardUIFactory {
 	 * Return a small icon
 	 * 
 	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 			
+	 * 
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
@@ -1148,7 +1149,7 @@ public class StandardUIFactory {
 	 * Return a default sized icon
 	 * 
 	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 
+	 * 			
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
@@ -1162,7 +1163,7 @@ public class StandardUIFactory {
 	 * Return a double sized icon
 	 * 
 	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 
+	 * 			
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
@@ -1176,7 +1177,7 @@ public class StandardUIFactory {
 	 * Return a medium (3x) sized icon
 	 * 
 	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 
+	 * 			
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
@@ -1190,7 +1191,7 @@ public class StandardUIFactory {
 	 * Return a small icon
 	 * 
 	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 
+	 * 			
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
@@ -1204,7 +1205,7 @@ public class StandardUIFactory {
 	 * Return a default sized icon
 	 * 
 	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 			
+	 * 
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
@@ -1218,7 +1219,7 @@ public class StandardUIFactory {
 	 * Return a double sized icon
 	 * 
 	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 			
+	 * 
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
@@ -1232,7 +1233,7 @@ public class StandardUIFactory {
 	 * Return a medium (3x) sized icon
 	 * 
 	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 			
+	 * 
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
@@ -1246,7 +1247,7 @@ public class StandardUIFactory {
 	 * Return a small icon
 	 * 
 	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 			
+	 * 
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
@@ -1260,7 +1261,7 @@ public class StandardUIFactory {
 	 * Return a default sized icon
 	 * 
 	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 
+	 * 			
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
@@ -1274,7 +1275,7 @@ public class StandardUIFactory {
 	 * Return a double sized icon
 	 * 
 	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 
+	 * 			
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
@@ -1288,7 +1289,7 @@ public class StandardUIFactory {
 	 * Return a medium (3x) sized icon
 	 * 
 	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 
+	 * 			
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
@@ -1302,7 +1303,7 @@ public class StandardUIFactory {
 	 * Return a small icon
 	 * 
 	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 
+	 * 			
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
