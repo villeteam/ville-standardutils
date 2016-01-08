@@ -42,7 +42,7 @@ public class StandardIcon {
 	 * Icon variant; multiple can be used, but all combinations do not make sense.
 	 * 
 	 * @author marc
-	 * 
+	 * 		
 	 */
 	public enum IconVariant {
 		/**
@@ -169,7 +169,7 @@ public class StandardIcon {
 	 * </p>
 	 * 
 	 * @author marc
-	 * 
+	 * 		
 	 */
 	public enum RawIcon {
 		no_icon(0x000),
@@ -981,7 +981,7 @@ public class StandardIcon {
 		
 		public String variant(String customClass, Color color,
 				IconVariant... variants) {
-			return spanWrapper(id(), stylename() + " " + customClass, Optional.ofNullable(color), variants);
+			return spanWrapper(id(), stylename() + (customClass == null ? "" : " " + customClass), Optional.ofNullable(color), variants);
 		}
 	}
 	
