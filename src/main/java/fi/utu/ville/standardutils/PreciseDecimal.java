@@ -74,6 +74,16 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 		this.decPoint = (int) parts[1];
 	}
 	
+	/**
+	 * Creates a PreciseDecimal from an int-array. <br> 
+	 * If the array has 3 indexes, the fraction is considered mixed for and index 0 stands for the units, index 1 for the numerator and index 2 for the denominator.<br>
+	 * If the array has 2 indexes, the fraction is considered a pure fraction and index 0 stands for the numerator and index 1 for the denominator.<br>
+	 * Notice! This method modifies the given array by transforming it to the pure form as a sideffect.
+	 *  
+	 * @param array the int array
+	 * @param maxDecimals how many decimals can be displayed
+	 * @return a PreciseDecimal with the same value as the given fraction
+	 */
 	public static PreciseDecimal createFromFractionArray(int[] array,
 			int maxDecimals) {
 		int numIndex = 0;
