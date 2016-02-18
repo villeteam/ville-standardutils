@@ -139,19 +139,10 @@ public class GeneratorView implements Serializable {
 		
 		final IntegerField solutionDecimals = new IntegerField(
 				localizer.getUIText("Decimal numbers"), FieldParameter.NONNEGATIVE_ONLY);
+		solutionDecimals.addValueChangeListener(e -> options.setNumberOfDecimalsInSolution(solutionDecimals.getInteger()));
+		solutionDecimals.setRange(0, 5);
 		solutionDecimals.setValue(options.getNumberOfDecimalsInSolution() + "");
 		solutionDecimals.setWidth(TEXTFIELDWIDTH, Unit.PIXELS);
-		solutionDecimals.setRange(0, 5);
-		solutionDecimals.addValueChangeListener(new ValueChangeListener() {
-			
-			private static final long serialVersionUID = 1L;
-			
-			@Override
-			public void valueChange(ValueChangeEvent event) {
-				options.setNumberOfDecimalsInSolution(solutionDecimals
-						.getInteger());
-			}
-		});
 		
 		VerticalLayout result;
 		if (allowDecimals) {
