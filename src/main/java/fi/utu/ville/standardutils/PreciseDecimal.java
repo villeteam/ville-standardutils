@@ -75,13 +75,16 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 	}
 	
 	/**
-	 * Creates a PreciseDecimal from an int-array. <br> 
-	 * If the array has 3 indexes, the fraction is considered mixed for and index 0 stands for the units, index 1 for the numerator and index 2 for the denominator.<br>
+	 * Creates a PreciseDecimal from an int-array. <br>
+	 * If the array has 3 indexes, the fraction is considered mixed for and index 0 stands for the units, index 1 for the numerator and index 2 for the
+	 * denominator.<br>
 	 * If the array has 2 indexes, the fraction is considered a pure fraction and index 0 stands for the numerator and index 1 for the denominator.<br>
 	 * Notice! This method modifies the given array by transforming it to the pure form as a sideffect.
-	 *  
-	 * @param array the int array
-	 * @param maxDecimals how many decimals can be displayed
+	 * 
+	 * @param array
+	 *            the int array
+	 * @param maxDecimals
+	 *            how many decimals can be displayed
 	 * @return a PreciseDecimal with the same value as the given fraction
 	 */
 	public static PreciseDecimal createFromFractionArray(int[] array,
@@ -348,6 +351,9 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 	
 	public static DecimalFormat getDecimalFormatter(int numDecimals,
 			DecimalFormatSymbols formatSymbols) {
+		if (numDecimals < 0)
+			return new DecimalFormat("0");
+			
 		String format = "0";
 		if (numDecimals > 0) {
 			if (numDecimals >= MAX_DECIMALS) {
@@ -363,11 +369,6 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 			df = new DecimalFormat(format);
 		}
 		df.setRoundingMode(RoundingMode.HALF_UP);
-		return df;
-	}
-	
-	private DecimalFormat getDecimalPartFormatter() {
-		DecimalFormat df = new DecimalFormat(DECIMAL_FORMATS[getNumDecimals()]);
 		return df;
 	}
 	
@@ -566,10 +567,35 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 	 */
 	public String findRepeatingDecimal() {
 		String number = getDecimalPart() + "";
+		int originalLength = number.length();
 		int nextIndex = 0;
 		
 		while (number.startsWith("0"))
 			number = number.substring(1);
+			
+		//check we have at least two same digits; it's impossible to find any repeats with different digits
+		int[] numbers = new int[10];
+		
+		for (int i = 0; i < number.length(); i++) {
+			try {
+				int digit = Integer.parseInt(number.charAt(i) + "");
+				numbers[digit]++;
+			} catch (NumberFormatException e) {
+				//NOOP
+			}
+		}
+		
+		//set the first digit to be one that we found only one of 
+		for (int i = 0; i < numbers.length; i++) {
+			char c = (i + "").charAt(0);
+			int index = number.indexOf(c);
+			if (numbers[i] == 1 && index > 0) {
+				number = number.substring(index);
+			}
+		}
+		
+		if (number.length() >= originalLength / 2)
+			return "";
 			
 		//cannot go on infinitely; search for nestIndex never starts from index 0
 		while (number.length() > 0 && nextIndex <= 0) {
