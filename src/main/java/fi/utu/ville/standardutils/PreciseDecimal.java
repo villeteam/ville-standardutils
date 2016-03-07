@@ -105,19 +105,23 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 	/**
 	 * Get the value of the decimal part Warning: type long can't handle leading zeros
 	 * 
-	 * @return the numeric value of the decimal part
+	 * @return the absolute numeric value of the decimal part
 	 */
 	public long getDecimalPartValue() {
 		return Math.abs(value
 				- (long) (getIntegerPart() * Math.pow(10, decPoint)));
 	}
 	
+	/**
+	 * Get the value of the decimal part. E.g. 0,032. Returns 0.0 (unlocalized, with dot) if there are no decimals in this PreciseDecimal.
+	 * 
+	 * @return The decimal part of this PreciseDecimal
+	 */
 	public String getDecimalPart() {
 		if (getNumDecimals() == 0) {
-			return "";
+			return "0.0";
 		}
-		long lval = getDecimalPartValue();
-		return getDecimalPartFormatter().format(lval);
+		return new PreciseDecimal(getDouble() % 1).toString();
 	}
 	
 	public int getNumDecimals() {
@@ -566,7 +570,7 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 	 * @return The repeating part of the decimal portion of the given PD
 	 */
 	public String findRepeatingDecimal() {
-		String number = getDecimalPart() + "";
+		String number = getDecimalPartValue() + "";
 		int originalLength = number.length();
 		int nextIndex = 0;
 		
@@ -594,7 +598,7 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 			}
 		}
 		
-		if (number.length() >= originalLength / 2)
+		if (number.length() <= originalLength / 2)
 			return "";
 			
 		//cannot go on infinitely; search for nestIndex never starts from index 0
