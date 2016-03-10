@@ -14,37 +14,31 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 public class MathHelper {
-
+	
 	/** Operators for splitting strings */
-	private final static String[] splitOperators = { "+", "-", "*", "/", "%",
-			"++", "--", "(", ")", "&", "|", "<=", ">=", "<", ">", "=", "!",
-			"~", "<<", ">>" };
-
-	private final static String[] stringpairs = { "(", ")", "{", "}", "<", ">",
-			"[", "]", "/", "/" };
-
-	private final static String[] addition = { "10+2", "7+5", "15+2", "9+4",
-			"4+6", "7+8", "5+3", "5+4", "6+3", "11+4", "11+5" };
-
-	private final static String[] subtraction = { "10-2", "7-5", "15-2", "9-4",
-			"6-4", "8-7", "5-3", "5-4", "6-3", "11-4", "11-5" };
-
-	private final static String[] multiplication = { "3*2", "3*3", "3*4",
-			"3*5", "3*6", "5*8", "6*7", "2*6", "4*6", "3*8", "7*7", "6*9" };
-
-	private final static String[] division = { "6/2", "3/3", "49/7", "55/5",
-			"63/7", "42/6", "35/7", "32/4", "24/3", "24/4", "72/9", "54/9" };
-
+	private final static String[] splitOperators = { "+", "-", "*", "/", "%", "++", "--", "(", ")", "&", "|", "<=", ">=", "<", ">", "=", "!", "~", "<<", ">>" };
+	
+	private final static String[] stringpairs = { "(", ")", "{", "}", "<", ">", "[", "]", "/", "/" };
+	
+	private final static String[] addition = { "10+2", "7+5", "15+2", "9+4", "4+6", "7+8", "5+3", "5+4", "6+3", "11+4", "11+5" };
+	
+	private final static String[] subtraction = { "10-2", "7-5", "15-2", "9-4", "6-4", "8-7", "5-3", "5-4", "6-3", "11-4", "11-5" };
+	
+	private final static String[] multiplication = { "3*2", "3*3", "3*4", "3*5", "3*6", "5*8", "6*7", "2*6", "4*6", "3*8", "7*7", "6*9" };
+	
+	private final static String[] division = { "6/2", "3/3", "49/7", "55/5", "63/7", "42/6", "35/7", "32/4", "24/3", "24/4", "72/9", "54/9" };
+	
 	protected MathHelper() {
-
+	
 	}
-
+	
 	/**
 	 * Evaluates the given expression.
 	 * 
 	 * @param s
 	 *            The expression to evaluate.
-	 * @return The double value or null if the expression is nonsense. When dividing by zero, either positive or negative infinity will be returned, depending on the dividend. 
+	 * @return The double value or null if the expression is nonsense. When dividing by zero, either positive or negative infinity will be returned, depending
+	 *         on the dividend.
 	 */
 	public static Double evaluate(String s) {
 		Double ans = null;
@@ -60,26 +54,26 @@ public class MathHelper {
 			s = s.replaceAll("(\\+\\s*\\-)|(\\-\\s*\\+)", "-"); // Removes negatives without parentheses
 			Vector<String> v = infixToPostfix(s);
 			LinkedList<String> stack = new LinkedList<String>();
-
+			
 			for (int i = 0; i < v.size(); i++) {
-
+				
 				if (!(v.get(i).equals("+") || v.get(i).equals("-")
 						|| v.get(i).equals("*") || v.get(i).equals("/"))) {
-
+						
 					stack.add(v.get(i));
 				} else {
-					double	op1 = getDoubleFromString(stack.remove(stack.size() - 2)),
+					double op1 = getDoubleFromString(stack.remove(stack.size() - 2)),
 							op2 = getDoubleFromString(stack.remove(stack.size() - 1));
-					
+							
 					switch (v.get(i)) {
 					case "*":
 						ans = op1 * op2;
 						break;
 					case "/":
-						if(op2 == 0 || !Double.isFinite(op2)){							
-							return op1 < 0 ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;							
+						if (op2 == 0 || !Double.isFinite(op2)) {
+							return op1 < 0 ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;
 						}
-						ans = op1 / op2;						
+						ans = op1 / op2;
 						break;
 					case "+":
 						ans = op1 + op2;
@@ -208,10 +202,12 @@ public class MathHelper {
 			}
 			
 			if (infixExpression.get(i).equals(")")) {
-				if (!operators.isEmpty())
+				if (!operators.isEmpty()) {
 					result.add(operators.pop());
-				if (!operators.isEmpty())
+				}
+				if (!operators.isEmpty()) {
 					result.add(operators.pop());
+				}
 				continue;
 			}
 			
@@ -644,11 +640,10 @@ public class MathHelper {
 			return "kertolasku";
 		} else if (str.equals("/")) {
 			return "jakolasku";
+		} else {
+			return "älytöntä";
 		}
 		
-		else
-			return "älytöntä";
-			
 	}
 	
 	public static Double evaluateVector(Vector<String> vector) {
@@ -879,6 +874,7 @@ public class MathHelper {
 		fraction = fraction.clone();
 		long gcd = Math.abs(gcd(fraction[numeratorIndex],
 				fraction[numeratorIndex + 1]));
+		gcd = Math.max(1, gcd);
 		fraction[numeratorIndex] /= gcd;
 		fraction[numeratorIndex + 1] /= gcd;
 		return fraction;
