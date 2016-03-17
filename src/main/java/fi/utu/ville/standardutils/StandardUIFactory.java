@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.vaadin.server.FontIcon;
-import com.vaadin.shared.ui.AlignmentInfo.Bits;
 import com.vaadin.shared.ui.colorpicker.Color;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
@@ -35,7 +34,7 @@ import fi.utu.ville.standardutils.ui.AbstractEditorLayout;
  * </p>
  * 
  * @author temira,ertaka
- * 		
+ * 
  */
 public class StandardUIFactory {
 	
@@ -357,14 +356,14 @@ public class StandardUIFactory {
 		
 		final HorizontalLayout wrapper = new HorizontalLayout();
 		wrapper.setSpacing(true);
+		wrapper.setSizeUndefined();
 		for (Component b : buttonsToAdd) {
 			wrapper.addComponent(b);
 		}
 		
 		panel.addComponent(wrapper);
-		panel.setComponentAlignment(wrapper,
-				new Alignment(Bits.ALIGNMENT_RIGHT));
-				
+		panel.setComponentAlignment(wrapper, Alignment.MIDDLE_RIGHT);
+		
 		return panel;
 	}
 	
@@ -1011,14 +1010,12 @@ public class StandardUIFactory {
 	
 	/**************************** UGLY HACK ****************************/
 	/* Duplicate methods of all methods with a fontIcon parameter since vexer exercises can't handle these due to some black dependency magic
-	 * at work
+	 * at work. No deprecated tag attached to avoid IDE whining about deprecated methods everywhere.
 	 */
 	
 	/**
 	 * Returns a panel for form components
 	 * 
-	 * @deprecated Ugly hack to make stub exercises work
-	 * 			
 	 * @param caption
 	 *            the caption of the form
 	 * @param icon
@@ -1029,7 +1026,6 @@ public class StandardUIFactory {
 	 *            all form components
 	 * @return a form panel
 	 */
-	@Deprecated
 	public static VerticalLayout getFormPanel(String caption, Icon icon,
 			String titleWidth, Component... components) {
 			
@@ -1069,42 +1065,22 @@ public class StandardUIFactory {
 		return layout;
 	}
 	
-	/**
-	 * @deprecated Ugly hack to make stub exercises work
-	 */
-	@Deprecated
 	public static String getModifiedIconHtml(Icon icon, IconVariant... variants) {
 		return getModifiedIconHtml(icon, Optional.empty(), variants);
 	}
 	
-	/**
-	 * @deprecated Ugly hack to make stub exercises work
-	 */
-	@Deprecated
 	public static String getModifiedIconHtml(Icon icon, Optional<Color> color, IconVariant... iconVariants) {
 		return StandardIcon.getModifiedIconHtml(icon, color, Optional.of(""), iconVariants);
 	}
 	
-	/**
-	 * @deprecated Ugly hack to make stub exercises work
-	 */
-	@Deprecated
 	public static Label getModifiedIcon(Icon icon, IconVariant... variants) {
 		return getModifiedIcon(icon, Optional.empty(), variants);
 	}
 	
-	/**
-	 * @deprecated Ugly hack to make stub exercises work
-	 */
-	@Deprecated
 	public static Label getModifiedIcon(Icon icon, Optional<Color> color, IconVariant... iconVariants) {
 		return new Label(getModifiedIconHtml(icon, color, iconVariants), ContentMode.HTML);
 	}
 	
-	/**
-	 * @deprecated Ugly hack to make stub exercises work
-	 */
-	@Deprecated
 	public static VerticalLayout getBubbleWihtCaption(String caption,
 			Icon icon, Component component) {
 		VerticalLayout layout = new VerticalLayout();
@@ -1129,25 +1105,20 @@ public class StandardUIFactory {
 	
 	/**
 	 * Get default button with a blue icon
-	 * 
-	 * @deprecated Ugly hack to make stub exercises work
-	 * 			
+	 * 	
 	 * @param caption
 	 *            button caption
 	 * @param icon
 	 *            icon shown in button; @see {@link IconFactory}
 	 * @return new button
 	 */
-	@Deprecated
 	public static Button getButton(String caption, Icon icon) {
 		return getButton(caption, icon, IconVariant.BLUE);
 	}
 	
 	/**
 	 * Get default button with specified IconVariant
-	 * 
-	 * @deprecated Ugly hack to make stub exercises work
-	 * 			
+	 * 	
 	 * @param caption
 	 *            button caption
 	 * @param icon
@@ -1156,7 +1127,6 @@ public class StandardUIFactory {
 	 *            IconVariant used for icon.
 	 * @return new button
 	 */
-	@Deprecated
 	public static Button getButton(String caption, Icon icon,
 			IconVariant... iconVariants) {
 		if (icon != null) {
@@ -1174,74 +1144,58 @@ public class StandardUIFactory {
 	
 	/**
 	 * Get button caption only for situations when the button already exists.
-	 * 
-	 * @deprecated Ugly hack to make stub exercises work
-	 * 			
+	 * 	
 	 * @param caption
 	 *            button caption
 	 * @param icon
 	 *            icon shown in button; @see {@link IconFactory}
 	 * @return button caption
 	 */
-	@Deprecated
 	public static String getButtonCaption(String caption, Icon icon) {
 		return getCaptionIconLeft(caption, icon);
 	}
 	
 	/**
 	 * Returns a caption with icon left
-	 * 
-	 * @deprecated Ugly hack to make stub exercises work
-	 * 			
+	 * 		
 	 * @param caption
 	 *            visible text
 	 * @param icon
 	 *            icon displayed on the left side of the icon
 	 * @return caption with icon
 	 */
-	@Deprecated
 	public static String getCaptionIconLeft(String caption, Icon icon, IconVariant... iconVariants) {
 		return getModifiedIconHtml(icon, ArrayUtils.addAll(iconVariants, IconVariant.BLUE, IconVariant.SIZE_LARGE)) + "&nbsp;&nbsp;&nbsp;" + caption;
 	}
 	
 	/**
 	 * Returns a caption with icon right
-	 * 
-	 * @deprecated Ugly hack to make stub exercises work
-	 * 			
+	 * 		
 	 * @param caption
 	 *            visible text
 	 * @param icon
 	 *            icon displayed on the right side of the icon
 	 * @return caption with icon
 	 */
-	@Deprecated
 	public static String getCaptionIconRight(String caption, Icon icon, IconVariant... iconVariants) {
 		return caption + "&nbsp;&nbsp;&nbsp;" + getModifiedIconHtml(icon, ArrayUtils.addAll(iconVariants, IconVariant.BLUE, IconVariant.SIZE_LARGE));
 	}
 	
 	/**
 	 * Returns a label used as a form title / header
-	 * 
-	 * @deprecated Ugly hack to make stub exercises work
-	 * 			
+	 * 	
 	 * @param caption
 	 *            form title
 	 * @param icon
 	 *            icon displayed besides the title
 	 * @return form title
 	 */
-	@Deprecated
 	public static Label getFormTitleLabel(String caption, Icon icon) {
 		Label label = new Label(getCaptionIconLeft(caption, icon, IconVariant.GREEN), ContentMode.HTML);
 		label.addStyleName("panel-title");
 		return label;
 	}
 	
-	/**
-	 * @deprecated Ugly hack to make stub exercises work
-	 */
-	@Deprecated
 	public static VerticalLayout getIconCaptionPanel(String caption, Icon icon,
 			Component... components) {
 		VerticalLayout layout = new VerticalLayout();
@@ -1266,14 +1220,11 @@ public class StandardUIFactory {
 	
 	/**
 	 * Return a button that contains only an icon
-	 * 
-	 * @deprecated Ugly hack to make stub exercises work
-	 * 			
+	 * 	
 	 * @param icon
 	 *            icon for button
 	 * @return button without caption
 	 */
-	@Deprecated
 	public static Button getIconOnlyButton(Icon icon, IconVariant... iconVariants) {
 		final Button button = new Button(getModifiedIconHtml(icon, ArrayUtils.addAll(iconVariants, IconVariant.BLUE, IconVariant.SIZE_LARGE)));
 		button.addStyleName("only-icon");
@@ -1283,9 +1234,7 @@ public class StandardUIFactory {
 	
 	/**
 	 * Return a large panel button
-	 * 
-	 * @deprecated Ugly hack to make stub exercises work
-	 * 			
+	 * 	
 	 * @param title
 	 *            button caption
 	 * @param description
@@ -1294,7 +1243,6 @@ public class StandardUIFactory {
 	 *            icon displayed in button
 	 * @return a large panel button
 	 */
-	@Deprecated
 	public static HorizontalLayout getLargePanelButton(String title,
 			String description, Icon icon) {
 		HorizontalLayout layout = new HorizontalLayout();
@@ -1315,10 +1263,6 @@ public class StandardUIFactory {
 		return layout;
 	}
 	
-	/**
-	 * @deprecated Ugly hack to make stub exercises work
-	 */
-	@Deprecated
 	public static Button getLinkButton(String caption, Icon icon) {
 		if (icon == null) {
 			return getLinkButton(caption);
@@ -1328,10 +1272,6 @@ public class StandardUIFactory {
 				+ "&nbsp;" + caption);
 	}
 	
-	/**
-	 * @deprecated Ugly hack to make stub exercises work
-	 */
-	@Deprecated
 	public static Button getRoundButton(Icon icon) {
 		
 		final Button button = getIconOnlyButton(icon, IconVariant.BLUE, IconVariant.SIZE_LARGE);
@@ -1343,28 +1283,22 @@ public class StandardUIFactory {
 	
 	/**
 	 * Returns smaller button with icon only
-	 * 
-	 * @deprecated Ugly hack to make stub exercises work
-	 * 			
+	 * 		
 	 * @param icon
 	 *            icon for button
 	 * @return button without caption
 	 */
-	@Deprecated
 	public static Button getSmallIconOnlyButton(Icon icon) {
 		return getSmallIconOnlyButton(icon, IconVariant.BLUE);
 	}
 	
 	/**
 	 * Returns smaller button with icon only
-	 * 
-	 * @deprecated Ugly hack to make stub exercises work
-	 * 			
+	 * 	
 	 * @param icon
 	 *            icon for button
 	 * @return button without caption
 	 */
-	@Deprecated
 	public static Button getSmallIconOnlyButton(Icon icon,
 			IconVariant... variants) {
 		final Button button = new Button(getModifiedIconHtml(icon, variants));
@@ -1373,10 +1307,6 @@ public class StandardUIFactory {
 		return button;
 	}
 	
-	/**
-	 * @deprecated Ugly hack to make stub exercises work
-	 */
-	@Deprecated
 	public static VerticalLayout getStylishCaptionContainer(String caption,
 			Icon icon, Component component) {
 		VerticalLayout layout = new VerticalLayout();
@@ -1395,10 +1325,6 @@ public class StandardUIFactory {
 		return layout;
 	}
 	
-	/**
-	 * @deprecated Ugly hack to make stub exercises work
-	 */
-	@Deprecated
 	public static VerticalLayout getStylishCaptionContainerNoMargin(
 			String caption, Icon icon, Component component) {
 		VerticalLayout layout = new VerticalLayout();
@@ -1419,13 +1345,10 @@ public class StandardUIFactory {
 	/**
 	 * Returns a button used for window headers and other header bars
 	 * 
-	 * @deprecated Ugly hack to make stub exercises work
-	 * 			
-	 * @param icon
+	 *  @param icon
 	 *            icon displayed in button
 	 * @return button for header controls
 	 */
-	@Deprecated
 	public static Button getWindowControlButton(Icon icon) {
 		final Button button = new Button(getModifiedIconHtml(icon, IconVariant.WHITE));
 		button.setStyleName("window-control");
@@ -1436,12 +1359,10 @@ public class StandardUIFactory {
 	/**
 	 * Return a small icon
 	 * 
-	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
 	 */
-	@Deprecated
 	public static Label getBlackIconSmall(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.BLACK);
 	}
@@ -1449,12 +1370,10 @@ public class StandardUIFactory {
 	/**
 	 * Return a small icon
 	 * 
-	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
 	 */
-	@Deprecated
 	public static Label getBlueIconSmall(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.BLUE);
 	}
@@ -1462,12 +1381,10 @@ public class StandardUIFactory {
 	/**
 	 * Return a default sized icon
 	 * 
-	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
 	 */
-	@Deprecated
 	public static Label getBlueIcon(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.BLUE, IconVariant.SIZE_LARGE);
 	}
@@ -1475,12 +1392,10 @@ public class StandardUIFactory {
 	/**
 	 * Return a double sized icon
 	 * 
-	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
 	 */
-	@Deprecated
 	public static Label getBlueIcon2X(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.BLUE, IconVariant.SIZE_2X);
 	}
@@ -1488,12 +1403,10 @@ public class StandardUIFactory {
 	/**
 	 * Return a medium (3x) sized icon
 	 * 
-	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
 	 */
-	@Deprecated
 	public static Label getBlueIconMedium(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.BLUE, IconVariant.SIZE_3X);
 	}
@@ -1501,14 +1414,12 @@ public class StandardUIFactory {
 	/**
 	 * Get default button with a green icon
 	 * 
-	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
 	 * @param caption
 	 *            button caption
 	 * @param icon
 	 *            icon shown in button; @see {@link IconFactory}
 	 * @return new button
 	 */
-	@Deprecated
 	public static Button getGreenButton(String caption, Icon icon) {
 		return getButton(caption, icon, IconVariant.GREEN);
 	}
@@ -1516,13 +1427,10 @@ public class StandardUIFactory {
 	/**
 	 * Return a default sized icon
 	 * 
-	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
 	 */
-	@Deprecated
 	public static Label getGreenIcon(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.GREEN, IconVariant.SIZE_LARGE);
 	}
@@ -1530,13 +1438,10 @@ public class StandardUIFactory {
 	/**
 	 * Return a double sized icon
 	 * 
-	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
 	 */
-	@Deprecated
 	public static Label getGreenIcon2X(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.GREEN, IconVariant.SIZE_2X);
 	}
@@ -1544,13 +1449,10 @@ public class StandardUIFactory {
 	/**
 	 * Return a medium (3x) sized icon
 	 * 
-	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
 	 */
-	@Deprecated
 	public static Label getGreenIconMedium(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.GREEN, IconVariant.SIZE_3X);
 	}
@@ -1558,13 +1460,10 @@ public class StandardUIFactory {
 	/**
 	 * Return a small icon
 	 * 
-	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
 	 */
-	@Deprecated
 	public static Label getGreenIconSmall(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.GREEN);
 	}
@@ -1572,13 +1471,10 @@ public class StandardUIFactory {
 	/**
 	 * Return a default sized icon
 	 * 
-	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 			
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
 	 */
-	@Deprecated
 	public static Label getOrangeIcon(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.ORANGE, IconVariant.SIZE_LARGE);
 	}
@@ -1586,13 +1482,10 @@ public class StandardUIFactory {
 	/**
 	 * Return a double sized icon
 	 * 
-	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 			
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
 	 */
-	@Deprecated
 	public static Label getOrangeIcon2X(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.ORANGE, IconVariant.SIZE_2X);
 	}
@@ -1600,13 +1493,10 @@ public class StandardUIFactory {
 	/**
 	 * Return a medium (3x) sized icon
 	 * 
-	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 			
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
 	 */
-	@Deprecated
 	public static Label getOrangeIconMedium(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.ORANGE, IconVariant.SIZE_3X);
 	}
@@ -1614,13 +1504,10 @@ public class StandardUIFactory {
 	/**
 	 * Return a small icon
 	 * 
-	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 			
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
 	 */
-	@Deprecated
 	public static Label getOrangeIconSmall(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.ORANGE);
 	}
@@ -1628,27 +1515,21 @@ public class StandardUIFactory {
 	/**
 	 * Return a default sized icon
 	 * 
-	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
 	 */
-	@Deprecated
 	public static Label getWhiteIcon(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.WHITE, IconVariant.SIZE_LARGE);
 	}
 	
 	/**
 	 * Return a double sized icon
-	 * 
-	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 
+	 
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
 	 */
-	@Deprecated
 	public static Label getWhiteIcon2X(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.WHITE, IconVariant.SIZE_2X);
 	}
@@ -1656,13 +1537,10 @@ public class StandardUIFactory {
 	/**
 	 * Return a medium (3x) sized icon
 	 * 
-	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
 	 */
-	@Deprecated
 	public static Label getWhiteIconMedium(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.WHITE, IconVariant.SIZE_3X);
 	}
@@ -1670,13 +1548,10 @@ public class StandardUIFactory {
 	/**
 	 * Return a small icon
 	 * 
-	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
 	 */
-	@Deprecated
 	public static Label getWhiteIconSmall(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.WHITE);
 	}
@@ -1684,13 +1559,10 @@ public class StandardUIFactory {
 	/**
 	 * Return a default sized icon
 	 * 
-	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 			
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
 	 */
-	@Deprecated
 	public static Label getRedIcon(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.RED, IconVariant.SIZE_LARGE);
 	}
@@ -1698,13 +1570,10 @@ public class StandardUIFactory {
 	/**
 	 * Return a double sized icon
 	 * 
-	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 			
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
 	 */
-	@Deprecated
 	public static Label getRedIcon2X(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.RED, IconVariant.SIZE_2X);
 	}
@@ -1712,13 +1581,10 @@ public class StandardUIFactory {
 	/**
 	 * Return a medium (3x) sized icon
 	 * 
-	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 			
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
 	 */
-	@Deprecated
 	public static Label getRedIconMedium(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.RED, IconVariant.SIZE_3X);
 	}
@@ -1726,15 +1592,11 @@ public class StandardUIFactory {
 	/**
 	 * Return a small icon
 	 * 
-	 * @deprecated Use {@link fi.utu.ville.standardutils.StandardUIFactory.getModifiedIcon()} with wanted parameters instead.
-	 * 			
 	 * @param icon
 	 *            icon type, see {@link IconFactory}
 	 * @return a small icon
 	 */
-	@Deprecated
 	public static Label getRedIconSmall(Icon icon) {
 		return getModifiedIcon(icon, IconVariant.RED);
 	}
-	
 }
