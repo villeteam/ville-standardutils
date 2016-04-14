@@ -13,7 +13,7 @@ import fi.utu.ville.standardutils.ui.NumericValueProvider;
 @SuppressWarnings("unused")
 public class PreciseDecimal extends Number implements NumericValueProvider,
 		Comparable<Number>, Serializable {
-		
+	
 	private static final long serialVersionUID = 5481020391938646615L;
 	
 	private static final String[] DECIMAL_FORMATS;
@@ -25,18 +25,18 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 			Long.MIN_VALUE);
 	public static final PreciseDecimal MAX_VALUE = new PreciseDecimal(
 			Long.MAX_VALUE);
-			
+	
 	private final long value;
 	private final int decPoint; // offset from the right
 	
 	public PreciseDecimal(PreciseDecimal toClone) {
-		this.value = toClone.value;
-		this.decPoint = toClone.decPoint;
+		value = toClone.value;
+		decPoint = toClone.decPoint;
 	}
 	
 	public PreciseDecimal(long value) {
 		this.value = value;
-		this.decPoint = 0;
+		decPoint = 0;
 	}
 	
 	/**
@@ -61,17 +61,27 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 		this(getDecimalFormatter(numDecimals).format(value));
 	}
 	
+	public PreciseDecimal(double value, int numDecimals, boolean optimizePresentation) {
+		this(getDecimalFormatter(numDecimals).format(value), optimizePresentation);
+	}
+	
 	public PreciseDecimal(long value, int decimalPoint) {
 		long[] optimized = optimizePresentation(value, decimalPoint);
 		this.value = optimized[0];
-		this.decPoint = (int) optimized[1];
+		decPoint = (int) optimized[1];
 	}
 	
 	public PreciseDecimal(String str) {
+		this(str, true);
+	}
+	
+	public PreciseDecimal(String str, boolean optimizePresentation) {
 		long[] parts = parseDecimalFromString(str);
-		parts = optimizePresentation(parts[0], (int) parts[1]);
-		this.value = parts[0];
-		this.decPoint = (int) parts[1];
+		if (optimizePresentation) {
+			parts = optimizePresentation(parts[0], (int) parts[1]);
+		}
+		value = parts[0];
+		decPoint = (int) parts[1];
 	}
 	
 	/**
@@ -173,7 +183,7 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 		if (str.length() == 0
 				|| (str.length() == 1 && Character.DASH_PUNCTUATION == Character
 						.getType(str.charAt(0)))) {
-						
+			
 		}
 		boolean decSeparator = false;
 		boolean negative = false;
@@ -228,7 +238,8 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 		if (negative) {
 			value *= -1;
 		}
-		return new long[] { value, decPoint };
+		return new long[] {
+				value, decPoint };
 	}
 	
 	public static double parseDoubleFromString(String str, int allowedDecimals) {
@@ -305,7 +316,7 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 	 * @return a new PD that contains the absolute value of this PD.
 	 */
 	public PreciseDecimal abs() {
-		return new PreciseDecimal(Math.abs(this.value), this.decPoint);
+		return new PreciseDecimal(Math.abs(value), decPoint);
 	}
 	
 	/**
@@ -325,7 +336,7 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 	}
 	
 	public PreciseDecimal getInverse() {
-		return new PreciseDecimal(-this.value, this.decPoint);
+		return new PreciseDecimal(-value, decPoint);
 	}
 	
 	@Override
@@ -355,9 +366,10 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 	
 	public static DecimalFormat getDecimalFormatter(int numDecimals,
 			DecimalFormatSymbols formatSymbols) {
-		if (numDecimals < 0)
+		if (numDecimals < 0) {
 			return new DecimalFormat("0");
-			
+		}
+		
 		String format = "0";
 		if (numDecimals > 0) {
 			if (numDecimals >= MAX_DECIMALS) {
@@ -393,8 +405,7 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 			return new PreciseDecimal((Double) other).equals(this);
 		}
 		if (other instanceof Integer) {
-			return (this.decPoint == 0 && ((Integer) other).equals((int) this
-					.getIntegerPart()));
+			return (decPoint == 0 && ((Integer) other).equals((int) getIntegerPart()));
 		}
 		if (other instanceof String) {
 			try {
@@ -405,14 +416,14 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 		}
 		if (other instanceof PreciseDecimal) {
 			PreciseDecimal dec = (PreciseDecimal) other;
-			return (dec.value == this.value && dec.decPoint == this.decPoint);
+			return (dec.value == value && dec.decPoint == decPoint);
 		}
 		return false;
 	}
 	
 	@Deprecated
 	public void setGroupingSeparator(char value) {
-	
+		
 	}
 	
 	@Override
@@ -429,10 +440,11 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 			//double precision stuff; no student given answer should ever contain 6 decimals of 9s or 0s
 			if ((value + "").matches(".*9999.")) {
 				value /= 10;
-				if (value < 0)
+				if (value < 0) {
 					value--;
-				else
+				} else {
 					value++;
+				}
 				decPoint--;
 			} else if ((value + "").matches(".*0000.")) {
 				value /= 10;
@@ -447,11 +459,12 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 				break;
 			}
 		}
-		return new long[] { value, decPoint };
+		return new long[] {
+				value, decPoint };
 	}
 	
 	private PreciseDecimal copy() {
-		return new PreciseDecimal(this.value, this.decPoint);
+		return new PreciseDecimal(value, decPoint);
 	}
 	
 	private static int[] convertArray(long[] array) {
@@ -540,17 +553,19 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 	 *         ~ 0,00340
 	 */
 	public String toSignificandDigits(int significandDigits) {
-		if (significandDigits <= 0 || value == 0)
+		if (significandDigits <= 0 || value == 0) {
 			return "0";
-			
+		}
+		
 		long tempvalue = value;
 		int tempDecPoint = decPoint;
 		
 		while ((Math.abs(tempvalue) + "").length() > significandDigits) {
 			
-			if ((Math.abs(tempvalue) + "").length() == significandDigits + 1)
+			if ((Math.abs(tempvalue) + "").length() == significandDigits + 1) {
 				tempvalue += 5;
-				
+			}
+			
 			tempDecPoint--;
 			tempvalue /= 10;
 		}
@@ -574,9 +589,10 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 		int originalLength = number.length();
 		int nextIndex = 0;
 		
-		while (number.startsWith("0"))
+		while (number.startsWith("0")) {
 			number = number.substring(1);
-			
+		}
+		
 		//check we have at least two same digits; it's impossible to find any repeats with different digits
 		int[] numbers = new int[10];
 		
@@ -589,7 +605,7 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 			}
 		}
 		
-		//set the first digit to be one that we found only one of 
+		//set the first digit to be one that we found only one of
 		for (int i = 0; i < numbers.length; i++) {
 			char c = (i + "").charAt(0);
 			int index = number.indexOf(c);
@@ -598,9 +614,10 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 			}
 		}
 		
-		if (number.length() <= originalLength / 2)
+		if (number.length() <= originalLength / 2) {
 			return "";
-			
+		}
+		
 		//cannot go on infinitely; search for nestIndex never starts from index 0
 		while (number.length() > 0 && nextIndex <= 0) {
 			nextIndex = number.indexOf(number.charAt(0), 1);
@@ -616,10 +633,11 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 				}
 			}
 		}
-		if (nextIndex <= 0)
+		if (nextIndex <= 0) {
 			return "";
-		else
+		} else {
 			return number.substring(0, nextIndex);
+		}
 	}
 	
 	public PreciseDecimal roundToDecimals(int decimals) {
