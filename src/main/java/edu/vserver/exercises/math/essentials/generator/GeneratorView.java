@@ -566,6 +566,14 @@ public class GeneratorView implements Serializable {
 	 * @return A Layout with all the required components to set the term range
 	 */
 	public Layout getTermRangeLayout() {
+		
+		final CheckBox allowOnlyPositive = new CheckBox(
+				localizer.getUIText(GeneratorUIConstants.GENERATOR_ALLOW_NEGATIVE_SOLUTIONS),
+				options.getAllowNegativesWhenBoundedByTerms());
+		allowOnlyPositive.addValueChangeListener((e) ->{
+			options.setAllowNegativesWhenBoundedByTerms(allowOnlyPositive.getValue());
+		}); 
+		
 		individualTermRangesCheckBox
 				.addValueChangeListener(new ValueChangeListener() {
 					
@@ -593,7 +601,7 @@ public class GeneratorView implements Serializable {
 						.getUIText(UIConstants.RANGE_FOR_TERMS)),
 				Icon.TERM_RANGE,
 				FORM_PANEL_TITLE_WIDTH,
-				new VerticalLayout(individualTermRangesCheckBox),
+				new VerticalLayout(individualTermRangesCheckBox, allowOnlyPositive),
 				createTermTextFields(options.getSeparateTermRangesFlag(),
 						termLayout));
 						

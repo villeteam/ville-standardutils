@@ -298,3 +298,11 @@
 @key:GENERATOR_RANGES_INVALID
 @fi:Virheellinen lukuväli
 @en:Invalid range
+
+@key:GENERATOR_ALLOW_NEGATIVE_SOLUTIONS
+@fi:Salli negatiiviset vastaukset
+@en:Allow negative solutions
+
+@key:NUMBEROFTERMS
+@fi:Termien lukumäärä
+@en:Number of terms

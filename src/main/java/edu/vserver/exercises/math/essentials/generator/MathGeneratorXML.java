@@ -18,9 +18,13 @@ public abstract class MathGeneratorXML {
 		/*2*/
 		{"MG_numberOfTerms","MG_allowedOperators","MG_termRange","MG_manualCalculations",
 				"MG_answerRange","MG_allowParenthesis","MG_boundingType","MG_separateRanges",
-				"MG_forceParenthesis"}
+				"MG_forceParenthesis"},
+		/*3*/
+		{"MG_numberOfTerms","MG_allowedOperators","MG_termRange","MG_manualCalculations",
+				"MG_answerRange","MG_allowParenthesis","MG_boundingType","MG_separateRanges",
+				"MG_forceParenthesis","MG_allowNegativesWhenBoundedByTerms"}
 		};
-	private static final int currentVersion = 2;
+	private static final int currentVersion = 3;
 	
 	public static void saveDataToDocument(Document document, MathGeneratorExerciseData data){
 		Node root = document.getDocumentElement();
@@ -90,7 +94,9 @@ public abstract class MathGeneratorXML {
 		
 		currentNode = root.appendChild(document.createElement(VERSION[currentVersion][8]));
 		currentNode.setTextContent(data.getForceParenthesis()+"");
-
+		
+		currentNode = root.appendChild(document.createElement(VERSION[currentVersion][9]));
+		currentNode.setTextContent(data.getAllowNegativesWhenBoundedByTerms()+"");
 	}
 	
 	/**
@@ -118,11 +124,102 @@ public abstract class MathGeneratorXML {
 			return parseVersion1(document, nodeNames);
 		case 2:
 			return parseVersion2(document, nodeNames);
+		case 3:
+			return parseVersion3(document, nodeNames);
 		}
 		
 		return new MathGeneratorExerciseData[]{new MathGeneratorExerciseData(2)};
 	}
 	
+	private static MathGeneratorExerciseData[] parseVersion3(Document document, String[] nodeNames) {
+		NodeList generatorDatas = document.getElementsByTagName("Math_Generator");
+		MathGeneratorExerciseData[] generatorData = new MathGeneratorExerciseData[generatorDatas.getLength()];
+		
+		for(int generatorIndex = 0 ; generatorIndex< generatorDatas.getLength(); generatorIndex++){
+			Node currentNode;
+			
+			currentNode = document.getElementsByTagName(nodeNames[0]).item(generatorIndex);		
+			MathGeneratorExerciseData data = new MathGeneratorExerciseData();
+			
+			data.setNumberOfTerms(Integer.parseInt(currentNode.getTextContent()));
+			
+			currentNode = document.getElementsByTagName(nodeNames[1]).item(generatorIndex);
+			currentNode = currentNode.getFirstChild();
+			while(currentNode != null){
+				switch(currentNode.getNodeName()){
+				case "SUM":
+					data.setAdditionAllowed(true);
+					break;
+				case "SUBTRACT":
+					data.setSubtractionAllowed(true);
+					break;
+				case "MULTIPLICATION":
+					data.setMultiplicationAllowed(true);
+					break;
+				case "DIVISION":
+					data.setDivisionAllowed(true);
+					break;
+				}
+				currentNode = currentNode.getNextSibling();
+			}
+			
+			NodeList currentNodes = document.getElementsByTagName(nodeNames[2]);
+			//for(int i=0; i<currentNodes.getLength(); i++){
+				for(int j=0; j<currentNodes.item(generatorIndex).getChildNodes().getLength(); j++){
+					NodeList range = currentNodes.item(generatorIndex).getChildNodes().item(j).getChildNodes();
+					data.setMinValueForTerm(Double.parseDouble(range.item(0).getTextContent()), j);
+					data.setMaxValueForTerm(Double.parseDouble(range.item(1).getTextContent()), j);
+					data.setNumberOfDecimalsInTerm(j, Integer.parseInt(range.item(2).getTextContent()));
+					data.setForcedMultiplier(j, Double.parseDouble(range.item(3).getTextContent()));
+					data.setTermBound(true, j);
+				}	
+			//}
+			
+			currentNodes = document.getElementsByTagName(nodeNames[3]).item(generatorIndex).getChildNodes();
+			StringBuilder b = new StringBuilder();
+			for(int i=0; i<currentNodes.getLength(); i++){
+				b.append(currentNodes.item(i).getTextContent());
+				if(i != currentNodes.getLength()-1)
+					b.append("\n");
+			}
+			if(!b.toString().isEmpty())
+				data.setManualCalculations(b.toString());
+					
+//			ArrayList<ManualCalculation> l =data.getManualCalculations().getCalculations();
+//			for(ManualCalculation m : l)
+//				System.out.println(m.getExpression()+m.getAnswer());
+			
+			currentNodes = document.getElementsByTagName(nodeNames[4]);
+			for(int i=0; i<currentNodes.getLength(); i++){
+			if(currentNodes.item(generatorIndex).getParentNode() == generatorDatas.item(generatorIndex))
+				for(int j=0; j<currentNodes.item(generatorIndex).getChildNodes().getLength(); j++){
+					NodeList range = currentNodes.item(generatorIndex).getChildNodes().item(j).getChildNodes();
+					data.setMinValueForSolution(Double.parseDouble(range.item(0).getTextContent()));
+					data.setMaxValueForSolution(Double.parseDouble(range.item(1).getTextContent()));
+					data.setNumberOfDecimalsInSolution(Integer.parseInt(range.item(2).getTextContent()));
+					data.setSolutionBound(true);
+				}	
+			}
+			
+			currentNode = document.getElementsByTagName(nodeNames[5]).item(generatorIndex);
+			data.setAllowParenthesis(Boolean.parseBoolean(currentNode.getTextContent()));
+			
+			currentNode = document.getElementsByTagName(nodeNames[6]).item(generatorIndex);
+			data.setBoundingType(Enum.valueOf(BoundingType.class, currentNode.getTextContent()));
+			
+			currentNode = document.getElementsByTagName(nodeNames[7]).item(generatorIndex);
+			data.setSeparateTermsFlag(Boolean.parseBoolean(currentNode.getTextContent()));
+			
+			currentNode = document.getElementsByTagName(nodeNames[8]).item(generatorIndex);
+			data.setForceParenthesis(Boolean.parseBoolean(currentNode.getTextContent()));
+			
+			currentNode = document.getElementsByTagName(nodeNames[9]).item(generatorIndex);
+			data.setAllowNegativesWhenBoundedByTerms(Boolean.parseBoolean(currentNode.getTextContent()));
+			generatorData[generatorIndex] = data;
+		}
+		return generatorData;
+	}
+
 	private static MathGeneratorExerciseData[] parseVersion2(Document document, String[] nodeNames){
 		{
 

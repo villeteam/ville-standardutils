@@ -45,6 +45,7 @@ public class MathGeneratorExerciseData implements Serializable, GeneratorData {
 	private boolean forceParenthesis = false;
 	private BoundingType boundingType;
 	private boolean separateRanges;
+	private boolean allowNegativesWhenBoundedByTerms = false;
 	
 	MathGeneratorExerciseData(){
 		gen = new Random();
@@ -698,5 +699,13 @@ public class MathGeneratorExerciseData implements Serializable, GeneratorData {
 			}
 		}
 		return true;
+	}
+
+	public void setAllowNegativesWhenBoundedByTerms(boolean allowNegatives) {
+		allowNegativesWhenBoundedByTerms = allowNegatives;
+	}
+	
+	public boolean getAllowNegativesWhenBoundedByTerms() {
+		return allowNegativesWhenBoundedByTerms;
 	}
 }

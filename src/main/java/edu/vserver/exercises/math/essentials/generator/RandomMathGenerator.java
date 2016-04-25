@@ -6,6 +6,7 @@ import java.util.Random;
 import java.util.Vector;
 
 import edu.vserver.exercises.math.essentials.generator.GreedyGenerator.Node;
+import edu.vserver.exercises.math.essentials.generator.MathGeneratorExerciseData.BoundingType;
 import fi.utu.ville.standardutils.MathHelper;
 import fi.utu.ville.standardutils.PreciseDecimal;
 
@@ -22,7 +23,9 @@ class RandomMathGenerator implements Generator {
 		
 		switch (options.getBoundingType()) {
 		case TERMS:
-			return generateExpressionByTerms(options);
+			ArrayList<String> result = generateExpressionByTerms(options);
+			
+			return result;
 		case SOLUTION:
 			return generateExpressionBySolution(options);
 		case BOTH:
@@ -132,12 +135,23 @@ class RandomMathGenerator implements Generator {
 					continue;
 				}
 			}
+			
+			if(!options.getAllowNegativesWhenBoundedByTerms() && options.getBoundingType() == BoundingType.TERMS){
+				Vector<String> vector = new Vector<String>();
+				vector.addAll(result);
+				Double a = MathHelper.evaluateVector(vector);
+				
+				if(a < 0){
+					result = null;
+				}
+			}
+			
 			counter++;
 		}
 		
 		if (result == null)
 			throw new GeneratorException();
-			
+		
 		for (int i = 0; i < result.size(); i++) {
 			Double d = null;;
 			try {
