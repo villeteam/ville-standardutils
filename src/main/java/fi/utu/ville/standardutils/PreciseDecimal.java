@@ -592,7 +592,7 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 		while (number.startsWith("0")) {
 			number = number.substring(1);
 		}
-		
+				
 		//check we have at least two same digits; it's impossible to find any repeats with different digits
 		int[] numbers = new int[10];
 		
@@ -605,18 +605,15 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 			}
 		}
 		
-		//set the first digit to be one that we found only one of
+		boolean onlyDifferentDigits = true;
+		
 		for (int i = 0; i < numbers.length; i++) {
-			char c = (i + "").charAt(0);
-			int index = number.indexOf(c);
-			if (numbers[i] == 1 && index > 0) {
-				number = number.substring(index);
+			if (numbers[i] > 1 ) {
+				onlyDifferentDigits = false;
 			}
 		}
-		
-		if (number.length() <= originalLength / 2) {
+		if(onlyDifferentDigits)
 			return "";
-		}
 		
 		//cannot go on infinitely; search for nestIndex never starts from index 0
 		while (number.length() > 0 && nextIndex <= 0) {
