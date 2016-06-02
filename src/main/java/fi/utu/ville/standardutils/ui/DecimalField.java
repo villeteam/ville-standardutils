@@ -1,7 +1,5 @@
 package fi.utu.ville.standardutils.ui;
 
-import org.vaadin.jouni.dom.Dom;
-
 import fi.utu.ville.standardutils.PreciseDecimal;
 import fi.utu.ville.standardutils.ui.MinMaxFieldValidator.ModifyPreference;
 
@@ -19,7 +17,6 @@ public class DecimalField extends RegexField implements ControlWithNumericValue 
 	
 	public DecimalField(String caption, Integer numIntegers, Integer numDecimals, FieldParameter... parameters) {
 		super(caption, getRegexFromParameters(numIntegers, numDecimals, parameters));
-		new Dom(this).setAttribute("type", "number");
 		setMaxLength(18);
 	}
 	
