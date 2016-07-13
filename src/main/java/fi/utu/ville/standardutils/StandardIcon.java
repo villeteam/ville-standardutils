@@ -972,7 +972,7 @@ public class StandardIcon {
 		}
 		
 		public String variant(String customClass, IconVariant... variants) {
-			return variant(null, null, variants);
+			return variant(customClass, null, variants);
 		}
 		
 		public String variant(Color color, IconVariant... variants) {
