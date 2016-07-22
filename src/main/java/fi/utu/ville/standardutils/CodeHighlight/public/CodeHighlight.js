@@ -63,7 +63,7 @@ CodeHighlight.prototype.initialize = function(place, config, callback) {
 		this.config.hasMutationEvents = false; // ("MutationEvent" in window);
 		
 		if (this.config.hasMutationEvents) this.place.on('DOMSubtreeModified.' + this.config.id, __actOnDOMChange);
-		else this.config.domCheckerInterval = setInterval(function() { __actOnDOMChange({ target: self.place[0] }); }, 333);
+		else  {} // this.config.domCheckerInterval = setInterval(function() { __actOnDOMChange({ target: self.place[0] }); }, 333);
 		
 		setInterval(function(ev) {
 			if (self.place.parents('html').length === 0) {
