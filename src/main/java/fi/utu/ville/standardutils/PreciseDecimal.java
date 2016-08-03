@@ -13,7 +13,7 @@ import fi.utu.ville.standardutils.ui.NumericValueProvider;
 @SuppressWarnings("unused")
 public class PreciseDecimal extends Number implements NumericValueProvider,
 		Comparable<Number>, Serializable {
-	
+		
 	private static final long serialVersionUID = 5481020391938646615L;
 	
 	private static final String[] DECIMAL_FORMATS;
@@ -25,7 +25,7 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 			Long.MIN_VALUE);
 	public static final PreciseDecimal MAX_VALUE = new PreciseDecimal(
 			Long.MAX_VALUE);
-	
+			
 	private final long value;
 	private final int decPoint; // offset from the right
 	
@@ -183,7 +183,7 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 		if (str.length() == 0
 				|| (str.length() == 1 && Character.DASH_PUNCTUATION == Character
 						.getType(str.charAt(0)))) {
-			
+						
 		}
 		boolean decSeparator = false;
 		boolean negative = false;
@@ -238,8 +238,7 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 		if (negative) {
 			value *= -1;
 		}
-		return new long[] {
-				value, decPoint };
+		return new long[] { value, decPoint };
 	}
 	
 	public static double parseDoubleFromString(String str, int allowedDecimals) {
@@ -423,7 +422,7 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 	
 	@Deprecated
 	public void setGroupingSeparator(char value) {
-		
+	
 	}
 	
 	@Override
@@ -438,17 +437,17 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 	private static long[] optimizePresentation(long value, int decPoint) {
 		if (decPoint > 5) {
 			//double precision stuff; no student given answer should ever contain 6 decimals of 9s or 0s
-			if ((value + "").matches(".*9999.")) {
-				value /= 10;
+			if ((value + "").matches(".*9999.+")) {
+				value /= 100;
 				if (value < 0) {
 					value--;
 				} else {
 					value++;
 				}
-				decPoint--;
-			} else if ((value + "").matches(".*0000.")) {
-				value /= 10;
-				decPoint--;
+				decPoint -= 2;
+			} else if ((value + "").matches(".*0000.+")) {
+				value /= 100;
+				decPoint -= 2;
 			}
 		}
 		while (decPoint > 0) {
@@ -459,8 +458,7 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 				break;
 			}
 		}
-		return new long[] {
-				value, decPoint };
+		return new long[] { value, decPoint };
 	}
 	
 	private PreciseDecimal copy() {
@@ -592,7 +590,7 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 		while (number.startsWith("0")) {
 			number = number.substring(1);
 		}
-				
+		
 		//check we have at least two same digits; it's impossible to find any repeats with different digits
 		int[] numbers = new int[10];
 		
@@ -608,13 +606,13 @@ public class PreciseDecimal extends Number implements NumericValueProvider,
 		boolean onlyDifferentDigits = true;
 		
 		for (int i = 0; i < numbers.length; i++) {
-			if (numbers[i] > 1 ) {
+			if (numbers[i] > 1) {
 				onlyDifferentDigits = false;
 			}
 		}
-		if(onlyDifferentDigits)
+		if (onlyDifferentDigits)
 			return "";
-		
+			
 		//cannot go on infinitely; search for nestIndex never starts from index 0
 		while (number.length() > 0 && nextIndex <= 0) {
 			nextIndex = number.indexOf(number.charAt(0), 1);
